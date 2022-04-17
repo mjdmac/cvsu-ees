@@ -1,6 +1,6 @@
 <template>
   <home-layout title="Home">
-    <template #header>
+    <!-- <template #header>
       <div class="grid grid-cols-2 px-5 py-3 shadow-md rounded-md">
         <div>
           <h2 class="font-semibold text-xl text-gray-800 leading-tight">
@@ -8,10 +8,18 @@
           </h2>
         </div>
       </div>
-    </template>
-
-    <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-    sample
+    </template> -->
+    <div class="py-12">
+      <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="overflow-hidden shadow-md sm:rounded-lg">
+          <div class="flex flex-wrap">
+            <div class="w-full xl:w-8/12 mb-12 xl:mb-0 px-4 bg-">Schedules</div>
+            <div class="w-full xl:w-4/12 px-4">
+              Calendar
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </home-layout>
 </template>

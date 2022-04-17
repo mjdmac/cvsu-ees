@@ -25649,14 +25649,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 var _hoisted_1 = {
-  "class": "min-h-screen bg-gray-100"
+  "class": "min-h-screen bg-gray-200"
 };
 
-var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("nav", {
-  "class": "bg-white border-b border-gray-100"
-}, null, -1
-/* HOISTED */
-);
+var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<nav class=\"bg-white border-b border-gray-100\"><!-- Primary Navigation Menu --><div class=\"max-w-7xl mx-auto px-4 sm:px-6 lg:px-8\"><div class=\"flex justify-between h-16\"><div class=\"flex\"><!-- Navigation Links --><div class=\"sm:items-center sm:-my-px sm:flex\"><span>Cavite State University</span></div></div><div class=\"sm:flex sm:items-center sm:ml-6\"><div class=\"ml-3 relative\">asdsa</div></div></div></div></nav>", 1);
 
 var _hoisted_3 = {
   key: 0,
@@ -29220,7 +29216,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   /* PROPS */
   , ["show"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Delete Confirm Dialog "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Add Question Dialog "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_dialog_modal, {
     show: $data.addQuestionisOpen,
-    onClose: _cache[22] || (_cache[22] = function ($event) {
+    onClose: _cache[23] || (_cache[23] = function ($event) {
       return $options.addQuestionModal(false);
     })
   }, {
@@ -29248,6 +29244,16 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
           key: c
         }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_input, {
+          inset: "",
+          type: "radio",
+          modelValue: $data.questionform.correct_answer,
+          "onUpdate:modelValue": _cache[19] || (_cache[19] = function ($event) {
+            return $data.questionform.correct_answer = $event;
+          }),
+          value: c
+        }, null, 8
+        /* PROPS */
+        , ["modelValue", "value"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_input, {
           "class": "mt-1 block w-full",
           id: "choices",
           type: "text",
@@ -29258,14 +29264,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           placeholder: "Enter option"
         }, null, 8
         /* PROPS */
-        , ["modelValue", "onUpdate:modelValue"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <input\r\n            id=\"customCheckLogin\"\r\n            type=\"checkbox\"\r\n            class=\"form-checkbox border-0 rounded text-blueGray-700 ml-1 w-5 h-5 ease-linear transition-all duration-150\"\r\n            v-modal=\"questionform.correct_answer\"\r\n            :value=\"c\"\r\n          /> ")]);
+        , ["modelValue", "onUpdate:modelValue"])]);
       }), 64
       /* STABLE_FRAGMENT */
       ))])];
     }),
     footer: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_secondary_button, {
-        onClick: _cache[19] || (_cache[19] = function ($event) {
+        onClick: _cache[20] || (_cache[20] = function ($event) {
           return $options.addQuestionModal(false);
         })
       }, {
@@ -29280,10 +29286,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           'opacity-25': $data.disabled
         }]),
         disabled: $data.disabled,
-        onClick: _cache[20] || (_cache[20] = function ($event) {
+        onClick: _cache[21] || (_cache[21] = function ($event) {
           return _ctx.saveQuestion(_ctx.question);
         }),
-        onKeyup: _cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)(function ($event) {
+        onKeyup: _cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)(function ($event) {
           return _ctx.saveQuestion(_ctx.question);
         }, ["enter"]))
       }, {
@@ -30895,16 +30901,18 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var _hoisted_1 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-  "class": "grid grid-cols-2 px-5 py-3 shadow-md rounded-md"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
-  "class": "font-semibold text-xl text-gray-800 leading-tight"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Home")])])], -1
-/* HOISTED */
-);
-
-var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-  "class": "bg-white overflow-hidden shadow-xl sm:rounded-lg"
-}, " sample ", -1
+  "class": "py-12"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "max-w-7xl mx-auto sm:px-6 lg:px-8"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "overflow-hidden shadow-md sm:rounded-lg"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "flex flex-wrap"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "w-full xl:w-8/12 mb-12 xl:mb-0 px-4 bg-"
+}, "Schedules"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "w-full xl:w-4/12 px-4"
+}, " Calendar ")])])])], -1
 /* HOISTED */
 );
 
@@ -30914,11 +30922,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_home_layout, {
     title: "Home"
   }, {
-    header: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [_hoisted_1];
-    }),
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [_hoisted_2];
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <template #header>\r\n      <div class=\"grid grid-cols-2 px-5 py-3 shadow-md rounded-md\">\r\n        <div>\r\n          <h2 class=\"font-semibold text-xl text-gray-800 leading-tight\">\r\n            <span>Home</span>\r\n          </h2>\r\n        </div>\r\n      </div>\r\n    </template> "), _hoisted_1];
     }),
     _: 1
     /* STABLE */
@@ -32251,7 +32256,7 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 
 
-var appName = ((_window$document$getE = window.document.getElementsByTagName('title')[0]) === null || _window$document$getE === void 0 ? void 0 : _window$document$getE.innerText) || 'Laravel';
+var appName = ((_window$document$getE = window.document.getElementsByTagName("title")[0]) === null || _window$document$getE === void 0 ? void 0 : _window$document$getE.innerText) || "Laravel";
 (0,_inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_1__.createInertiaApp)({
   title: function title(_title) {
     return "".concat(_title, " - ").concat(appName);
@@ -32276,7 +32281,7 @@ var appName = ((_window$document$getE = window.document.getElementsByTagName('ti
   }
 });
 _inertiajs_progress__WEBPACK_IMPORTED_MODULE_2__.InertiaProgress.init({
-  color: '#4B5563'
+  color: "#4B5563"
 });
 
 /***/ }),
