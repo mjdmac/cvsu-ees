@@ -1,0 +1,41 @@
+{
+  "private": true,
+  "scripts": {
+    "dev": "npm run development",
+    "development": "mix",
+    "hot": "mix watch --hot",
+    "prod": "npm run production",
+    "production": "mix --production",
+    "watch": "mix watch",
+    "watch-poll": "mix watch -- --watch-options-poll=1000"
+  },
+  "dependencies": {
+    "@mdi/font": "5.9.55",
+    "@vueform/multiselect": "^2.3.3",
+    "roboto-fontface": "*",
+    "vuetify": "npm:@vuetify/nightly@^3.0.0-next-20220416.0",
+    "webfontloader": "^1.0.0"
+  },
+  "devDependencies": {
+    "@inertiajs/inertia": "^0.11.0",
+    "@inertiajs/inertia-vue3": "^0.6.0",
+    "@inertiajs/progress": "^0.2.7",
+    "@tailwindcss/forms": "^0.5.0",
+    "@tailwindcss/typography": "^0.5.2",
+    "@vue/compiler-sfc": "^3.2.31",
+    "axios": "^0.21",
+    "browser-sync": "^2.27.9",
+    "browser-sync-webpack-plugin": "^2.3.0",
+    "laravel-mix": "^6.0.6",
+    "lodash": "^4.17.19",
+    "postcss": "^8.1.14",
+    "postcss-import": "^14.0.2",
+    "sass": "^1.38.0",
+    "sass-loader": "^10.0.0",
+    "tailwindcss": "^3.0.0",
+    "vue": "^3.2.31",
+    "vue-cli-plugin-vuetify": "~2.4.8",
+    "vue-loader": "^17.0.0",
+    "vuetify-loader": "^2.0.0-alpha.0"
+  }
+}
