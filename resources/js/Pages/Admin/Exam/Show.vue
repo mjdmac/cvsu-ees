@@ -207,33 +207,34 @@
     <template #content>
       <!-- Question -->
       <div class="mb-4">
-        <jet-label for="subject" value="Subject" />
-        <jet-input id="subject" type="text" class="mt-1 block w-full" />
+        <jet-label for="question" value="Question" />
+        <!-- <jet-input id="question" type="text" class="mt-1 block w-full" /> -->
+        <textarea
+          id="question"
+          type="text"
+          class="mt-1 block w-full"
+          v-model="questionform.question"
+        />
       </div>
+
       <div class="mb-4">
         <jet-label for="choices" value="Choices" class="mx-2" />
-        <div v-for="n in 4" :key="n">
+        <div v-for="c in 4" :key="c">
           <jet-input
             class="mt-1 block w-full"
             id="choices"
-            v-model="questionform.choices[n]"
-            placeholder="Enter option."
+            type="text"
+            v-model="questionform.choices[c]"
+            placeholder="Enter option"
           >
-            <!-- <template v-slot:append-outer>
-              <v-switch v-model="questionform.correct_answer" inset :value="n"></v-switch>
-            </template> -->
           </jet-input>
-
-          <!-- <v-text-field
-            v-model="questionform.choices[n]"
-            solo
-            label="Enter option"
-            clearable
-          >
-            <template v-slot:append-outer>
-              <v-switch v-model="questionform.correct_answer" inset :value="n"></v-switch>
-            </template>
-          </v-text-field> -->
+          <!-- <input
+            id="customCheckLogin"
+            type="checkbox"
+            class="form-checkbox border-0 rounded text-blueGray-700 ml-1 w-5 h-5 ease-linear transition-all duration-150"
+            v-modal="questionform.correct_answer"
+            :value="c"
+          /> -->
         </div>
       </div>
     </template>
@@ -249,7 +250,7 @@
         @click="saveQuestion(question)"
         @keyup.enter="saveQuestion(question)"
       >
-        Delete
+        Add
       </jet-button>
     </template>
   </dialog-modal>
@@ -260,6 +261,7 @@
 import { reactive, watchEffect } from "vue";
 import { pickBy, throttle } from "lodash";
 import { Inertia } from "@inertiajs/inertia";
+import { Link } from "@inertiajs/inertia-vue3";
 import AdminLayout from "@/Layouts/AdminLayout";
 import JetButton from "@/Jetstream/Button";
 import JetSecondaryButton from "@/Jetstream/SecondaryButton";
@@ -268,7 +270,6 @@ import JetInput from "@/Jetstream/Input";
 import JetLabel from "@/Jetstream/Label";
 import DialogModal from "@/Jetstream/DialogModal";
 import shared from "@/Scripts/shared";
-import { Link } from "@inertiajs/inertia-vue3";
 
 export default {
   components: {
@@ -305,7 +306,7 @@ export default {
 
       valid: true,
       questionform: {
-        exam: "",
+        exam: this.exam.id,
         question: "",
         choices: [],
         correct_answer: 1,

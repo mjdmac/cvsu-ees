@@ -1,44 +1,5 @@
-<script setup>
-import { ref } from 'vue';
-import { useForm } from '@inertiajs/inertia-vue3';
-import JetActionSection from '@/Jetstream/ActionSection.vue';
-import JetDialogModal from '@/Jetstream/DialogModal.vue';
-import JetDangerButton from '@/Jetstream/DangerButton.vue';
-import JetInput from '@/Jetstream/Input.vue';
-import JetInputError from '@/Jetstream/InputError.vue';
-import JetSecondaryButton from '@/Jetstream/SecondaryButton.vue';
-
-const confirmingUserDeletion = ref(false);
-const passwordInput = ref(null);
-
-const form = useForm({
-    password: '',
-});
-
-const confirmUserDeletion = () => {
-    confirmingUserDeletion.value = true;
-
-    setTimeout(() => passwordInput.value.focus(), 250);
-};
-
-const deleteUser = () => {
-    form.delete(route('current-user.destroy'), {
-        preserveScroll: true,
-        onSuccess: () => closeModal(),
-        onError: () => passwordInput.value.focus(),
-        onFinish: () => form.reset(),
-    });
-};
-
-const closeModal = () => {
-    confirmingUserDeletion.value = false;
-
-    form.reset();
-};
-</script>
-
 <template>
-    <JetActionSection>
+    <jet-action-section>
         <template #title>
             Delete Account
         </template>
@@ -53,13 +14,13 @@ const closeModal = () => {
             </div>
 
             <div class="mt-5">
-                <JetDangerButton @click="confirmUserDeletion">
+                <jet-danger-button @click="confirmUserDeletion">
                     Delete Account
-                </JetDangerButton>
+                </jet-danger-button>
             </div>
 
             <!-- Delete Account Confirmation Modal -->
-            <JetDialogModal :show="confirmingUserDeletion" @close="closeModal">
+            <jet-dialog-modal :show="confirmingUserDeletion" @close="closeModal">
                 <template #title>
                     Delete Account
                 </template>
@@ -68,34 +29,79 @@ const closeModal = () => {
                     Are you sure you want to delete your account? Once your account is deleted, all of its resources and data will be permanently deleted. Please enter your password to confirm you would like to permanently delete your account.
 
                     <div class="mt-4">
-                        <JetInput
-                            ref="passwordInput"
-                            v-model="form.password"
-                            type="password"
-                            class="mt-1 block w-3/4"
-                            placeholder="Password"
-                            @keyup.enter="deleteUser"
-                        />
+                        <jet-input type="password" class="mt-1 block w-3/4" placeholder="Password"
+                                    ref="password"
+                                    v-model="form.password"
+                                    @keyup.enter="deleteUser" />
 
-                        <JetInputError :message="form.errors.password" class="mt-2" />
+                        <jet-input-error :message="form.errors.password" class="mt-2" />
                     </div>
                 </template>
 
                 <template #footer>
-                    <JetSecondaryButton @click="closeModal">
+                    <jet-secondary-button @click="closeModal">
                         Cancel
-                    </JetSecondaryButton>
+                    </jet-secondary-button>
 
-                    <JetDangerButton
-                        class="ml-3"
-                        :class="{ 'opacity-25': form.processing }"
-                        :disabled="form.processing"
-                        @click="deleteUser"
-                    >
+                    <jet-danger-button class="ml-3" @click="deleteUser" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                         Delete Account
-                    </JetDangerButton>
+                    </jet-danger-button>
                 </template>
-            </JetDialogModal>
+            </jet-dialog-modal>
         </template>
-    </JetActionSection>
+    </jet-action-section>
 </template>
+
+<script>
+    import { defineComponent } from 'vue'
+    import JetActionSection from '@/Jetstream/ActionSection.vue'
+    import JetDialogModal from '@/Jetstream/DialogModal.vue'
+    import JetDangerButton from '@/Jetstream/DangerButton.vue'
+    import JetInput from '@/Jetstream/Input.vue'
+    import JetInputError from '@/Jetstream/InputError.vue'
+    import JetSecondaryButton from '@/Jetstream/SecondaryButton.vue'
+
+    export default defineComponent({
+        components: {
+            JetActionSection,
+            JetDangerButton,
+            JetDialogModal,
+            JetInput,
+            JetInputError,
+            JetSecondaryButton,
+        },
+
+        data() {
+            return {
+                confirmingUserDeletion: false,
+
+                form: this.$inertia.form({
+                    password: '',
+                })
+            }
+        },
+
+        methods: {
+            confirmUserDeletion() {
+                this.confirmingUserDeletion = true;
+
+                setTimeout(() => this.$refs.password.focus(), 250)
+            },
+
+            deleteUser() {
+                this.form.delete(route('current-user.destroy'), {
+                    preserveScroll: true,
+                    onSuccess: () => this.closeModal(),
+                    onError: () => this.$refs.password.focus(),
+                    onFinish: () => this.form.reset(),
+                })
+            },
+
+            closeModal() {
+                this.confirmingUserDeletion = false
+
+                this.form.reset()
+            },
+        },
+    })
+</script>

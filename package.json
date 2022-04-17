@@ -10,11 +10,11 @@
     "watch-poll": "mix watch -- --watch-options-poll=1000"
   },
   "dependencies": {
+    "@headlessui/vue": "^1.5.0",
     "@mdi/font": "5.9.55",
     "@vueform/multiselect": "^2.3.3",
     "roboto-fontface": "*",
     "vue-router": "^4.0.14",
-    "vuetify": "npm:@vuetify/nightly@^3.0.0-next-20220416.0",
     "webfontloader": "^1.0.0"
   },
   "devDependencies": {
