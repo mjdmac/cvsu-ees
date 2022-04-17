@@ -29141,10 +29141,6 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   var _component_dialog_modal = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("dialog-modal");
 
-  var _component_v_switch = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-switch");
-
-  var _component_v_text_field = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("v-text-field");
-
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_admin_layout, {
     title: "Exam"
   }, {
@@ -29366,7 +29362,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   /* PROPS */
   , ["show"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Delete Confirm Dialog "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Add Question Dialog "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_dialog_modal, {
     show: $data.addQuestionisOpen,
-    onClose: _cache[22] || (_cache[22] = function ($event) {
+    onClose: _cache[21] || (_cache[21] = function ($event) {
       return $options.addQuestionModal(false);
     })
   }, {
@@ -29388,40 +29384,31 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(4, function (n) {
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
           key: n
-        }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <jet-input\r\n            class=\"mt-1 block w-full\"\r\n            id=\"choices\"\r\n            v-model=\"questionform.choices[n]\"\r\n            placeholder=\"Enter option.\"\r\n          >\r\n            <template v-slot:append-outer>\r\n            <v-switch v-model=\"form.correct_answer\" inset :value=\"n\"></v-switch>\r\n          </template>\r\n          </jet-input> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_text_field, {
+        }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_input, {
+          "class": "mt-1 block w-full",
+          id: "choices",
           modelValue: $data.questionform.choices[n],
           "onUpdate:modelValue": function onUpdateModelValue($event) {
             return $data.questionform.choices[n] = $event;
           },
-          solo: "",
-          label: "Enter option",
-          clearable: ""
+          placeholder: "Enter option."
         }, {
-          "append-outer": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-            return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_switch, {
-              modelValue: $data.questionform.correct_answer,
-              "onUpdate:modelValue": _cache[18] || (_cache[18] = function ($event) {
-                return $data.questionform.correct_answer = $event;
-              }),
-              inset: "",
-              value: n
-            }, null, 8
-            /* PROPS */
-            , ["modelValue", "value"])];
+          "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+            return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <template v-slot:append-outer>\r\n              <v-switch v-model=\"questionform.correct_answer\" inset :value=\"n\"></v-switch>\r\n            </template> ")];
           }),
           _: 2
           /* DYNAMIC */
 
         }, 1032
         /* PROPS, DYNAMIC_SLOTS */
-        , ["modelValue", "onUpdate:modelValue"])]);
+        , ["modelValue", "onUpdate:modelValue"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <v-text-field\r\n            v-model=\"questionform.choices[n]\"\r\n            solo\r\n            label=\"Enter option\"\r\n            clearable\r\n          >\r\n            <template v-slot:append-outer>\r\n              <v-switch v-model=\"questionform.correct_answer\" inset :value=\"n\"></v-switch>\r\n            </template>\r\n          </v-text-field> ")]);
       }), 64
       /* STABLE_FRAGMENT */
       ))])];
     }),
     footer: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_secondary_button, {
-        onClick: _cache[19] || (_cache[19] = function ($event) {
+        onClick: _cache[18] || (_cache[18] = function ($event) {
           return $options.addQuestionModal(false);
         })
       }, {
@@ -29436,10 +29423,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           'opacity-25': $data.disabled
         }]),
         disabled: $data.disabled,
-        onClick: _cache[20] || (_cache[20] = function ($event) {
+        onClick: _cache[19] || (_cache[19] = function ($event) {
           return _ctx.saveQuestion(_ctx.question);
         }),
-        onKeyup: _cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)(function ($event) {
+        onKeyup: _cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)(function ($event) {
           return _ctx.saveQuestion(_ctx.question);
         }, ["enter"]))
       }, {

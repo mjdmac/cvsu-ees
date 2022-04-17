@@ -1,5 +1,4 @@
-const mix = require('laravel-mix');
-const { VuetifyLoaderPlugin } = require('vuetify-loader')
+const mix = require("laravel-mix");
 /*
  |--------------------------------------------------------------------------
  | Mix Asset Management
@@ -11,13 +10,14 @@ const { VuetifyLoaderPlugin } = require('vuetify-loader')
  |
  */
 
-mix.js('resources/js/app.js', 'public/js').vue()
-    .postCss('resources/css/app.css', 'public/css', [
-        require('postcss-import'),
-        require('tailwindcss'),
+mix.js("resources/js/app.js", "public/js")
+    .vue()
+    .postCss("resources/css/app.css", "public/css", [
+        require("postcss-import"),
+        require("tailwindcss"),
     ])
     .alias({
-        '@': 'resources/js',
+        "@": "resources/js",
     });
 
 if (mix.inProduction()) {
@@ -25,11 +25,14 @@ if (mix.inProduction()) {
 }
 
 mix.browserSync({
-  proxy: 'http://127.0.0.1:8000'
+    proxy: "http://127.0.0.1:8000",
 });
 
+// webpack.config.js
+const { VuetifyLoaderPlugin } = require("vuetify-loader");
+
 module.exports = {
-  plugins: [
-    new VuetifyLoaderPlugin({ autoImport: true }), // Enabled by default
-  ],
-}
+    plugins: [
+        new VuetifyLoaderPlugin({ autoImport: true }), // Enabled by default
+    ],
+};

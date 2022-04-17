@@ -213,17 +213,18 @@
       <div class="mb-4">
         <jet-label for="choices" value="Choices" class="mx-2" />
         <div v-for="n in 4" :key="n">
-          <!-- <jet-input
+          <jet-input
             class="mt-1 block w-full"
             id="choices"
             v-model="questionform.choices[n]"
             placeholder="Enter option."
           >
-            <template v-slot:append-outer>
-            <v-switch v-model="form.correct_answer" inset :value="n"></v-switch>
-          </template>
-          </jet-input> -->
-          <v-text-field
+            <!-- <template v-slot:append-outer>
+              <v-switch v-model="questionform.correct_answer" inset :value="n"></v-switch>
+            </template> -->
+          </jet-input>
+
+          <!-- <v-text-field
             v-model="questionform.choices[n]"
             solo
             label="Enter option"
@@ -232,7 +233,7 @@
             <template v-slot:append-outer>
               <v-switch v-model="questionform.correct_answer" inset :value="n"></v-switch>
             </template>
-          </v-text-field>
+          </v-text-field> -->
         </div>
       </div>
     </template>
