@@ -25,5 +25,14 @@ if (mix.inProduction()) {
 }
 
 mix.browserSync({
-    proxy: 'cvsu-ees.test',
+    proxy: "http://127.0.0.1:8000",
 });
+
+const { VuetifyLoaderPlugin } = require("vuetify-loader");
+
+module.exports = {
+    plugins: [
+        new VuetifyLoaderPlugin({ autoImport: true }), // Enabled by default
+        new VuetifyLoaderPlugin({ styles: 'expose' }),
+    ],
+};

@@ -220,7 +220,6 @@
       <div class="mb-4">
         <jet-label for="choices" value="Choices" class="mx-2" />
         <div v-for="c in 4" :key="c">
-          <jet-input inset type="radio" v-model="questionform.correct_answer" :value="c"/>
           <jet-input
             class="mt-1 block w-full"
             id="choices"
@@ -229,6 +228,13 @@
             placeholder="Enter option"
           >
           </jet-input>
+          <!-- <input
+            id="customCheckLogin"
+            type="checkbox"
+            class="form-checkbox border-0 rounded text-blueGray-700 ml-1 w-5 h-5 ease-linear transition-all duration-150"
+            v-modal="questionform.correct_answer"
+            :value="c"
+          /> -->
         </div>
       </div>
     </template>

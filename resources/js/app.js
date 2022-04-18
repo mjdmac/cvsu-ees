@@ -1,11 +1,10 @@
-require("./bootstrap");
+require('./bootstrap');
 
-import { createApp, h } from "vue";
-import { createInertiaApp } from "@inertiajs/inertia-vue3";
-import { InertiaProgress } from "@inertiajs/progress";
+import { createApp, h } from 'vue';
+import { createInertiaApp } from '@inertiajs/inertia-vue3';
+import { InertiaProgress } from '@inertiajs/progress';
 
-const appName =
-    window.document.getElementsByTagName("title")[0]?.innerText || "Laravel";
+const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'Laravel';
 
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,
@@ -18,4 +17,4 @@ createInertiaApp({
     },
 });
 
-InertiaProgress.init({ color: "#4B5563" });
+InertiaProgress.init({ color: '#4B5563' });
