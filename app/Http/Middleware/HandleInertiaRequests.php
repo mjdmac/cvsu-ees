@@ -51,7 +51,6 @@ class HandleInertiaRequests extends Middleware
                             'update' => $authUser->can('update', User::class),
                             'delete' => $authUser->can('delete', User::class),
                             'usersExport' => $authUser->can('usersExport', User::class),
-                            'editRole' => $authUser->hasRole('admin'),
                         ],
 
                         'applicants' => [
@@ -72,7 +71,6 @@ class HandleInertiaRequests extends Middleware
                             'create' => $authUser->can('create', College::class),
                             'update' => $authUser->can('update', College::class),
                             'delete' => $authUser->can('delete', College::class),
-                            'collegesExport' => $authUser->can('collegesExport', Applicant::class),
                         ],
 
                         'courses' => [
@@ -82,7 +80,6 @@ class HandleInertiaRequests extends Middleware
                             'create' => $authUser->can('create', Course::class),
                             'update' => $authUser->can('update', Course::class),
                             'delete' => $authUser->can('delete', Course::class),
-                            'coursesExport' => $authUser->can('coursesExport', Course::class),
                         ],
                     ];
                 },

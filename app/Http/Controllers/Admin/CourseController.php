@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Exports\CoursesExport;
 use App\Http\Controllers\Controller;
 use App\Http\Traits\Banner;
 use App\Models\College;
@@ -10,7 +9,6 @@ use App\Models\Course;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
-use Maatwebsite\Excel\Facades\Excel;
 
 class CourseController extends Controller
 {
@@ -180,23 +178,5 @@ class CourseController extends Controller
         $this->flash('Course removed.', 'success');
 
         return redirect()->back();
-    }
-
-    public function coursesExport()
-    {
-        if (request()->has('type')) {
-            if (request()->get('type') == 'xlsx') {
-                return Excel::download(new CoursesExport, auth()->user()->name . '-courses.xlsx');
-            } elseif (request()->get('type') == 'csv') {
-                return Excel::download(new CoursesExport, auth()->user()->name . '-courses.csv');
-            }
-        }
-
-        return back();
-    }
-
-    protected function resourceAbilityMap()
-    {
-        return array_merge(parent::resourceAbilityMap(), ['coursesExport' => 'coursesExport']);
     }
 }

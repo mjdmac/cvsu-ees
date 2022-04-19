@@ -1,6 +1,7 @@
 <?php
 
 use App\Providers\RouteServiceProvider;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Fortify\Features;
 
 return [
@@ -62,6 +63,18 @@ return [
     */
 
     'home' => RouteServiceProvider::HOME,
+    // 'home' => function(){
+    //     //if you want to go to a specific route
+    //     return redirect('admin/dashboard');
+      
+    //     //or if you have a bunch of redirection options
+    //     if (Auth::user()->hasRole('admin') || Auth::user()->hasRole('admin')) {
+    //        return redirect('admin/dashboard');
+    //     }
+    //     else{
+    //        return route('/');
+    //     }
+    // },
 
     /*
     |--------------------------------------------------------------------------
@@ -132,9 +145,9 @@ return [
     */
 
     'features' => [
-        Features::registration(),
-        Features::resetPasswords(),
-        // Features::emailVerification(),
+        // Features::registration(),
+        // Features::resetPasswords(),
+        Features::emailVerification(),
         Features::updateProfileInformation(),
         Features::updatePasswords(),
         Features::twoFactorAuthentication([

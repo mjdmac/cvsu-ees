@@ -40,6 +40,12 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+
+        'applicant' => [
+            'redirectTo' => 'applicant-dashboard',
+            'driver' => 'session',
+            'provider' => 'applicant',
+        ],
     ],
 
     /*
@@ -65,10 +71,10 @@ return [
             'model' => App\Models\User::class,
         ],
 
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
+        'applicant' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Applicant::class,
+        ],
     ],
 
     /*

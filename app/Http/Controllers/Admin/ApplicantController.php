@@ -16,11 +16,10 @@ class ApplicantController extends Controller
 {
     use Banner;
 
-
-    public function __construct()
-    {
-        $this->authorizeResource(Applicant::class);
-    }
+    // public function __construct()
+    // {
+    //     $this->authorizeResource(Applicant::class);
+    // }
     /**
      * Display a listing of the resource.
      *

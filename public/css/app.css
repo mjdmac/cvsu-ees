@@ -1208,9 +1208,12 @@ select {
 .mb-12 {
   margin-bottom: 3rem;
 }
+<<<<<<< HEAD
 .-mt-px {
   margin-top: -1px;
 }
+=======
+>>>>>>> b278b38b7dcceaa0e74403700902e0ea29ca5406
 .mb-0 {
   margin-bottom: 0px;
 }

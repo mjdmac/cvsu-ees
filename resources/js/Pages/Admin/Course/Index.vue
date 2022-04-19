@@ -9,63 +9,6 @@
           </h2>
         </div>
         <!-- Header -->
-
-        <!-- Page Buttons -->
-        <div align="right">
-          <!-- Line buttons and show dropdown -->
-          <div class="block" align="right">
-            <jet-dropdown>
-              <template #trigger>
-                <span class="inline-flex rounded-md">
-                  <button
-                    type="button"
-                    class="py-2 px-4 inline-flex items-center border border-transparent text-sm leading-4 font-medium rounded-md text-gray-100 bg-gray-800 hover:text-gray-300 focus:outline-none transition"
-                  >
-                    <span>Data Management</span>
-                    <svg
-                      class="ml-2 -mr-0.5 h-4 w-4"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path
-                        fill-rule="evenodd"
-                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                        clip-rule="evenodd"
-                      />
-                    </svg>
-                  </button>
-                </span>
-              </template>
-
-              <template #content>
-                <!-- Export buttons -->
-                <div class="block px-4 py-2 text-xs text-gray-600">Export Data</div>
-                <div class="border-t border-gray-100"></div>
-                <div class="px-4 py-2">
-                  <div class="py-2">
-                    <jet-button
-                      @click="coursesExport('xlsx')"
-                      class="py-2 px-4 bg-blue-500 text-white text-sm font-semibold rounded-md shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-opacity-75"
-                    >
-                      Export(.xlsx)
-                    </jet-button>
-                  </div>
-                  <div class="py-2">
-                    <jet-button
-                      @click="coursesExport('csv')"
-                      class="py-2 px-4 bg-blue-500 text-white text-sm font-semibold rounded-md shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-opacity-75"
-                    >
-                      Export(.csv)
-                    </jet-button>
-                  </div>
-                </div>
-              </template>
-            </jet-dropdown>
-          </div>
-          <!-- Hide in line buttons and show dropdown -->
-        </div>
-        <!-- End Page Buttons -->
       </div>
     </template>
 
@@ -270,7 +213,7 @@
           id="college"
           class="mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
         >
-          <option 
+          <option
             class="capitalize"
             v-for="college in colleges"
             :key="college.id"
@@ -289,7 +232,7 @@
           id="college"
           class="mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
         >
-          <option 
+          <option
             class="capitalize"
             v-for="college in colleges"
             :key="college.id"
@@ -489,12 +432,6 @@ export default {
           this.disabledClick(false);
         },
       });
-    },
-
-    // // Export function
-    coursesExport: function (type) {
-      const url = "/admin/export/courses?type=" + type;
-      window.location.href = url;
     },
   },
 

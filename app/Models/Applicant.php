@@ -12,6 +12,8 @@ class Applicant extends Model
     use HasFactory;
     use HasCan;
 
+    protected $guarded = ['id'];
+
     public static function boot()
     {
         parent::boot();
@@ -20,11 +22,6 @@ class Applicant extends Model
         });
     }
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var string[]
-     */
     protected $fillable = [
         'fname',
         'mname',
@@ -34,16 +31,22 @@ class Applicant extends Model
         'phone_number',
     ];
 
-    /**
-     * The accessors to append to the model's array form.
-     *
-     * @var array
-     */
+
+    // protected $hidden = [
+    //     'employee_password', 'remember_token',
+    // ];
+
+    // public function getAuthPassword()
+    // {
+    //     return $this->employee_password;
+    // }
+
     protected $appends = [
         'can',
     ];
 
-    public function colleges(){
+    public function colleges()
+    {
         return $this->belongsToMany(College::class, 'applicant_college');
     }
 

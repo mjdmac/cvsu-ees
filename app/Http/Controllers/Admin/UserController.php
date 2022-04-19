@@ -3,16 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Actions\Fortify\PasswordValidationRules;
-use App\Exports\UsersExport;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
 use App\Http\Traits\Banner;
-use App\Imports\UsersImport;
 use Illuminate\Support\Facades\Hash;
-use Maatwebsite\Excel\Facades\Excel;
 
 class UserController extends Controller
 {
@@ -167,23 +164,5 @@ class UserController extends Controller
         $this->flash('User removed.', 'success');
 
         return redirect()->back();
-    }
-
-    public function usersExport()
-    {
-        if (request()->has('type')) {
-            if (request()->get('type') == 'xlsx') {
-                return Excel::download(new UsersExport, auth()->user()->name . '-users.xlsx');
-            } elseif (request()->get('type') == 'csv') {
-                return Excel::download(new UsersExport, auth()->user()->name . '-users.csv');
-            }
-        }
-
-        return back();
-    }
-
-    protected function resourceAbilityMap()
-    {
-        return array_merge(parent::resourceAbilityMap(), ['usersExport' => 'usersExport']);
     }
 }
