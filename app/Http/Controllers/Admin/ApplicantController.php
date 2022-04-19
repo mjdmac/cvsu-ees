@@ -33,7 +33,7 @@ class ApplicantController extends Controller
             'field' => ['in:fname,mname,lname,email,phone_number'],
         ]);
 
-        $college_names = College::pluck('college_name', 'id')->toArray();
+        $college_names = College::latest()->get();
         // $college = DB::table('applicant_college')->where('applicant_id')
 
         $data = Applicant::with('colleges');
@@ -54,7 +54,7 @@ class ApplicantController extends Controller
         return Inertia::render('Admin/Applicant/Index', [
             'applicants' => $data->paginate(25)->withQueryString(),
             'filters' => request()->all(['search', 'field', 'direction']),
-            'college_names' => $college_names,
+            'college_names' => $college_names
         ]);
     }
 
@@ -101,7 +101,11 @@ class ApplicantController extends Controller
             'birthday' => $request['birthday'],
         ]);
 
-        $applicant->colleges()->attach($request['colleges']);
+        $colids = [];
+        foreach($request['colleges'] as $col){
+            array_push($colids, $col['id']);
+        }
+        $applicant->colleges()->attach($colids);
 
         $this->flash('Applicant added', 'success');
 
@@ -164,7 +168,12 @@ class ApplicantController extends Controller
         ]);
 
         // $applicant->colleges()->detach();
-        $applicant->colleges()->sync($request['colleges']);
+        $colids = [];
+        foreach($request['colleges'] as $col){
+            array_push($colids, $col['id']);
+        }
+
+        $applicant->colleges()->sync($colids);
 
         $this->flash('Applicant updated!', 'success');
 

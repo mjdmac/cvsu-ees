@@ -18,7 +18,22 @@
                 <span class="inline-flex rounded-md">
                   <button
                     type="button"
-                    class="py-2 px-4 inline-flex items-center border border-transparent text-sm leading-4 font-medium rounded-md text-gray-100 bg-gray-800 hover:text-gray-300 focus:outline-none transition"
+                    class="
+                      py-2
+                      px-4
+                      inline-flex
+                      items-center
+                      border border-transparent
+                      text-sm
+                      leading-4
+                      font-medium
+                      rounded-md
+                      text-gray-100
+                      bg-gray-800
+                      hover:text-gray-300
+                      focus:outline-none
+                      transition
+                    "
                   >
                     <span>Data Management</span>
                     <svg
@@ -39,13 +54,28 @@
 
               <template #content>
                 <!-- Export buttons -->
-                <div class="block px-4 py-2 text-xs text-gray-600">Export Data</div>
+                <div class="block px-4 py-2 text-xs text-gray-600">
+                  Export Data
+                </div>
                 <div class="border-t border-gray-100"></div>
                 <div class="px-4 py-2">
                   <div class="py-2">
                     <jet-button
                       @click="applicantExport('xlsx')"
-                      class="py-2 px-4 bg-blue-500 text-white text-sm font-semibold rounded-md shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-opacity-75"
+                      class="
+                        py-2
+                        px-4
+                        bg-blue-500
+                        text-white text-sm
+                        font-semibold
+                        rounded-md
+                        shadow-md
+                        hover:bg-blue-700
+                        focus:outline-none
+                        focus:ring-2
+                        focus:ring-green-400
+                        focus:ring-opacity-75
+                      "
                     >
                       Export(.xlsx)
                     </jet-button>
@@ -53,7 +83,20 @@
                   <div class="py-2">
                     <jet-button
                       @click="applicantExport('csv')"
-                      class="py-2 px-4 bg-blue-500 text-white text-sm font-semibold rounded-md shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-opacity-75"
+                      class="
+                        py-2
+                        px-4
+                        bg-blue-500
+                        text-white text-sm
+                        font-semibold
+                        rounded-md
+                        shadow-md
+                        hover:bg-blue-700
+                        focus:outline-none
+                        focus:ring-2
+                        focus:ring-green-400
+                        focus:ring-opacity-75
+                      "
                     >
                       Export(.csv)
                     </jet-button>
@@ -84,7 +127,13 @@
           </div>
           <div class="block" align="right">
             <jet-button
-              class="bg-green-500 font-semibold capitalize text-white hover:bg-green-700 hover:text-gray-50"
+              class="
+                bg-green-500
+                font-semibold
+                capitalize
+                text-white
+                hover:bg-green-700 hover:text-gray-50
+              "
               @click="openModal(true)"
               >Add Applicant
             </jet-button>
@@ -95,14 +144,31 @@
       <div class="bg-white shadow-xl sm:rounded-lg">
         <div class="flex flex-col">
           <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-            <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-              <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+            <div
+              class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8"
+            >
+              <div
+                class="
+                  shadow
+                  overflow-hidden
+                  border-b border-gray-200
+                  sm:rounded-lg
+                "
+              >
                 <table class="min-w-full divide-y divide-gray-200">
                   <thead class="bg-gray-50">
                     <tr>
                       <th
                         scope="col"
-                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        class="
+                          px-6
+                          py-3
+                          text-left text-xs
+                          font-medium
+                          text-gray-500
+                          uppercase
+                          tracking-wider
+                        "
                       >
                         <span class="cursor-pointer" @click="sort('id')">
                           <div class="inline-block">
@@ -113,48 +179,9 @@
                               viewBox="0 0 24 24"
                               stroke="currentColor"
                               stroke-width="2"
-                              v-if="params.field === 'id' && params.direction === 'asc'"
-                            >
-                              <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12"
-                              />
-                            </svg>
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              class="h-4 w-4"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              v-if="params.field === 'id' && params.direction === 'desc'"
-                            >
-                              <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="M3 4h13M3 8h9m-9 4h9m5-4v12m0 0l-4-4m4 4l4-4"
-                              />
-                            </svg>
-                          </div>
-                          <div class="inline-block">Control Number</div></span
-                        >
-                      </th>
-                      <th
-                        scope="col"
-                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                      >
-                        <span class="cursor-pointer" @click="sort('fname')">
-                          <div class="inline-block">
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              class="h-4 w-4"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke="currentColor"
-                              stroke-width="2"
                               v-if="
-                                params.field === 'fname' && params.direction === 'asc'
+                                params.field === 'id' &&
+                                params.direction === 'asc'
                               "
                             >
                               <path
@@ -171,7 +198,62 @@
                               stroke="currentColor"
                               stroke-width="2"
                               v-if="
-                                params.field === 'fname' && params.direction === 'desc'
+                                params.field === 'id' &&
+                                params.direction === 'desc'
+                              "
+                            >
+                              <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M3 4h13M3 8h9m-9 4h9m5-4v12m0 0l-4-4m4 4l4-4"
+                              />
+                            </svg>
+                          </div>
+                          <div class="inline-block">Control Number</div></span
+                        >
+                      </th>
+                      <th
+                        scope="col"
+                        class="
+                          px-6
+                          py-3
+                          text-left text-xs
+                          font-medium
+                          text-gray-500
+                          uppercase
+                          tracking-wider
+                        "
+                      >
+                        <span class="cursor-pointer" @click="sort('fname')">
+                          <div class="inline-block">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              class="h-4 w-4"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              v-if="
+                                params.field === 'fname' &&
+                                params.direction === 'asc'
+                              "
+                            >
+                              <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12"
+                              />
+                            </svg>
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              class="h-4 w-4"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              v-if="
+                                params.field === 'fname' &&
+                                params.direction === 'desc'
                               "
                             >
                               <path
@@ -186,7 +268,15 @@
                       </th>
                       <th
                         scope="col"
-                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        class="
+                          px-6
+                          py-3
+                          text-left text-xs
+                          font-medium
+                          text-gray-500
+                          uppercase
+                          tracking-wider
+                        "
                       >
                         <span class="cursor-pointer" @click="sort('mname')">
                           <div class="inline-block">
@@ -198,7 +288,8 @@
                               stroke="currentColor"
                               stroke-width="2"
                               v-if="
-                                params.field === 'mname' && params.direction === 'asc'
+                                params.field === 'mname' &&
+                                params.direction === 'asc'
                               "
                             >
                               <path
@@ -215,7 +306,8 @@
                               stroke="currentColor"
                               stroke-width="2"
                               v-if="
-                                params.field === 'mname' && params.direction === 'desc'
+                                params.field === 'mname' &&
+                                params.direction === 'desc'
                               "
                             >
                               <path
@@ -230,7 +322,15 @@
                       </th>
                       <th
                         scope="col"
-                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        class="
+                          px-6
+                          py-3
+                          text-left text-xs
+                          font-medium
+                          text-gray-500
+                          uppercase
+                          tracking-wider
+                        "
                       >
                         <span class="cursor-pointer" @click="sort('lname')">
                           <div class="inline-block">
@@ -242,7 +342,8 @@
                               stroke="currentColor"
                               stroke-width="2"
                               v-if="
-                                params.field === 'lname' && params.direction === 'asc'
+                                params.field === 'lname' &&
+                                params.direction === 'asc'
                               "
                             >
                               <path
@@ -259,7 +360,8 @@
                               stroke="currentColor"
                               stroke-width="2"
                               v-if="
-                                params.field === 'lname' && params.direction === 'desc'
+                                params.field === 'lname' &&
+                                params.direction === 'desc'
                               "
                             >
                               <path
@@ -274,13 +376,29 @@
                       </th>
                       <th
                         scope="col"
-                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        class="
+                          px-6
+                          py-3
+                          text-left text-xs
+                          font-medium
+                          text-gray-500
+                          uppercase
+                          tracking-wider
+                        "
                       >
                         <div class="inline-block">College</div>
                       </th>
                       <th
                         scope="col"
-                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        class="
+                          px-6
+                          py-3
+                          text-left text-xs
+                          font-medium
+                          text-gray-500
+                          uppercase
+                          tracking-wider
+                        "
                       >
                         <span class="cursor-pointer" @click="sort('birthday')">
                           <div class="inline-block">
@@ -292,7 +410,8 @@
                               stroke="currentColor"
                               stroke-width="2"
                               v-if="
-                                params.field === 'birthday' && params.direction === 'asc'
+                                params.field === 'birthday' &&
+                                params.direction === 'asc'
                               "
                             >
                               <path
@@ -309,7 +428,8 @@
                               stroke="currentColor"
                               stroke-width="2"
                               v-if="
-                                params.field === 'birthday' && params.direction === 'desc'
+                                params.field === 'birthday' &&
+                                params.direction === 'desc'
                               "
                             >
                               <path
@@ -324,7 +444,15 @@
                       </th>
                       <th
                         scope="col"
-                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        class="
+                          px-6
+                          py-3
+                          text-left text-xs
+                          font-medium
+                          text-gray-500
+                          uppercase
+                          tracking-wider
+                        "
                       >
                         <span class="cursor-pointer" @click="sort('email')">
                           <div class="inline-block">
@@ -336,7 +464,8 @@
                               stroke="currentColor"
                               stroke-width="2"
                               v-if="
-                                params.field === 'email' && params.direction === 'asc'
+                                params.field === 'email' &&
+                                params.direction === 'asc'
                               "
                             >
                               <path
@@ -353,7 +482,8 @@
                               stroke="currentColor"
                               stroke-width="2"
                               v-if="
-                                params.field === 'email' && params.direction === 'desc'
+                                params.field === 'email' &&
+                                params.direction === 'desc'
                               "
                             >
                               <path
@@ -368,9 +498,20 @@
                       </th>
                       <th
                         scope="col"
-                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        class="
+                          px-6
+                          py-3
+                          text-left text-xs
+                          font-medium
+                          text-gray-500
+                          uppercase
+                          tracking-wider
+                        "
                       >
-                        <span class="cursor-pointer" @click="sort('phone_number')">
+                        <span
+                          class="cursor-pointer"
+                          @click="sort('phone_number')"
+                        >
                           <div class="inline-block">
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -419,11 +560,17 @@
                   </thead>
                   <tbody class="bg-white divide-y divide-gray-200">
                     <tr v-if="!applicants.data.length">
-                      <td class="p-4 text-center text-xs text-gray-800" colspan="9">
+                      <td
+                        class="p-4 text-center text-xs text-gray-800"
+                        colspan="9"
+                      >
                         No data
                       </td>
                     </tr>
-                    <tr v-for="(applicant, id) in applicants.data" :key="applicant.id">
+                    <tr
+                      v-for="applicant in applicants.data"
+                      :key="applicant.id"
+                    >
                       <td class="px-6 py-4 whitespace-nowrap">
                         {{ applicant.id }}
                       </td>
@@ -437,7 +584,9 @@
                         {{ applicant.lname }}
                       </td>
                       <td class="px-6 py-4 whitespace-nowrap">
-                        {{ applicant.colleges.college_name }}
+                        <span v-for="college in applicant.colleges" v-bind:key="college.id">
+                            {{ applicant.colleges.length >= 2 ? college.college_name + ', ' : college.college_name  }}
+                        </span>
                       </td>
                       <td class="px-6 py-4 whitespace-nowrap">
                         {{ applicant.birthday }}
@@ -449,10 +598,26 @@
                         {{ applicant.phone_number }}
                       </td>
                       <td
-                        class="px-6 py-4 space-x-1 whitespace-nowrap text-right text-sm font-medium"
+                        class="
+                          px-6
+                          py-4
+                          space-x-1
+                          whitespace-nowrap
+                          text-right text-sm
+                          font-medium
+                        "
                       >
                         <button
-                          class="bg-blue-500 hover:bg-blue-700 text-white py-1 px-2 rounded text-sm font-semibold"
+                          class="
+                            bg-blue-500
+                            hover:bg-blue-700
+                            text-white
+                            py-1
+                            px-2
+                            rounded
+                            text-sm
+                            font-semibold
+                          "
                           @click="edit(applicant, true)"
                         >
                           Edit
@@ -461,7 +626,16 @@
                         <button
                           :disabled="disabled"
                           @click="deleteRow(applicant.id)"
-                          class="bg-red-500 hover:bg-red-700 text-white py-1 px-2 rounded text-sm font-semibold"
+                          class="
+                            bg-red-500
+                            hover:bg-red-700
+                            text-white
+                            py-1
+                            px-2
+                            rounded
+                            text-sm
+                            font-semibold
+                          "
                         >
                           Delete
                         </button>
@@ -495,9 +669,9 @@
             v-model="form.colleges"
             mode="tags"
             placeholder="Select colleges"
-            trackBy="id"
+            object="true"
+            valueProp="id"
             :searchable="true"
-            :close-on-select="false"
             label="college_name"
             :options="college_names"
             @keyup.enter="save(form)"
@@ -578,7 +752,9 @@
     </template>
 
     <template #footer>
-      <jet-secondary-button @click="openModal(false)"> Cancel </jet-secondary-button>
+      <jet-secondary-button @click="openModal(false)">
+        Cancel
+      </jet-secondary-button>
 
       <jet-button
         class="ml-2"
@@ -642,7 +818,7 @@ export default {
   props: {
     applicants: Object,
     filters: Object,
-    college_names: Object,
+    college_names: Array,
   },
 
   extends: shared,
@@ -656,7 +832,7 @@ export default {
       },
 
       form: this.$inertia.form({
-        colleges: this.colleges,
+        colleges: [],
         fname: "",
         mname: "",
         lname: "",
@@ -664,7 +840,6 @@ export default {
         phone_number: "",
         birthday: "",
       }),
-
       isOpen: false,
       disabled: null,
       editMode: false,
@@ -715,6 +890,7 @@ export default {
     // Edit mode function
     edit: function (applicant, status) {
       this.form = Object.assign({}, applicant);
+
       this.editMode = true;
       this.openModal(status);
     },
@@ -755,7 +931,8 @@ export default {
       window.location.href = url;
     },
   },
-
+  mounted(){
+  },
   watch: {
     params: {
       handler: throttle(function () {
@@ -767,8 +944,8 @@ export default {
         });
       }, 150),
       deep: true,
-    },
-  },
+    }
+  }
 };
 </script>
 

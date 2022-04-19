@@ -27,7 +27,7 @@ class UserController extends Controller
     {
         $this->authorizeResource(User::class);
     }
-    
+
     public function index(Request $request)
     {
         request()->validate([
