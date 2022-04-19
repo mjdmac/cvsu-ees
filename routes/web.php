@@ -5,6 +5,8 @@ use App\Http\Controllers\Admin\CollegeController;
 use App\Http\Controllers\Admin\CourseController;
 use App\Http\Controllers\Admin\ExamController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Applicant\ApplicantDashboardController;
+use App\Http\Controllers\Applicant\ApplicantLoginController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -22,10 +24,6 @@ use Inertia\Inertia;
 */
 
 Route::get('/', [HomeController::class, 'index']);
-
-// Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-//     return Inertia::render('Dashboard');
-// })->name('dashboard');
 
 Route::get('/admin', function () {
     if (Auth::check()) {
@@ -46,20 +44,25 @@ Route::prefix('/admin')->middleware(['auth:sanctum', 'verified'])->group(functio
 
     // College routes
     Route::resource('colleges', CollegeController::class);
-    Route::get('/export/colleges', [CollegeController::class, 'collegesExport'])->name('colleges.export'); //Export colleges data to excel
 
     // Course routes
     Route::resource('courses', CourseController::class);
-    Route::get('/export/courses', [CourseController::class, 'coursesExport'])->name('courses.export'); //Export courses data to excel
 
     // Applicant routes
     Route::resource('applicants', ApplicantController::class);
-    Route::get('/export/applicants', [ApplicantController::class, 'applicantsExport'])->name('applicants.export'); //Export applicants data to ex
 
-    // Subject routes
+    // Exam routes
     Route::resource('exams', ExamController::class);
-    // Route::get('/export/subjects', [SubjectController::class, 'subjectsExport'])->name('subjects.export'); //Export applicants data to excel
-
     // Sample
     Route::resource('tasks', TaskController::class);
+});
+
+Route::prefix('applicant')->group(function () {
+    Route::get('login', [ApplicantLoginController::class, 'showLoginForm'])->name('applicant-login');
+    Route::post('login', [ApplicantLoginController::class, 'login']);
+    Route::get('logout', [ApplicantLoginController::class, 'logout'])->name('applicant-logout');
+    Route::post('logout', [ApplicantLoginController::class, 'logout']);
+
+    Route::get('dashboard', [ApplicantDashboardController::class, 'index'])->name('applicant-dashboard');
+    // Route::resource('dashboard', [ApplicantDashboardController::class]);
 });

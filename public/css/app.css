@@ -1208,6 +1208,9 @@ select {
 .mb-1 {
   margin-bottom: 0.25rem;
 }
+.mb-12 {
+  margin-bottom: 3rem;
+}
 .mb-0 {
   margin-bottom: 0px;
 }
@@ -1246,9 +1249,6 @@ select {
 }
 .mr-0 {
   margin-right: 0px;
-}
-.mb-12 {
-  margin-bottom: 3rem;
 }
 .block {
   display: block;
@@ -2950,16 +2950,16 @@ select {
     margin-bottom: 0px;
   }
 
-  .xl\:w-3\/12 {
-    width: 25%;
-  }
-
   .xl\:w-8\/12 {
     width: 66.666667%;
   }
 
   .xl\:w-4\/12 {
     width: 33.333333%;
+  }
+
+  .xl\:w-3\/12 {
+    width: 25%;
   }
 }
 

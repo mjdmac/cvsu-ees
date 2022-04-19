@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Exports\CollegesExport;
 use App\Http\Controllers\Controller;
 use App\Http\Traits\Banner;
 use App\Models\College;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
-use Maatwebsite\Excel\Facades\Excel;
 
 class CollegeController extends Controller
 {
@@ -152,23 +150,5 @@ class CollegeController extends Controller
         $this->flash('College removed.', 'success');
 
         return redirect()->back();
-    }
-
-    public function collegesExport()
-    {
-        if (request()->has('type')) {
-            if (request()->get('type') == 'xlsx') {
-                return Excel::download(new CollegesExport, auth()->user()->name . '-colleges.xlsx');
-            } elseif (request()->get('type') == 'csv') {
-                return Excel::download(new CollegesExport, auth()->user()->name . '-colleges.csv');
-            }
-        }
-
-        return back();
-    }
-
-    protected function resourceAbilityMap()
-    {
-        return array_merge(parent::resourceAbilityMap(), ['collegesExport' => 'collegesExport']);
     }
 }
