@@ -23,6 +23,7 @@ class Applicant extends Model
     }
 
     protected $fillable = [
+        'user_id',
         'fname',
         'mname',
         'lname',
@@ -45,6 +46,10 @@ class Applicant extends Model
         'can',
     ];
 
+    public function userAccount()
+    {
+        return $this->hasOne(User::class, 'id', 'user_id');
+    }
     public function colleges()
     {
         return $this->belongsToMany(College::class, 'applicant_college');

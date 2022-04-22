@@ -15,7 +15,10 @@ class CreateApplicantsTable extends Migration
     {
         Schema::create('applicants', function (Blueprint $table) {
             $table->id();
-            // $table->bigInteger('control_number')->unique();
+            $table->foreignId('user_id')
+            ->constrained('users')
+            ->onUpdate('cascade')
+            ->onDelete('cascade');
             $table->string('fname');
             $table->string('mname')->nullable();
             $table->string('lname');

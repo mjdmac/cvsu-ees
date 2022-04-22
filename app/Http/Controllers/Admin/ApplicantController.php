@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Traits\Banner;
 use App\Models\Applicant;
 use App\Models\College;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
@@ -90,8 +91,16 @@ class ApplicantController extends Controller
             $this->flash($val->errors()->first(), 'danger');
             return back();
         }
+        $user = User::create([
+            'name' => $request['lname'] . ', ' . $request['fname'] . ' ' . $request['mname'],
+            'email' => $request['email'],
+            'phone' => $request['phone_number'],
+            'role' => 'applicant',
+            'password' => bcrypt('changetorandomstring')
+        ]);
 
         $applicant = Applicant::create([
+            'user_id' => $user->id,
             'fname' => $request['fname'],
             'mname' => $request['mname'],
             'lname' => $request['lname'],

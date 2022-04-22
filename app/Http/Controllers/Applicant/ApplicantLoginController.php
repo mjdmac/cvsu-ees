@@ -11,11 +11,11 @@ use Inertia\Inertia;
 
 class ApplicantLoginController extends Controller
 {
-    protected $redirectTo = '/applicant/dashboard';
-
     public function showLoginForm()
     {
-        return Inertia::render('Applicant/Auth/Login');
+        if(!auth()->check())
+            return Inertia::render('Applicant/Auth/Login');
+        return back();
     }
 
     public function login(Request $request)
@@ -37,9 +37,9 @@ class ApplicantLoginController extends Controller
             ->where('id', $request->control_number)
             ->where('birthday', $request->birthday)->first();
 
-        // Auth::loginUsingId($applicant->id);
+        Auth::login($applicant->userAccount);
 
-        // return redirect('/dashboard');
+        return redirect()->route('applicant.dashboard');
 
         // if ($validator->fails()) {
         //     return back()->withInput()->withErrors($validator);
@@ -54,19 +54,10 @@ class ApplicantLoginController extends Controller
         // }
     }
 
-    public function logout(Request $request)
+    public function logout()
     {
-        $this->guard->logout();
-
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        return redirect('/');
-    }
-
-    protected function guard()
-    {
-        return Auth::guard('applicant');
+        auth()->logout();
+        return redirect('/applicant/login');
     }
 
     /**
@@ -76,7 +67,7 @@ class ApplicantLoginController extends Controller
      */
     public function index()
     {
-        // 
+        //
     }
 
     /**

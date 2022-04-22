@@ -1,58 +1,59 @@
 <template>
   <Head title="Log in" />
 
-  <jet-authentication-card>
+  <JetAuthenticationCard>
     <template #logo class="center">
       <JetAuthenticationCardLogo />
     </template>
 
-    <jet-validation-errors class="mb-4" />
+    <JetValidationErrors class="mb-4" />
+    <form @submit.prevent="submit">
+        <!-- Control Number -->
+        <div class="mt-4">
+          <JetLabel for="control_number" value="Control Number" />
+          <JetInput
+            id="control_number"
+            type="number"
+            class="mt-1 block w-full"
+            v-model="form.control_number"
+            required
+          />
+        </div>
+        <!-- Email -->
+        <div class="mt-4">
+          <JetLabel for="email" value="Email" />
+          <JetInput
+            id="email"
+            type="email"
+            class="mt-1 block w-full"
+            v-model="form.email"
+            required
+          />
+        </div>
+        <!-- Birthday -->
+        <div class="mt-4">
+          <JetLabel for="birthday" value="Birthdate" />
+          <JetInput
+            id="birthday"
+            type="date"
+            class="mt-1 block w-full"
+            v-model="form.birthday"
+            @keyup.enter="login(form)"
+            required
+          />
+        </div>
 
-    <div>
-      <!-- Control Number -->
-      <div class="mt-4">
-        <jet-label for="control_number" value="Control Number" />
-        <jet-input
-          id="control_number"
-          type="number"
-          class="mt-1 block w-full"
-          v-model="form.control_number"
-          required
-        />
-      </div>
-      <!-- Email -->
-      <div class="mt-4">
-        <jet-label for="email" value="Email" />
-        <jet-input
-          id="email"
-          type="email"
-          class="mt-1 block w-full"
-          v-model="form.email"
-          required
-        />
-      </div>
-      <!-- Birthday -->
-      <div class="mt-4">
-        <jet-label for="birthday" value="Birthdate" />
-        <jet-input
-          id="birthday"
-          type="date"
-          class="mt-1 block w-full"
-          v-model="form.birthday"
-          @keyup.enter="login(form)"
-          required
-        />
-      </div>
+        <div class="flex items-center justify-end mt-4">
 
-      <div class="flex items-center justify-end mt-4">
-        <jet-secondary-button class="ml-4" @click="back"> Cancel </jet-secondary-button>
-        <jet-button class="ml-4" @click="login(form)"> Log in </jet-button>
-      </div>
-    </div>
-  </jet-authentication-card>
+         <JetButton class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                    Log in
+        </JetButton>
+        </div>
+    </form>
+  </JetAuthenticationCard>
 </template>
 
-<script>
+<script setup>
 import { Head, Link, useForm } from "@inertiajs/inertia-vue3";
 import { Inertia } from "@inertiajs/inertia";
 import JetAuthenticationCard from "@/Jetstream/AuthenticationCard.vue";
@@ -66,64 +67,18 @@ import JetValidationErrors from "@/Jetstream/ValidationErrors.vue";
 import JetFormSection from "@/Jetstream/FormSection";
 import JetActionMessage from "@/Jetstream/ActionMessage";
 
-export default {
-  components: {
-    Head,
-    Link,
-    useForm,
-    JetAuthenticationCard,
-    JetAuthenticationCardLogo,
-    JetButton,
-    JetInput,
-    JetCheckbox,
-    JetLabel,
-    JetSecondaryButton,
-    JetValidationErrors,
-    JetFormSection,
-    JetActionMessage,
-  },
 
-  props: {},
+const form = useForm({
+  control_number: '2204000001',
+  email: "test@test.com",
+  birthday: "2022-04-15",
+});
 
-  data() {
-    return {
-      disabled: null,
-
-      form: this.$inertia.form({
-        control_number: "",
-        email: "",
-        birthday: "",
-        // remember_me: false,
-      }),
-    };
-  },
-
-  methods: {
-    // Disable function
-    disabledClick: function (s) {
-      this.disabled = s;
-    },
-
-    // Back to index
-    back: function () {
-      this.$inertia.visit("/");
-    },
-
-    // Login method
-    login: function (form) {
-      this.$inertia.visit(route("applicant-login"), {
-        method: "post",
-        data: form,
-        onBefore: () => {
-          this.disabledClick(true);
-        },
-        onSuccess: () => {
-          this.disabledClick(false), this.openModal(false), (this.form = {});
-        },
-        preserveScroll: true,
-        preserveState: true,
-      });
-    },
-  },
+const submit = () => {
+  form
+    .transform((data) => ({
+      ...data
+    }))
+    .post(route("applicant.login"));
 };
 </script>

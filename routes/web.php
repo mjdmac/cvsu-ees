@@ -33,10 +33,10 @@ Route::get('/admin', function () {
     }
 });
 
-Route::prefix('/admin')->middleware(['auth:sanctum', 'verified'])->group(function () {
+Route::prefix('admin')->middleware(['auth:sanctum', 'verified', 'isAdmin'])->group(function () {
     Route::get('/dashboard', function () {
         return Inertia::render('Admin/Dashboard/Index');
-    })->name('dashboard');
+    })->name('admin.dashboard');
 
     // Users routes
     Route::resource('users', UserController::class);
@@ -54,15 +54,19 @@ Route::prefix('/admin')->middleware(['auth:sanctum', 'verified'])->group(functio
     // Exam routes
     Route::resource('exams', ExamController::class);
     // Sample
-    Route::resource('tasks', TaskController::class);
+    //Route::resource('tasks', TaskController::class);
 });
 
 Route::prefix('applicant')->group(function () {
-    Route::get('login', [ApplicantLoginController::class, 'showLoginForm'])->name('applicant-login');
-    Route::post('login', [ApplicantLoginController::class, 'login']);
-    Route::get('logout', [ApplicantLoginController::class, 'logout'])->name('applicant-logout');
-    Route::post('logout', [ApplicantLoginController::class, 'logout']);
+    Route::get('login', [ApplicantLoginController::class, 'showLoginForm'])->name('applicant.login');
 
-    Route::get('dashboard', [ApplicantDashboardController::class, 'index'])->name('applicant-dashboard');
+    Route::post('login', [ApplicantLoginController::class, 'login'])->name('applicant.post.login');
+
+    Route::post('logout', [ApplicantLoginController::class, 'logout'])->name('applicant.logout');
+
+    Route::group(['middleware' => ['auth:sanctum', 'verified', 'isApplicant']], function(){
+
+        Route::get('dashboard', [ApplicantDashboardController::class, 'index'])->name('applicant.dashboard');
+    });
     // Route::resource('dashboard', [ApplicantDashboardController::class]);
 });

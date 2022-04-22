@@ -66,7 +66,7 @@ return [
     // 'home' => function(){
     //     //if you want to go to a specific route
     //     return redirect('admin/dashboard');
-      
+
     //     //or if you have a bunch of redirection options
     //     if (Auth::user()->hasRole('admin') || Auth::user()->hasRole('admin')) {
     //        return redirect('admin/dashboard');
@@ -145,7 +145,7 @@ return [
     */
 
     'features' => [
-        // Features::registration(),
+        Features::registration(),
         // Features::resetPasswords(),
         Features::emailVerification(),
         Features::updateProfileInformation(),

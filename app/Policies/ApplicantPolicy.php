@@ -32,7 +32,7 @@ class ApplicantPolicy
      */
     public function view(User $user)
     {
-        if ($user->hasRole('personnel')){
+        if ($user->hasRole('personnel') || $user->hasRole('applicant')){
             return true;
         }
     }
@@ -59,7 +59,7 @@ class ApplicantPolicy
      */
     public function update(User $user)
     {
-        if ($user->hasRole('personnel')){
+        if ($user->hasRole('personnel') || $user->hasRole('applicant')){
             return true;
         }
     }

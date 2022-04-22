@@ -3,7 +3,7 @@ export default {
         return {
             selected: [],
             selectedItem: false,
-            roles: ["personnel", "admin"],
+            roles: ["applicant", "personnel", "admin"],
             nrows: [1, 10, 25, 50, 100]
         };
     },
@@ -26,11 +26,11 @@ export default {
         },
 
         changeStatusColor: function (status) {
-            if (status == "personnel") {
+            if (status == "personnel" || status == "applicant") {
                 this.statusColor = "text-blue-500";
             } else if (status == "admin") {
                 this.statusColor = "text-green-500";
-            } 
+            }
             return this.statusColor;
         },
     },
