@@ -410,12 +410,6 @@ export default {
         },
       });
     },
-
-    // // Export function
-    // coursesExport: function (type) {
-    //   const url = "/admin/export/courses?type=" + type;
-    //   window.location.href = url;
-    // },
   },
 
   watch: {

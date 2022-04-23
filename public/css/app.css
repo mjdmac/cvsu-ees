@@ -1077,6 +1077,14 @@ select {
   margin-left: 0.25rem;
   margin-right: 0.25rem;
 }
+.my-4 {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+.my-1 {
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
+}
 .ml-3 {
   margin-left: 0.75rem;
 }
@@ -1803,6 +1811,9 @@ select {
 }
 .to-gray-400 {
   --tw-gradient-to: #9ca3af;
+}
+.to-gray-500 {
+  --tw-gradient-to: #6b7280;
 }
 .bg-cover {
   background-size: cover;

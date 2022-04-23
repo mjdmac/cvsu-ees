@@ -262,7 +262,7 @@
               :href="route('admin.exams.index')"
               class="text-xs uppercase py-2 font-bold block"
               :class="
-                route().current('admin.exams.index') || route().current('exams.show')
+                route().current('admin.exams.index') || route().current('admin.exams.show')
                   ? 'text-emerald-500 hover:text-emerald-600'
                   : 'text-blueGray-700 hover:text-blueGray-500'
               "

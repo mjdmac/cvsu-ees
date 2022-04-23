@@ -32,7 +32,7 @@ class UserController extends Controller
             'field' => ['in:name,email,phone'],
         ]);
 
-        $query = User::query();
+        $query = User::where('role', '=', 'admin')->orWhere('role', '=', 'personnel');
 
         if (request('search')) {
             $query->where('name', 'like', '%' . request('search') . '%')->orWhere('email', 'like', '%' . request('search') . '%');

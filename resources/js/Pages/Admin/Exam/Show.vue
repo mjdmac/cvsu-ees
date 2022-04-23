@@ -108,11 +108,9 @@
         </div>
       </div>
 
-      <!-- Main Table -->
-      <div class="bg-white shadow-xl sm:rounded-lg">
-        <div class="flex flex-col"></div>
-      </div>
-      <!-- Main Table -->
+      <!-- Display questions -->
+      <div></div>
+      <!-- Display questions -->
     </div>
   </admin-layout>
 
@@ -208,26 +206,54 @@
       <!-- Question -->
       <div class="mb-4">
         <jet-label for="question" value="Question" />
-        <!-- <jet-input id="question" type="text" class="mt-1 block w-full" /> -->
-        <textarea
-          id="question"
-          type="text"
-          class="mt-1 block w-full"
-          v-model="questionform.question"
-        />
-      </div>
-
-      <div class="mb-4">
-        <jet-label for="choices" value="Choices" class="mx-2" />
-        <div v-for="c in 4" :key="c">
+        <div class="text-center">
           <jet-input
-            class="mt-1 block w-full"
             id="choices"
             type="text"
-            v-model="questionform.choices[c]"
-            placeholder="Enter option"
+            v-model="questionform.question"
+            placeholder="Enter Question"
+            class="inline-block w-full"
           >
           </jet-input>
+
+          <span class="uppercase text-gray-500 mx-4">or</span>
+
+          <jet-input
+            id="choices"
+            type="file"
+            v-model="questionform.question"
+            class="inline-block w-full"
+          >
+          </jet-input>
+        </div>
+      </div>
+      <div class="mb-4">
+        <jet-label for="choices" value="Choices" class="mx-2 text-lg " />
+        <div v-for="c in 4" :key="c" class="w-full my-4">
+          <div class="inline-block mr-2 mb-1 w-full">
+            <span class="text-gray-500">
+              Correct Answer:
+              <Toggle v-model="questionform.correct_answer" />
+            </span>
+            <div class="inline-block w-full">
+              <jet-input
+                id="choices"
+                type="text"
+                v-model="questionform.choices[c]"
+                placeholder="Enter option"
+              >
+              </jet-input>
+
+              <span class="uppercase text-gray-500 mx-4">or</span>
+
+              <jet-input
+                id="choices"
+                type="file"
+                v-model="questionform.choices[c]"
+              >
+              </jet-input>
+            </div>
+          </div>
         </div>
       </div>
     </template>
@@ -263,6 +289,8 @@ import JetInput from "@/Jetstream/Input";
 import JetLabel from "@/Jetstream/Label";
 import DialogModal from "@/Jetstream/DialogModal";
 import shared from "@/Scripts/shared";
+import Toggle from "@vueform/toggle";
+import NoData from "@/Components/Fillers/NoData.vue";
 
 export default {
   components: {
@@ -274,6 +302,8 @@ export default {
     JetLabel,
     DialogModal,
     Link,
+    Toggle,
+    NoData,
   },
 
   props: {
@@ -377,3 +407,5 @@ export default {
   },
 };
 </script>
+
+<style src="@vueform/toggle/themes/default.css"></style>
