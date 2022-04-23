@@ -91,254 +91,84 @@
         </div>
       </div>
 
-      <!-- Main Table -->
-      <div class="bg-white shadow-xl sm:rounded-lg">
+      <!-- List of exams -->
+      <div>
+        <div class="px-4 py-2 w-full bg-gray-700">
+          <span class="uppercase tracking-wider text-white">List of Exams</span>
+        </div>
         <div class="flex flex-col">
           <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-            <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-              <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-                <table class="min-w-full divide-y divide-gray-200">
-                  <thead class="bg-gray-50">
-                    <tr>
-                      <th
-                        scope="col"
-                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                      >
-                        <span class="cursor-pointer" @click="sort('exam_code')">
-                          <div class="inline-block">
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              class="h-4 w-4"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              v-if="
-                                params.field === 'exam_code' && params.direction === 'asc'
-                              "
-                            >
-                              <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12"
-                              />
-                            </svg>
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              class="h-4 w-4"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              v-if="
-                                params.field === 'exam_code' &&
-                                params.direction === 'desc'
-                              "
-                            >
-                              <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="M3 4h13M3 8h9m-9 4h9m5-4v12m0 0l-4-4m4 4l4-4"
-                              />
-                            </svg>
-                          </div>
-                          <div class="inline-block">Exam Code</div></span
-                        >
-                      </th>
-                      <th
-                        scope="col"
-                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                      >
-                        <span class="cursor-pointer" @click="sort('subject')">
-                          <div class="inline-block">
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              class="h-4 w-4"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              v-if="
-                                params.field === 'subject' && params.direction === 'asc'
-                              "
-                            >
-                              <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12"
-                              />
-                            </svg>
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              class="h-4 w-4"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              v-if="
-                                params.field === 'subject' && params.direction === 'desc'
-                              "
-                            >
-                              <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="M3 4h13M3 8h9m-9 4h9m5-4v12m0 0l-4-4m4 4l4-4"
-                              />
-                            </svg>
-                          </div>
-                          <div class="inline-block">Subject</div></span
-                        >
-                      </th>
-                      <th
-                        scope="col"
-                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                      >
-                        <span class="cursor-pointer" @click="sort('description')">
-                          <div class="inline-block">
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              class="h-4 w-4"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              v-if="
-                                params.field === 'description' &&
-                                params.direction === 'asc'
-                              "
-                            >
-                              <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12"
-                              />
-                            </svg>
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              class="h-4 w-4"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              v-if="
-                                params.field === 'description' &&
-                                params.direction === 'desc'
-                              "
-                            >
-                              <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="M3 4h13M3 8h9m-9 4h9m5-4v12m0 0l-4-4m4 4l4-4"
-                              />
-                            </svg>
-                          </div>
-                          <div class="inline-block">Description</div></span
-                        >
-                      </th>
-                      <th
-                        scope="col"
-                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                      >
-                        <span class="cursor-pointer" @click="sort('duration')">
-                          <div class="inline-block">
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              class="h-4 w-4"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              v-if="
-                                params.field === 'duration' && params.direction === 'asc'
-                              "
-                            >
-                              <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12"
-                              />
-                            </svg>
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              class="h-4 w-4"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              v-if="
-                                params.field === 'duration' && params.direction === 'desc'
-                              "
-                            >
-                              <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="M3 4h13M3 8h9m-9 4h9m5-4v12m0 0l-4-4m4 4l4-4"
-                              />
-                            </svg>
-                          </div>
-                          <div class="inline-block">Duration</div></span
-                        >
-                      </th>
-                      <th scope="col" class="relative px-6 py-3">
-                        <span class="sr-only">Edit</span>
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody class="bg-white divide-y divide-gray-200">
-                    <tr v-if="!exams.data.length">
-                      <td class="p-4 text-center text-sm text-gray-800" colspan="7">
-                        No data
-                      </td>
-                    </tr>
-                    <tr v-for="(exam, id) in exams.data" :key="exam.id">
-                      <td class="px-6 py-4 whitespace-nowrap">
-                        {{ exam.exam_code }}
-                      </td>
-                      <td class="px-6 py-4 whitespace-nowrap">
-                        {{ exam.subject }}
-                      </td>
-                      <td class="px-6 py-4 whitespace-nowrap">
-                        {{ exam.description }}
-                      </td>
-                      <td class="px-6 py-4 whitespace-nowrap">
-                        {{ exam.duration }}
-                      </td>
-                      <td
-                        class="px-6 py-4 space-x-1 whitespace-nowrap text-right text-sm font-medium"
-                      >
-                        <button
-                          class="bg-gray-500 hover:bg-gray-700 text-white py-1 px-2 rounded text-sm font-semibold"
-                          @click="show(exam)"
-                        >
-                          View
-                        </button>
-
-                        <button
-                          class="bg-blue-500 hover:bg-blue-700 text-white py-1 px-2 rounded text-sm font-semibold"
-                          @click="edit(exam, true)"
-                        >
-                          Edit
-                        </button>
-
-                        <button
-                          :disabled="disabled"
-                          @click="deleteRow(exam.id)"
-                          class="bg-red-500 hover:bg-red-700 text-white py-1 px-2 rounded text-sm font-semibold"
-                        >
-                          Delete
-                        </button>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+            <!-- NO data -->
+            <div v-if="!exams.data.length">
+              <div class="w-full py-8">
+                <div class="p-4 text-center text-sm text-gray-800">
+                  <span class="text-red-500 uppercase text-xl">No exam found!</span>
+                  <NoData />
+                </div>
               </div>
+            </div>
+            <!-- NO data -->
+
+            <div class="p-4 align-middle sm:px-8 lg:px-10">
+              <!-- One row / data / card -->
+              <div class="flex flex-wrap">
+                <div v-for="(exam, id) in exams.data" :key="exam.id" class="w-full md:w-6/12 lg:w-4/12">
+                  <div
+                    class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg m-2"
+                  >
+                    <div class="w-full bg-emerald-500 py-2 px-4">
+                      <span class="text-xl text-white"> {{ exam.exam_code }}</span>
+                    </div>
+                    <div class="text-md">
+                      <div class="px-2 pt-4">
+                        <span class="text-gray-500 px-2">Title:</span>
+                        <span> {{ exam.subject }}</span>
+                      </div>
+                      <div class="px-2">
+                        <span class="text-gray-500 px-2 break-all truncate"
+                          >Description:</span
+                        >
+                        <span> {{ exam.description }}</span>
+                      </div>
+                      <div class="px-2">
+                        <span class="text-gray-500 px-2">Duration:</span>
+                        <span> {{ exam.duration }}</span>
+                      </div>
+                    </div>
+                    <div
+                      class="px-6 py-4 space-x-1 whitespace-nowrap text-right text-sm font-medium"
+                    >
+                      <button
+                        class="bg-gray-500 hover:bg-gray-700 text-white py-1 px-2 rounded text-sm font-semibold"
+                        @click="show(exam)"
+                      >
+                        View
+                      </button>
+
+                      <button
+                        class="bg-blue-500 hover:bg-blue-700 text-white py-1 px-2 rounded text-sm font-semibold"
+                        @click="edit(exam, true)"
+                      >
+                        Edit
+                      </button>
+
+                      <button
+                        :disabled="disabled"
+                        @click="deleteRow(exam.id)"
+                        class="bg-red-500 hover:bg-red-700 text-white py-1 px-2 rounded text-sm font-semibold"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- One row / data / card -->
             </div>
           </div>
         </div>
-        <div class="mx-auto sm:px-6 lg:px-8">
-          <jet-pagination class="m-5" :links="exams.links" />
-        </div>
       </div>
+      <!-- List of exams -->
     </div>
   </admin-layout>
 
@@ -456,7 +286,7 @@ import JetActionMessage from "@/Jetstream/ActionMessage";
 import DialogModal from "@/Jetstream/DialogModal";
 import JetPagination from "@/Components/Pagination";
 import { Link } from "@inertiajs/inertia-vue3";
-import shared from "@/Scripts/shared";
+import NoData from "@/Components/Fillers/NoData.vue";
 
 export default {
   components: {
@@ -472,14 +302,13 @@ export default {
     JetActionMessage,
     DialogModal,
     Link,
+    NoData,
   },
 
   props: {
     exams: Object,
     filters: Object,
   },
-
-  extends: shared,
 
   data() {
     return {
@@ -528,7 +357,7 @@ export default {
 
     show: function (id) {
       this.form = Object.assign({}, id);
-      this.$inertia.visit(route("exams.show", id));
+      this.$inertia.visit(route("admin.exams.show", id));
     },
 
     // Save function
@@ -594,7 +423,7 @@ export default {
       handler: throttle(function () {
         let params = pickBy(this.params);
 
-        this.$inertia.get(this.route("exams.index"), params, {
+        this.$inertia.get(this.route("admin.exams.index"), params, {
           replace: true,
           preserveState: true,
         });

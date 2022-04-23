@@ -938,7 +938,7 @@ export default {
       handler: throttle(function () {
         let params = pickBy(this.params);
 
-        this.$inertia.get(this.route("applicants.index"), params, {
+        this.$inertia.get(this.route("admin.applicants.index"), params, {
           replace: true,
           preserveState: true,
         });

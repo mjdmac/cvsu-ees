@@ -6,32 +6,29 @@ use App\Http\Traits\HasCan;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Exam extends Model
+class Schedule extends Model
 {
     use HasFactory;
     use HasCan;
 
     protected $fillable = [
-        'subject',
-        'exam_code',
-        'description',
-        'duration',
+        'sched_code',
+        'exam_id',
+        'college_id',
+        'start_date',
+        'end_date',
+        'start_time	',
+        'end_time',
     ];
 
     protected $appends = [
         'can',
     ];
 
-     public function questions()
+    public function exams()
     {
-        return $this->hasMany(Question::class);
+        return $this->hasMany(Exam::class);
     }
-
-    public function schedules(){
-        return $this->belongsToMany(Schedule::class);
-    }
-
-    
 
     public function getCreatedAtAttribute($value)
     {

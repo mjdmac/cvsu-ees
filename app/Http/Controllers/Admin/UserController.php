@@ -90,7 +90,7 @@ class UserController extends Controller
         $this->flash('User added', 'success');
 
         return redirect()->back();
-        // return redirect()->route('users.index')->with('success', 'User added!');
+        // return redirect()->route('admin.users.index')->with('success', 'User added!');
     }
 
     /**

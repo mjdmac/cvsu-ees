@@ -6,7 +6,7 @@
         <div>
           <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             <Link
-              :href="route('exams.index')"
+              :href="route('admin.exams.index')"
               class="text-xs uppercase px-2 font-bold cursor-pointer inline-block"
             >
               <svg
@@ -331,7 +331,7 @@ export default {
 
     // Exam update function
     updateExam: function (exam) {
-      this.$inertia.put(this.route("exams.update", this.exam.id), this.examform, {
+      this.$inertia.put(this.route("admin.exams.update", this.exam.id), this.examform, {
         onBefore: () => {
           this.disabledClick(true);
         },

@@ -188,6 +188,6 @@ class ExamController extends Controller
 
         $this->flash('Exam removed.', 'success');
 
-        return redirect()->route("exams.index");
+        return redirect()->route("admin.exams.index");
     }
 }
