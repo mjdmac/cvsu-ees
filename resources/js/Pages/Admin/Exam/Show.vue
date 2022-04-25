@@ -79,10 +79,6 @@
           <span> Description: </span>
           <span class="text-gray-500">{{ exam.description }}</span>
         </div>
-        <div class="text-md">
-          <span> Duration (in minutes): </span>
-          <span class="text-gray-500">{{ exam.duration }}</span>
-        </div>
       </div>
     </div>
 
@@ -141,18 +137,6 @@
           type="text"
           class="mt-1 block w-full"
           v-model="examform.description"
-          @keyup.enter="updateExam(exam)"
-        />
-      </div>
-
-      <!-- Duration -->
-      <div class="mb-4">
-        <jet-label for="duration" value="Duration (in minutes)" />
-        <jet-input
-          id="duration"
-          type="number"
-          class="mt-1 block w-full"
-          v-model="examform.duration"
           @keyup.enter="updateExam(exam)"
         />
       </div>

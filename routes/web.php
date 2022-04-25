@@ -12,7 +12,9 @@ use App\Http\Controllers\Admin\ResultController;
 use App\Http\Controllers\Admin\ScheduleController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Applicant\ApplicantDashboardController;
+use App\Http\Controllers\Applicant\ApplicantExamController;
 use App\Http\Controllers\Applicant\ApplicantLoginController;
+use App\Http\Controllers\Applicant\ApplicantResultController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -43,16 +45,12 @@ Route::prefix('admin')
     ->middleware(['auth:sanctum', 'verified'])
     ->group(function () {
 
-        // Route::get('/dashboard', function () {
-        //     return Inertia::render('Admin/Dashboard/Index');
-        // })->name('dashboard');
-
         // Dashboard
         Route::resource('dashboard', AdminDashboardController::class);
 
         // Users routes
         Route::resource('users', UserController::class);
-        Route::get('/export/users', [UserController::class, 'usersExport'])->name('users.export'); //Export users data to excel
+        Route::get('/export/users', [UserController::class, 'usersExport'])->name('users.export'); //Export data to excel
 
         // College routes
         Route::resource('colleges', CollegeController::class);
@@ -77,23 +75,21 @@ Route::prefix('admin')
 
         // Results routes
         Route::resource('results', ResultController::class);
-
-        // Sample
-        //Route::resource('tasks', TaskController::class);
     });
 
 Route::prefix('applicant')
     ->as('applicant.')
     ->group(function () {
         Route::get('login', [ApplicantLoginController::class, 'showLoginForm'])->name('login');
-
         Route::post('login', [ApplicantLoginController::class, 'login'])->name('post.login');
-
         Route::post('logout', [ApplicantLoginController::class, 'logout'])->name('logout');
 
         Route::group(['middleware' => ['auth:sanctum', 'verified', 'isApplicant']], function () {
-
+            // Dashboard
             Route::resource('dashboard', ApplicantDashboardController::class);
+            // Exam
+            Route::resource('exams', ApplicantExamController::class);
+            // Result
+            Route::resource('results', ApplicantResultController::class);
         });
-        // Route::resource('dashboard', [ApplicantDashboardController::class]);
     });

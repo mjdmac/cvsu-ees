@@ -16,12 +16,10 @@ class CreateSchedulesTable extends Migration
         Schema::create('schedules', function (Blueprint $table) {
             $table->id();
             $table->string('sched_code');
-            $table->foreignId('exam_id')->references('id')->on('questions')->onDelete('cascade');
             $table->foreignId('college_id')->references('id')->on('questions')->onDelete('cascade');
-            $table->date('start_date');
-            $table->date('end_date');
-            $table->time('start_time');
-            $table->time('end_time');
+            $table->dateTime('start_date')->nullable();
+            $table->dateTime('end_date')->nullable();
+            $table->string('status');
             $table->timestamps();
         });
     }

@@ -1,13 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Applicant;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Inertia\Inertia;
 
-class AdminDashboardController extends Controller
+class ApplicantExamController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,13 +14,7 @@ class AdminDashboardController extends Controller
      */
     public function index()
     {
-        $noOfExams = DB::table('exams')->count();
-        $noOfApplicants = DB::table('applicants')->count();
-
-        return Inertia::render('Admin/Dashboard/Index', [
-            'noOfExams' => $noOfExams,
-            'noOfApplicants' => $noOfApplicants,
-        ]);
+        //
     }
 
     /**

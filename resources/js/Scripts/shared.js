@@ -4,7 +4,7 @@ export default {
             selected: [],
             selectedItem: false,
             roles: ["applicant", "personnel", "admin"],
-            nrows: [1, 10, 25, 50, 100]
+            perpages: [1, 5, 10, 25, 50, 100],
         };
     },
     methods: {
@@ -20,9 +20,9 @@ export default {
             return urlParams.get("roles");
         },
 
-        getNRows: function () {
-            let urlParams = new URLSearchParams(window.location.nrow);
-            return urlParams.get("nrows");
+        getPerPage: function () {
+            let urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get("perpages");
         },
 
         changeStatusColor: function (status) {

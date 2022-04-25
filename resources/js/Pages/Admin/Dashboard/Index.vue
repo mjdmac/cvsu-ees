@@ -14,7 +14,7 @@
 
     <!-- Full dashboard -->
     <div>
-      <div class="flex flex-wrap">
+      <div class="flex flex-wrap mt-8">
         <!-- Left side -->
         <div class="w-full lg:w-8/12">
           <div class="px-4 py-2 w-full bg-gray-700">
@@ -36,7 +36,7 @@
                               Applicants
                             </h5>
                             <span class="font-semibold text-xl text-gray-700">
-                              {{ noOfExams }}
+                              {{ noOfApplicants }}
                             </span>
                           </div>
                           <div class="relative w-auto pl-4 flex-initial">
@@ -172,7 +172,10 @@
                             </span>
                           </div>
                           <div class="relative w-auto pl-4 flex-initial">
-                            <Link class="cursor-pointer">
+                            <Link
+                              class="cursor-pointer"
+                              :href="route('admin.schedules.index')"
+                            >
                               <div
                                 class="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 shadow-lg rounded-full bg-blue-500"
                               >
@@ -195,6 +198,7 @@
                         <p class="text-sm text-gray-400 mt-4">
                           <Link
                             class="cursor-pointer mr-2 text-emerald-500 hover:text-emerald-700 hover:animate-pulse"
+                            :href="route('admin.schedules.index')"
                           >
                             <span class="inline-flex">
                               See more
@@ -223,8 +227,20 @@
               </div>
             </div>
           </div>
+
           <!-- Table div -->
-          <div class="px-4"></div>
+          <div class="px-4 py-2 w-full bg-gray-700 mt-12">
+            <span class="uppercase tracking-wider text-white">Schedules</span>
+          </div>
+          <div class="relative md:pt-6 pb-6 pt-12">
+            <div class="mx-auto w-full">
+              <div>
+                <div class="flex flex-wrap">
+                  
+                </div>
+              </div>
+            </div>
+          </div>
           <!-- Table div -->
         </div>
         <!-- Left side -->
@@ -265,6 +281,7 @@ export default {
 
   props: {
     noOfExams: Number,
+    noOfApplicants: Number,
   },
 
   data() {

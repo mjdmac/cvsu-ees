@@ -488,10 +488,10 @@ export default {
           this.disabledClick(true);
         },
         onSuccess: () => {
-          this.disabledClick(false), this.openModal(false), (this.form = {});
+          this.disabledClick(false), (this.form = {});
         },
-        // preserveScroll: true,
-        // preserveState: true
+        preserveScroll: true,
+        preserveState: true,
       });
     },
 

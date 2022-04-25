@@ -56,7 +56,7 @@
                         scope="col"
                         class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                       >
-                        <span class="cursor-pointer">
+                        <span class="cursor-pointer" @click="sort('sched_code')">
                           <div class="inline-block">
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -65,6 +65,10 @@
                               viewBox="0 0 24 24"
                               stroke="currentColor"
                               stroke-width="2"
+                              v-if="
+                                params.field === 'sched_code' &&
+                                params.direction === 'asc'
+                              "
                             >
                               <path
                                 stroke-linecap="round"
@@ -79,6 +83,10 @@
                               viewBox="0 0 24 24"
                               stroke="currentColor"
                               stroke-width="2"
+                              v-if="
+                                params.field === 'sched_code' &&
+                                params.direction === 'desc'
+                              "
                             >
                               <path
                                 stroke-linecap="round"
@@ -94,7 +102,21 @@
                         scope="col"
                         class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                       >
-                        <span class="cursor-pointer">
+                        <span class=""> <div class="inline-block">Exam</div></span>
+                      </th>
+                      <th
+                        scope="col"
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      >
+                        <span class="">
+                          <div class="inline-block">College</div>
+                        </span>
+                      </th>
+                      <th
+                        scope="col"
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      >
+                        <span class="cursor-pointer" @click="sort('start_date')">
                           <div class="inline-block">
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -103,6 +125,10 @@
                               viewBox="0 0 24 24"
                               stroke="currentColor"
                               stroke-width="2"
+                              v-if="
+                                params.field === 'start_date' &&
+                                params.direction === 'asc'
+                              "
                             >
                               <path
                                 stroke-linecap="round"
@@ -117,6 +143,10 @@
                               viewBox="0 0 24 24"
                               stroke="currentColor"
                               stroke-width="2"
+                              v-if="
+                                params.field === 'start_date' &&
+                                params.direction === 'desc'
+                              "
                             >
                               <path
                                 stroke-linecap="round"
@@ -125,14 +155,14 @@
                               />
                             </svg>
                           </div>
-                          <div class="inline-block">Exam</div></span
+                          <div class="inline-block">Start Date</div></span
                         >
                       </th>
                       <th
                         scope="col"
                         class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                       >
-                        <span class="cursor-pointer">
+                        <span class="cursor-pointer" @click="sort('end_date')">
                           <div class="inline-block">
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -141,6 +171,9 @@
                               viewBox="0 0 24 24"
                               stroke="currentColor"
                               stroke-width="2"
+                              v-if="
+                                params.field === 'end_date' && params.direction === 'asc'
+                              "
                             >
                               <path
                                 stroke-linecap="round"
@@ -155,6 +188,9 @@
                               viewBox="0 0 24 24"
                               stroke="currentColor"
                               stroke-width="2"
+                              v-if="
+                                params.field === 'end_date' && params.direction === 'desc'
+                              "
                             >
                               <path
                                 stroke-linecap="round"
@@ -163,14 +199,14 @@
                               />
                             </svg>
                           </div>
-                          <div class="inline-block">College</div></span
+                          <div class="inline-block">End Date</div></span
                         >
                       </th>
                       <th
                         scope="col"
                         class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                       >
-                        <span class="cursor-pointer">
+                        <span class="cursor-pointer" @click="sort('status')">
                           <div class="inline-block">
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -179,6 +215,9 @@
                               viewBox="0 0 24 24"
                               stroke="currentColor"
                               stroke-width="2"
+                              v-if="
+                                params.field === 'status' && params.direction === 'asc'
+                              "
                             >
                               <path
                                 stroke-linecap="round"
@@ -193,6 +232,9 @@
                               viewBox="0 0 24 24"
                               stroke="currentColor"
                               stroke-width="2"
+                              v-if="
+                                params.field === 'status' && params.direction === 'desc'
+                              "
                             >
                               <path
                                 stroke-linecap="round"
@@ -201,46 +243,8 @@
                               />
                             </svg>
                           </div>
-                          <div class="inline-block">Date</div></span
-                        >
-                      </th>
-                      <th
-                        scope="col"
-                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                      >
-                        <span class="cursor-pointer">
-                          <div class="inline-block">
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              class="h-4 w-4"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke="currentColor"
-                              stroke-width="2"
-                            >
-                              <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12"
-                              />
-                            </svg>
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              class="h-4 w-4"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke="currentColor"
-                              stroke-width="2"
-                            >
-                              <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="M3 4h13M3 8h9m-9 4h9m5-4v12m0 0l-4-4m4 4l4-4"
-                              />
-                            </svg>
-                          </div>
-                          <div class="inline-block">Time</div></span
-                        >
+                          <div class="inline-block">Status</div>
+                        </span>
                       </th>
                       <th scope="col" class="relative px-6 py-3">
                         <span class="sr-only">Edit</span>
@@ -250,7 +254,10 @@
                   <tbody class="bg-white divide-y divide-gray-200">
                     <tr>
                       <td class="p-4 text-center text-sm text-gray-800" colspan="7">
-                        No data
+                        <span class="text-red-500 uppercase text-xl"
+                          >No schedules found!</span
+                        >
+                        <NoData />
                       </td>
                     </tr>
                     <tr>
@@ -288,55 +295,123 @@
           </div>
         </div>
         <div class="mx-auto sm:px-6 lg:px-8">
-          <!-- <jet-pagination class="m-5" /> -->
+          <jet-pagination class="m-5" :links="schedules.links" />
         </div>
       </div>
     </div>
   </admin-layout>
 
-  <dialog-modal :show="isOpen" @close="openModal(false)">
+  <dialog-modal :show="isOpen" @close="openModal(false)" class="overflow-visible">
     <template #title>
-      <span> Create Schedule </span>
+      <span v-show="!editMode"> Create Schedule </span>
+      <span v-show="editMode"> Update </span>
     </template>
 
     <template #content>
-      <!-- Exam -->
+      <!-- Colleges -->
       <div class="mb-4">
         <jet-label for="college" value="College" />
         <select
+          v-model="form.college"
+          v-show="!editMode"
+          @keyup.enter="save(form)"
+          :required="true"
           ref="college"
           id="college"
           class="mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
         >
-          <option class="capitalize">
-            <span></span>
+          <option
+            class="capitalize"
+            v-for="college in colleges"
+            :key="college.id"
+            v-bind:value="college"
+          >
+            <span>{{ college.college_name }}</span>
+          </option>
+        </select>
+
+        <select
+          v-model="form.college"
+          v-show="editMode"
+          @keyup.enter="update(form)"
+          :required="true"
+          ref="college"
+          id="college"
+          class="mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+        >
+          <option
+            class="capitalize"
+            v-for="college in colleges"
+            :key="college.id"
+            v-bind:value="college"
+          >
+            <span>{{ college.college_name }}</span>
           </option>
         </select>
       </div>
 
-      <!-- Schedule -->
+      <!-- Exams -->
       <div class="mb-4">
-        <jet-label for="exams" value="Examinations" />
+        <jet-label for="exams" value="Exams" />
         <Multiselect
-          id="exams"
+          v-model="form.exams"
           mode="tags"
-          placeholder="Select examiations"
+          placeholder="Select exams"
+          object="true"
           valueProp="id"
           :searchable="true"
-          label="college_name"
+          label="subject"
+          :options="exam_subjects"
+          :close-on-select="false"
+          id="exams"
         />
       </div>
 
-      <!-- Date -->
-      <div class="mb-4">
-        <jet-label for="sched_date" value="Schedule Date" />
-        <jet-input id="sched_date" type="date" class="mt-1 block w-full" />
-      </div>
+      <!-- Sched Date -->
+      <div class="mb-4 w-full">
+        <!-- Start -->
+        <div class="inline-block">
+          <jet-label for="start_date" value="Start Date" />
+          <DatePicker
+            v-model="form.start_date"
+            mode="dateTime"
+            :min-date="new Date()"
+            :disabled-dates="{ weekdays: [1, 7] }"
+            id="start_date"
+          >
+            <template v-slot="{ inputValue, inputEvents }">
+              <input
+                class="bg-white border px-2 py-1 rounded"
+                :value="inputValue"
+                v-on="inputEvents"
+              />
+            </template>
+          </DatePicker>
+        </div>
 
-      <!-- Time -->
-      <div class="mb-4">
-        <jet-label for="sched_time" value="Schedule Time" />
-        <jet-input id="sched_time" type="time" class="mt-1 block w-full" />
+        <div class="inline-block px-4">
+          <span>to</span>
+        </div>
+
+        <!-- End -->
+        <div class="inline-block">
+          <jet-label for="end_date" value="End Date" />
+          <DatePicker
+            v-model="form.end_date"
+            mode="dateTime"
+            :min-date="new Date()"
+            :disabled-dates="{ weekdays: [1, 7] }"
+            id="end_date"
+          >
+            <template v-slot="{ inputValue, inputEvents }">
+              <input
+                class="bg-white border px-2 py-1 rounded"
+                :value="inputValue"
+                v-on="inputEvents"
+              />
+            </template>
+          </DatePicker>
+        </div>
       </div>
     </template>
 
@@ -384,6 +459,8 @@ import JetPagination from "@/Components/Pagination";
 import { Link } from "@inertiajs/inertia-vue3";
 import shared from "@/Scripts/shared";
 import Multiselect from "@vueform/multiselect";
+import { DatePicker } from "v-calendar";
+import NoData from "@/Components/Fillers/NoData.vue";
 
 export default {
   components: {
@@ -398,12 +475,33 @@ export default {
     DialogModal,
     Link,
     Multiselect,
+    DatePicker,
+    NoData,
   },
 
-  props: {},
+  props: {
+    schedules: Object,
+    filters: Object,
+    colleges: Object,
+    exam_subjects: Array,
+  },
 
   data() {
     return {
+      params: {
+        search: this.filters.search,
+        field: this.filters.field,
+        direction: this.filters.direction,
+        perpage: this.filters.perpage,
+      },
+
+      form: this.$inertia.form({
+        college: this.colleges,
+        exams: [],
+        start_date: "",
+        end_date: "",
+      }),
+
       isOpen: false,
       disabled: null,
       editMode: false,
@@ -427,6 +525,28 @@ export default {
       }
 
       return this.isOpen;
+    },
+
+    // Save function
+    save: function (schedules) {
+      this.$inertia.visit("/admin/schedules", {
+        method: "post",
+        data: this.form,
+        onBefore: () => {
+          this.disabledClick(true);
+        },
+        onSuccess: () => {
+          this.disabledClick(false), (this.form = {});
+        },
+        preserveScroll: true,
+        preserveState: true,
+      });
+    },
+
+    // Sort function
+    sort(field) {
+      this.params.field = field;
+      this.params.direction = this.params.direction === "asc" ? "desc" : "asc";
     },
   },
 };
