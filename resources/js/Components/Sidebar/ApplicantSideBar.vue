@@ -201,7 +201,7 @@
           <div class="flex flex-wrap">
             <div class="w-6/12">
               <jet-nav-link
-                :href="route('applicant.dashboard')"
+                :href="route('applicant.dashboard.index')"
                 class="uppercase py-2 font-bold block"
               >
                 <span>Cavite State University</span>
@@ -354,10 +354,10 @@
         <!-- Navigation -->
         <ul class="md:flex-col md:min-w-full flex flex-col list-none">
           <li class="items-center">
-            <jet-nav-link  :href="route('applicant.dashboard')"
+            <jet-nav-link  :href="route('applicant.dashboard.index')"
               class="text-xs uppercase py-2 font-bold block"
               :class="
-                route().current('applicant.dashboard')
+                route().current('applicant.dashboard.index')
                   ? 'text-emerald-500 hover:text-emerald-600'
                   : 'text-blueGray-700 hover:text-blueGray-500'
               ">

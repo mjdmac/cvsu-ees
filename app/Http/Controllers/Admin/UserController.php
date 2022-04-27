@@ -32,7 +32,7 @@ class UserController extends Controller
             'field' => ['in:name,email,phone'],
         ]);
 
-        $query = User::query();
+        $query = User::where('role', '=', 'admin')->orWhere('role', '=', 'personnel');
 
         if (request('search')) {
             $query->where('name', 'like', '%' . request('search') . '%')->orWhere('email', 'like', '%' . request('search') . '%');
@@ -90,7 +90,7 @@ class UserController extends Controller
         $this->flash('User added', 'success');
 
         return redirect()->back();
-        // return redirect()->route('users.index')->with('success', 'User added!');
+        // return redirect()->route('admin.users.index')->with('success', 'User added!');
     }
 
     /**

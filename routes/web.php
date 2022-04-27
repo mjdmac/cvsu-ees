@@ -1,12 +1,20 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\ApplicantController;
+use App\Http\Controllers\Admin\ChoiceController;
 use App\Http\Controllers\Admin\CollegeController;
 use App\Http\Controllers\Admin\CourseController;
 use App\Http\Controllers\Admin\ExamController;
+use App\Http\Controllers\Admin\ExamScheduleController;
+use App\Http\Controllers\Admin\QuestionController;
+use App\Http\Controllers\Admin\ResultController;
+use App\Http\Controllers\Admin\ScheduleController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Applicant\ApplicantDashboardController;
+use App\Http\Controllers\Applicant\ApplicantExamController;
 use App\Http\Controllers\Applicant\ApplicantLoginController;
+use App\Http\Controllers\Applicant\ApplicantResultController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -27,46 +35,61 @@ Route::get('/', [HomeController::class, 'index']);
 
 Route::get('/admin', function () {
     if (Auth::check()) {
-        return redirect('/admin/dashboard');
+        return redirect(route('admin.dashboard.index'));
     } else {
         return Inertia::render('Auth/Login');
     }
 });
+Route::prefix('admin')
+    ->as('admin.')
+    ->middleware(['auth:sanctum', 'verified'])
+    ->group(function () {
 
-Route::prefix('admin')->middleware(['auth:sanctum', 'verified', 'isAdmin'])->group(function () {
-    Route::get('/dashboard', function () {
-        return Inertia::render('Admin/Dashboard/Index');
-    })->name('admin.dashboard');
+        // Dashboard
+        Route::resource('dashboard', AdminDashboardController::class);
 
-    // Users routes
-    Route::resource('users', UserController::class);
-    Route::get('/export/users', [UserController::class, 'usersExport'])->name('users.export'); //Export users data to excel
+        // Users routes
+        Route::resource('users', UserController::class);
+        Route::get('/export/users', [UserController::class, 'usersExport'])->name('users.export'); //Export data to excel
 
-    // College routes
-    Route::resource('colleges', CollegeController::class);
+        // College routes
+        Route::resource('colleges', CollegeController::class);
 
-    // Course routes
-    Route::resource('courses', CourseController::class);
+        // Course routes
+        Route::resource('courses', CourseController::class);
 
-    // Applicant routes
-    Route::resource('applicants', ApplicantController::class);
+        // Applicant routes
+        Route::resource('applicants', ApplicantController::class);
 
-    // Exam routes
-    Route::resource('exams', ExamController::class);
-    // Sample
-    //Route::resource('tasks', TaskController::class);
-});
+        // Exam routes
+        Route::resource('exams', ExamController::class);
 
-Route::prefix('applicant')->group(function () {
-    Route::get('login', [ApplicantLoginController::class, 'showLoginForm'])->name('applicant.login');
+        // Question routes
+        Route::resource('questions', QuestionController::class);
 
-    Route::post('login', [ApplicantLoginController::class, 'login'])->name('applicant.post.login');
+        // Choice routes
+        Route::resource('choices', ChoiceController::class);
 
-    Route::post('logout', [ApplicantLoginController::class, 'logout'])->name('applicant.logout');
+        // Schedule routes
+        Route::resource('schedules', ScheduleController::class);
 
-    Route::group(['middleware' => ['auth:sanctum', 'verified', 'isApplicant']], function(){
-
-        Route::get('dashboard', [ApplicantDashboardController::class, 'index'])->name('applicant.dashboard');
+        // Results routes
+        Route::resource('results', ResultController::class);
     });
-    // Route::resource('dashboard', [ApplicantDashboardController::class]);
-});
+
+Route::prefix('applicant')
+    ->as('applicant.')
+    ->group(function () {
+        Route::get('login', [ApplicantLoginController::class, 'showLoginForm'])->name('login');
+        Route::post('login', [ApplicantLoginController::class, 'login'])->name('post.login');
+        Route::post('logout', [ApplicantLoginController::class, 'logout'])->name('logout');
+
+        Route::group(['middleware' => ['auth:sanctum', 'verified', 'isApplicant']], function () {
+            // Dashboard
+            Route::resource('dashboard', ApplicantDashboardController::class);
+            // Exam
+            Route::resource('exams', ApplicantExamController::class);
+            // Result
+            Route::resource('results', ApplicantResultController::class);
+        });
+    });

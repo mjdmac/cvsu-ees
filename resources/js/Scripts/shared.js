@@ -3,8 +3,28 @@ export default {
         return {
             selected: [],
             selectedItem: false,
-            roles: ["applicant", "personnel", "admin"],
-            nrows: [1, 10, 25, 50, 100]
+            roles: ["personnel", "admin"],
+            perpages: [1, 5, 10, 25, 50, 100],
+            options: [{
+                option: "",
+                is_correct: false,
+                img_path: "",
+              },
+              {
+                option: "",
+                is_correct: false,
+                img_path: "",
+              },
+              {
+                option: "",
+                is_correct: false,
+                img_path: "",
+              },
+              {
+                option: "",
+                is_correct: false,
+                img_path: "",
+              }]
         };
     },
     methods: {
@@ -20,9 +40,9 @@ export default {
             return urlParams.get("roles");
         },
 
-        getNRows: function () {
-            let urlParams = new URLSearchParams(window.location.nrow);
-            return urlParams.get("nrows");
+        getPerPage: function () {
+            let urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get("perpages");
         },
 
         changeStatusColor: function (status) {

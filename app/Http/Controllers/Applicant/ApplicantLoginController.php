@@ -13,25 +13,18 @@ class ApplicantLoginController extends Controller
 {
     public function showLoginForm()
     {
-        if(!auth()->check())
+        if (!auth()->check())
             return Inertia::render('Applicant/Auth/Login');
         return back();
     }
 
     public function login(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'control_number' => 'required',
+        $this->validate($request, [
             'email' => 'required|email',
-            'birthday' => 'required',
-
+            'control_number' => 'required',
+            'birthday' => 'required|date',
         ]);
-
-        // $this->validate($request, [
-        //     'email' => 'required|email',
-        //     'control_number' => 'required',
-        //     'birthday' => 'required',
-        // ]);
 
         $applicant = Applicant::where('email', $request->email)
             ->where('id', $request->control_number)
@@ -39,7 +32,7 @@ class ApplicantLoginController extends Controller
 
         Auth::login($applicant->userAccount);
 
-        return redirect()->route('applicant.dashboard');
+        return redirect()->route('applicant.dashboard.index');
 
         // if ($validator->fails()) {
         //     return back()->withInput()->withErrors($validator);

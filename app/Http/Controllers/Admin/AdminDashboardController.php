@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\ExamSchedule;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Inertia\Inertia;
 
-class ExamScheduleController extends Controller
+class AdminDashboardController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +16,13 @@ class ExamScheduleController extends Controller
      */
     public function index()
     {
-        //
+        $noOfExams = DB::table('exams')->count();
+        $noOfApplicants = DB::table('applicants')->count();
+
+        return Inertia::render('Admin/Dashboard/Index', [
+            'noOfExams' => $noOfExams,
+            'noOfApplicants' => $noOfApplicants,
+        ]);
     }
 
     /**
@@ -42,10 +49,10 @@ class ExamScheduleController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\ExamSchedule  $examSchedule
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(ExamSchedule $examSchedule)
+    public function show($id)
     {
         //
     }
@@ -53,10 +60,10 @@ class ExamScheduleController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\ExamSchedule  $examSchedule
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(ExamSchedule $examSchedule)
+    public function edit($id)
     {
         //
     }
@@ -65,10 +72,10 @@ class ExamScheduleController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\ExamSchedule  $examSchedule
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, ExamSchedule $examSchedule)
+    public function update(Request $request, $id)
     {
         //
     }
@@ -76,10 +83,10 @@ class ExamScheduleController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\ExamSchedule  $examSchedule
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ExamSchedule $examSchedule)
+    public function destroy($id)
     {
         //
     }

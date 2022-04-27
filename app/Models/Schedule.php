@@ -6,25 +6,31 @@ use App\Http\Traits\HasCan;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Choice extends Model
+class Schedule extends Model
 {
     use HasFactory;
     use HasCan;
 
     protected $fillable = [
-        'question_id',
-        'option',
-        'is_correct',
-        'img_path'
+        'sched_code',
+        'college_id',
+        'start_date',
+        'end_date',
+        'status',
     ];
 
     protected $appends = [
         'can',
     ];
 
-    public function question()
+    public function exams()
     {
-        return $this->belongsTo(Question::class);
+        return $this->hasMany(Exam::class);
+    }
+
+    public function colleges()
+    {
+        return $this->hasMany(College::class);
     }
 
     public function getCreatedAtAttribute($value)

@@ -18,3 +18,6 @@ createInertiaApp({
 });
 
 InertiaProgress.init({ color: '#4B5563' });
+
+// import { SetupCalendar } from 'v-calendar';
+// app.use(SetupCalendar, {})

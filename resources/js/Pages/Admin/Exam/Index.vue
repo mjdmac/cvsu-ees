@@ -9,61 +9,6 @@
           </h2>
         </div>
         <!-- Header -->
-
-        <!-- Page Buttons -->
-        <div align="right">
-          <!-- Line buttons and show dropdown -->
-          <div class="block" align="right">
-            <jet-dropdown>
-              <template #trigger>
-                <span class="inline-flex rounded-md">
-                  <button
-                    type="button"
-                    class="py-2 px-4 inline-flex items-center border border-transparent text-sm leading-4 font-medium rounded-md text-gray-100 bg-gray-800 hover:text-gray-300 focus:outline-none transition"
-                  >
-                    <span>Data Management</span>
-                    <svg
-                      class="ml-2 -mr-0.5 h-4 w-4"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path
-                        fill-rule="evenodd"
-                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                        clip-rule="evenodd"
-                      />
-                    </svg>
-                  </button>
-                </span>
-              </template>
-
-              <template #content>
-                <!-- Export buttons -->
-                <div class="block px-4 py-2 text-xs text-gray-600">Export Data</div>
-                <div class="border-t border-gray-100"></div>
-                <div class="px-4 py-2">
-                  <div class="py-2">
-                    <jet-button
-                      class="py-2 px-4 bg-blue-500 text-white text-sm font-semibold rounded-md shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-opacity-75"
-                    >
-                      Export(.xlsx)
-                    </jet-button>
-                  </div>
-                  <div class="py-2">
-                    <jet-button
-                      class="py-2 px-4 bg-blue-500 text-white text-sm font-semibold rounded-md shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-opacity-75"
-                    >
-                      Export(.csv)
-                    </jet-button>
-                  </div>
-                </div>
-              </template>
-            </jet-dropdown>
-          </div>
-          <!-- Hide in line buttons and show dropdown -->
-        </div>
-        <!-- End Page Buttons -->
       </div>
     </template>
 
@@ -80,6 +25,27 @@
                 v-model="params.search"
               />
             </div>
+            <!-- View filter -->
+            <div class="inline-block">
+              <span class="px-1 text-gray-500">Show</span>
+              <select
+                ref="perpage"
+                id="perpage"
+                class="mt-1 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+                v-model="params.perpage"
+              >
+                <option
+                  v-for="perpage in perpages"
+                  :key="perpage"
+                  :value="perpage"
+                  class="capitalize"
+                >
+                  <span>{{ perpage }}</span>
+                </option>
+              </select>
+              <span class="px-1 text-gray-500">per page</span>
+            </div>
+            <!-- View filter -->
           </div>
           <div class="block" align="right">
             <jet-button
@@ -91,254 +57,88 @@
         </div>
       </div>
 
-      <!-- Main Table -->
-      <div class="bg-white shadow-xl sm:rounded-lg">
+      <!-- List of exams -->
+      <div>
+        <div class="px-4 py-2 w-full bg-gray-700">
+          <span class="uppercase tracking-wider text-white">List of Exams</span>
+        </div>
         <div class="flex flex-col">
           <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-            <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-              <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-                <table class="min-w-full divide-y divide-gray-200">
-                  <thead class="bg-gray-50">
-                    <tr>
-                      <th
-                        scope="col"
-                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                      >
-                        <span class="cursor-pointer" @click="sort('exam_code')">
-                          <div class="inline-block">
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              class="h-4 w-4"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              v-if="
-                                params.field === 'exam_code' && params.direction === 'asc'
-                              "
-                            >
-                              <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12"
-                              />
-                            </svg>
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              class="h-4 w-4"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              v-if="
-                                params.field === 'exam_code' &&
-                                params.direction === 'desc'
-                              "
-                            >
-                              <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="M3 4h13M3 8h9m-9 4h9m5-4v12m0 0l-4-4m4 4l4-4"
-                              />
-                            </svg>
-                          </div>
-                          <div class="inline-block">Exam Code</div></span
-                        >
-                      </th>
-                      <th
-                        scope="col"
-                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                      >
-                        <span class="cursor-pointer" @click="sort('subject')">
-                          <div class="inline-block">
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              class="h-4 w-4"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              v-if="
-                                params.field === 'subject' && params.direction === 'asc'
-                              "
-                            >
-                              <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12"
-                              />
-                            </svg>
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              class="h-4 w-4"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              v-if="
-                                params.field === 'subject' && params.direction === 'desc'
-                              "
-                            >
-                              <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="M3 4h13M3 8h9m-9 4h9m5-4v12m0 0l-4-4m4 4l4-4"
-                              />
-                            </svg>
-                          </div>
-                          <div class="inline-block">Subject</div></span
-                        >
-                      </th>
-                      <th
-                        scope="col"
-                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                      >
-                        <span class="cursor-pointer" @click="sort('description')">
-                          <div class="inline-block">
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              class="h-4 w-4"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              v-if="
-                                params.field === 'description' &&
-                                params.direction === 'asc'
-                              "
-                            >
-                              <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12"
-                              />
-                            </svg>
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              class="h-4 w-4"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              v-if="
-                                params.field === 'description' &&
-                                params.direction === 'desc'
-                              "
-                            >
-                              <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="M3 4h13M3 8h9m-9 4h9m5-4v12m0 0l-4-4m4 4l4-4"
-                              />
-                            </svg>
-                          </div>
-                          <div class="inline-block">Description</div></span
-                        >
-                      </th>
-                      <th
-                        scope="col"
-                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                      >
-                        <span class="cursor-pointer" @click="sort('duration')">
-                          <div class="inline-block">
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              class="h-4 w-4"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              v-if="
-                                params.field === 'duration' && params.direction === 'asc'
-                              "
-                            >
-                              <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12"
-                              />
-                            </svg>
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              class="h-4 w-4"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              v-if="
-                                params.field === 'duration' && params.direction === 'desc'
-                              "
-                            >
-                              <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="M3 4h13M3 8h9m-9 4h9m5-4v12m0 0l-4-4m4 4l4-4"
-                              />
-                            </svg>
-                          </div>
-                          <div class="inline-block">Duration</div></span
-                        >
-                      </th>
-                      <th scope="col" class="relative px-6 py-3">
-                        <span class="sr-only">Edit</span>
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody class="bg-white divide-y divide-gray-200">
-                    <tr v-if="!exams.data.length">
-                      <td class="p-4 text-center text-sm text-gray-800" colspan="7">
-                        No data
-                      </td>
-                    </tr>
-                    <tr v-for="(exam, id) in exams.data" :key="exam.id">
-                      <td class="px-6 py-4 whitespace-nowrap">
-                        {{ exam.exam_code }}
-                      </td>
-                      <td class="px-6 py-4 whitespace-nowrap">
-                        {{ exam.subject }}
-                      </td>
-                      <td class="px-6 py-4 whitespace-nowrap">
-                        {{ exam.description }}
-                      </td>
-                      <td class="px-6 py-4 whitespace-nowrap">
-                        {{ exam.duration }}
-                      </td>
-                      <td
-                        class="px-6 py-4 space-x-1 whitespace-nowrap text-right text-sm font-medium"
-                      >
-                        <button
-                          class="bg-gray-500 hover:bg-gray-700 text-white py-1 px-2 rounded text-sm font-semibold"
-                          @click="show(exam)"
-                        >
-                          View
-                        </button>
-
-                        <button
-                          class="bg-blue-500 hover:bg-blue-700 text-white py-1 px-2 rounded text-sm font-semibold"
-                          @click="edit(exam, true)"
-                        >
-                          Edit
-                        </button>
-
-                        <button
-                          :disabled="disabled"
-                          @click="deleteRow(exam.id)"
-                          class="bg-red-500 hover:bg-red-700 text-white py-1 px-2 rounded text-sm font-semibold"
-                        >
-                          Delete
-                        </button>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+            <!-- NO data -->
+            <div v-if="!exams.data.length">
+              <div class="w-full py-8">
+                <div class="p-4 text-center text-sm text-gray-800">
+                  <span class="text-red-500 uppercase text-xl">No exam found!</span>
+                  <NoData />
+                </div>
               </div>
+            </div>
+            <!-- NO data -->
+
+            <div class="p-4 align-middle sm:px-8 lg:px-10">
+              <!-- One row / data / card -->
+              <div class="flex flex-wrap">
+                <div
+                  v-for="(exam, id) in exams.data"
+                  :key="exam.id"
+                  class="w-full md:w-6/12 lg:w-4/12"
+                >
+                  <div
+                    class="shadow overflow-hidden border-b border-gray-200 rounded-lg m-2 md:m-2 lg:m-4"
+                  >
+                    <div class="w-full bg-emerald-500 py-2 px-4">
+                      <span class="text-xl text-white"> {{ exam.exam_code }}</span>
+                    </div>
+                    <div class="text-md">
+                      <div class="px-2 pt-4">
+                        <span class="text-gray-500 px-2">Title:</span>
+                        <span> {{ exam.subject }}</span>
+                      </div>
+                      <div class="px-2">
+                        <span class="text-gray-500 px-2 break-all truncate"
+                          >Description:</span
+                        >
+                        <span> {{ exam.description }}</span>
+                      </div>
+                    </div>
+                    <div
+                      class="px-6 py-4 space-x-1 whitespace-nowrap text-right text-sm font-medium"
+                    >
+                      <button
+                        class="bg-gray-500 hover:bg-gray-700 text-white py-1 px-2 rounded text-sm font-semibold"
+                        @click="show(exam)"
+                      >
+                        View
+                      </button>
+
+                      <button
+                        class="bg-blue-500 hover:bg-blue-700 text-white py-1 px-2 rounded text-sm font-semibold"
+                        @click="edit(exam, true)"
+                      >
+                        Edit
+                      </button>
+
+                      <button
+                        :disabled="disabled"
+                        @click="deleteRow(exam.id)"
+                        class="bg-red-500 hover:bg-red-700 text-white py-1 px-2 rounded text-sm font-semibold"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- One row / data / card -->
             </div>
           </div>
         </div>
-        <div class="mx-auto sm:px-6 lg:px-8">
-          <jet-pagination class="m-5" :links="exams.links" />
-        </div>
       </div>
+      <!-- List of exams -->
+    </div>
+
+    <div class="mx-auto sm:px-6 lg:px-8">
+      <jet-pagination class="m-5" :links="exams.links" />
     </div>
   </admin-layout>
 
@@ -389,31 +189,10 @@
           @keyup.enter="update(form)"
         />
       </div>
-
-      <!-- Duration -->
-      <div class="mb-4">
-        <jet-label for="duration" value="Duration (in minutes)" />
-        <jet-input
-          id="duration"
-          type="text"
-          class="mt-1 block w-full"
-          v-model="form.duration"
-          v-show="!editMode"
-          @keyup.enter="save(form)"
-        />
-        <jet-input
-          id="duration"
-          type="number"
-          class="mt-1 block w-full"
-          v-model="form.duration"
-          v-show="editMode"
-          @keyup.enter="update(form)"
-        />
-      </div>
     </template>
 
     <template #footer>
-      <jet-secondary-button @click="openModal(false)"> Cancel </jet-secondary-button>
+      <jet-secondary-button @click="openModal(false)"> Close </jet-secondary-button>
 
       <jet-button
         class="ml-2"
@@ -457,6 +236,7 @@ import DialogModal from "@/Jetstream/DialogModal";
 import JetPagination from "@/Components/Pagination";
 import { Link } from "@inertiajs/inertia-vue3";
 import shared from "@/Scripts/shared";
+import NoData from "@/Components/Fillers/NoData.vue";
 
 export default {
   components: {
@@ -472,6 +252,7 @@ export default {
     JetActionMessage,
     DialogModal,
     Link,
+    NoData,
   },
 
   props: {
@@ -487,12 +268,12 @@ export default {
         search: this.filters.search,
         field: this.filters.field,
         direction: this.filters.direction,
+        perpage: this.filters.perpage,
       },
 
       form: this.$inertia.form({
         subject: this.subject,
         description: this.description,
-        duration: this.duration,
       }),
 
       isOpen: false,
@@ -528,7 +309,7 @@ export default {
 
     show: function (id) {
       this.form = Object.assign({}, id);
-      this.$inertia.visit(route("exams.show", id));
+      this.$inertia.visit(route("admin.exams.show", id));
     },
 
     // Save function
@@ -540,7 +321,7 @@ export default {
           this.disabledClick(true);
         },
         onSuccess: () => {
-          this.disabledClick(false), this.openModal(false), (this.form = {});
+          this.disabledClick(false), (this.form = {});
         },
       });
     },
@@ -581,12 +362,6 @@ export default {
         },
       });
     },
-
-    // // Export function
-    // coursesExport: function (type) {
-    //   const url = "/admin/export/courses?type=" + type;
-    //   window.location.href = url;
-    // },
   },
 
   watch: {
@@ -594,7 +369,7 @@ export default {
       handler: throttle(function () {
         let params = pickBy(this.params);
 
-        this.$inertia.get(this.route("exams.index"), params, {
+        this.$inertia.get(this.route("admin.exams.index"), params, {
           replace: true,
           preserveState: true,
         });

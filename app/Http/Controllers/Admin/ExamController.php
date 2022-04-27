@@ -19,21 +19,22 @@ class ExamController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         request()->validate([
             'direction' => ['in:asc,desc'],
-            'field' => ['in:subject,exam_code,description,duration'],
+            'field' => ['in:subject,exam_code,description'],
         ]);
 
         $data = Exam::query();
+
+        $perpage = $request->input('perpage') ?: 25;
 
         if (request('search')) {
             $data
                 ->where('exams.subject', 'like', '%' . request('search') . '%')
                 ->orwhere('exams.exam_code', 'like', '%' . request('search') . '%')
-                ->orWhere('exams.description', 'like', '%' . request('search') . '%')
-                ->orWhere('exams.duration', 'like', '%' . request('search') . '%');
+                ->orWhere('exams.description', 'like', '%' . request('search') . '%');
         }
 
         if (request()->has(['field', 'direction'])) {
@@ -41,8 +42,8 @@ class ExamController extends Controller
         }
 
         return Inertia::render('Admin/Exam/Index', [
-            'exams' => $data->paginate(25)->withQueryString(),
-            'filters' => request()->all(['search', 'field', 'direction']),
+            'exams' => $data->paginate($perpage)->withQueryString(),
+            'filters' => request()->all(['search', 'field', 'direction', 'perpage']),
         ]);
     }
 
@@ -67,7 +68,6 @@ class ExamController extends Controller
         $val = Validator::make($request->all(), [
             'subject' => ['required'],
             'description' => ['string', 'max:255'],
-            'duration' => ['required', 'integer'],
         ]);
 
         if ($val->fails()) {
@@ -81,7 +81,6 @@ class ExamController extends Controller
             'exam_code' => $exam_code,
             'subject' => Str::of($request['subject'])->ucfirst(),
             'description' => Str::of($request['description'])->ucfirst(),
-            'duration' => $request['duration'],
         ]);
 
         $this->flash('Exam created!', 'success');
@@ -103,34 +102,8 @@ class ExamController extends Controller
                 'subject' => $exam->subject,
                 'exam_code' => $exam->exam_code,
                 'description' => $exam->description,
-                'duration' => $exam->duration,
             ]
         ]);
-
-        
-    //     request()->validate([
-    //         'direction' => ['in:asc,desc'],
-    //         'field' => ['in:subject,exam_code,description,duration'],
-    //     ]);
-
-    //     $data = Exam::query();
-
-    //     if (request('search')) {
-    //         $data
-    //             ->where('exams.subject', 'like', '%' . request('search') . '%')
-    //             ->orwhere('exams.exam_code', 'like', '%' . request('search') . '%')
-    //             ->orWhere('exams.description', 'like', '%' . request('search') . '%')
-    //             ->orWhere('exams.duration', 'like', '%' . request('search') . '%');
-    //     }
-
-    //     if (request()->has(['field', 'direction'])) {
-    //         $data->orderBy(request('field'), request('direction'))->get();
-    //     }
-
-    //     return Inertia::render('Admin/Exam/Show', [
-    //         'exam' => $data->paginate(25)->withQueryString(),
-    //         'filters' => request()->all(['search', 'field', 'direction']),
-    //     ]);
     }
 
     /**
@@ -156,7 +129,6 @@ class ExamController extends Controller
         $val = Validator::make($request->all(), [
             'subject' => ['required'],
             'description' => ['string', 'max:255'],
-            'duration' => ['required', 'integer'],
         ]);
 
         if ($val->fails()) {
@@ -167,7 +139,6 @@ class ExamController extends Controller
         $exam->update([
             'subject' => Str::of($request['subject'])->ucfirst(),
             'description' => Str::of($request['description'])->ucfirst(),
-            'duration' => $request['duration'],
         ]);
 
         $this->flash('Exam updated!', 'success');
@@ -188,6 +159,6 @@ class ExamController extends Controller
 
         $this->flash('Exam removed.', 'success');
 
-        return redirect()->route("exams.index");
+        return redirect()->route("admin.exams.index");
     }
 }

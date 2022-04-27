@@ -10,7 +10,9 @@
     "watch-poll": "mix watch -- --watch-options-poll=1000"
   },
   "dependencies": {
-    "@vueform/multiselect": "^2.3.3"
+    "@vueform/multiselect": "^2.3.3",
+    "@vueform/toggle": "^2.0.1",
+    "v-calendar": "^3.0.0-alpha.8"
   },
   "devDependencies": {
     "@inertiajs/inertia": "^0.11.0",

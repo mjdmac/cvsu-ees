@@ -8,47 +8,52 @@
 
     <JetValidationErrors class="mb-4" />
     <form @submit.prevent="submit">
-        <!-- Control Number -->
-        <div class="mt-4">
-          <JetLabel for="control_number" value="Control Number" />
-          <JetInput
-            id="control_number"
-            type="number"
-            class="mt-1 block w-full"
-            v-model="form.control_number"
-            required
-          />
-        </div>
-        <!-- Email -->
-        <div class="mt-4">
-          <JetLabel for="email" value="Email" />
-          <JetInput
-            id="email"
-            type="email"
-            class="mt-1 block w-full"
-            v-model="form.email"
-            required
-          />
-        </div>
-        <!-- Birthday -->
-        <div class="mt-4">
-          <JetLabel for="birthday" value="Birthdate" />
-          <JetInput
-            id="birthday"
-            type="date"
-            class="mt-1 block w-full"
-            v-model="form.birthday"
-            @keyup.enter="login(form)"
-            required
-          />
-        </div>
+      <!-- Control Number -->
+      <div class="mt-4">
+        <JetLabel for="control_number" value="Control Number" />
+        <JetInput
+          id="control_number"
+          type="number"
+          class="mt-1 block w-full"
+          v-model="form.control_number"
+          required
+        />
+      </div>
+      <!-- Email -->
+      <div class="mt-4">
+        <JetLabel for="email" value="Email" />
+        <JetInput
+          id="email"
+          type="email"
+          class="mt-1 block w-full"
+          v-model="form.email"
+          required
+        />
+      </div>
+      <!-- Birthday -->
+      <div class="mt-4">
+        <JetLabel for="birthday" value="Birthdate" />
+        <JetInput
+          id="birthday"
+          type="date"
+          class="mt-1 block w-full"
+          v-model="form.birthday"
+          @keyup.enter="login(form)"
+          required
+        />
+      </div>
 
-        <div class="flex items-center justify-end mt-4">
+      <div class="flex items-center justify-end mt-4">
+        <Link href="/"> Cancel </Link>
 
-         <JetButton class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                    Log in
+        <JetButton
+          class="ml-4"
+          :class="{ 'opacity-25': form.processing }"
+          :disabled="form.processing"
+        >
+          Log in
         </JetButton>
-        </div>
+      </div>
     </form>
   </JetAuthenticationCard>
 </template>
@@ -62,22 +67,20 @@ import JetButton from "@/Jetstream/Button.vue";
 import JetInput from "@/Jetstream/Input.vue";
 import JetCheckbox from "@/Jetstream/Checkbox.vue";
 import JetLabel from "@/Jetstream/Label.vue";
-import JetSecondaryButton from "@/Jetstream/SecondaryButton";
 import JetValidationErrors from "@/Jetstream/ValidationErrors.vue";
 import JetFormSection from "@/Jetstream/FormSection";
 import JetActionMessage from "@/Jetstream/ActionMessage";
 
-
 const form = useForm({
-  control_number: '2204000001',
-  email: "test@test.com",
-  birthday: "2022-04-15",
+  control_number: "",
+  email: "",
+  birthday: "",
 });
 
 const submit = () => {
   form
     .transform((data) => ({
-      ...data
+      ...data,
     }))
     .post(route("applicant.login"));
 };

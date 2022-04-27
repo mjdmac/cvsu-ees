@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-class HomeController extends Controller
+class ResultController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,8 +15,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Index');
-
+        return Inertia::render('Admin/Result/Index');
     }
 
     /**

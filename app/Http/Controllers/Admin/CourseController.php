@@ -33,21 +33,6 @@ class CourseController extends Controller
 
         $colleges = College::latest()->get();
 
-        // $data = Course::with('college')->where(function($q){
-        //     if (request('search')) {
-        //         $q->where('course_name', 'like', '%' . request('search') . '%')
-        //             ->orWhere('course_desc', 'like', '%' . request('search') . '%');
-        //              //->orWhere('college_name', 'like', '%' . request('search') . '%');
-        //            // ->orWhere(\DB::raw('colleges.college_name', 'like', '%' . request('search') . '%'));
-        //     }
-        // })->whereHas('college', function($q) {
-        //     if(request('search')){
-        //         $q->where('college_name', 'like', '%' . request('search') . '%');
-        //     }
-        // })
-        // ->join('colleges', 'courses.college_id', '=', 'colleges.id')
-        //     ->select(\DB::raw('*'));
-
         $data = Course::with('college')
             ->select(\DB::raw('*'));
 

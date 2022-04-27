@@ -488,10 +488,10 @@ export default {
           this.disabledClick(true);
         },
         onSuccess: () => {
-          this.disabledClick(false), this.openModal(false), (this.form = {});
+          this.disabledClick(false), (this.form = {});
         },
-        // preserveScroll: true,
-        // preserveState: true
+        preserveScroll: true,
+        preserveState: true,
       });
     },
 
@@ -538,7 +538,7 @@ export default {
       handler: throttle(function () {
         let params = pickBy(this.params);
 
-        this.$inertia.get(this.route("users.index"), params, {
+        this.$inertia.get(this.route("admin.users.index"), params, {
           replace: true,
           preserveState: true,
         });

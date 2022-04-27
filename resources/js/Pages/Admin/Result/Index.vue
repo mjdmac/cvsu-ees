@@ -1,17 +1,26 @@
 <template>
-  <admin-layout title="Applicants">
+  <admin-layout title="Examinations">
     <template #header>
       <!-- Header -->
       <div class="grid grid-cols-2 px-5 py-3 shadow-md rounded-md">
         <div>
           <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            <span>Applicants</span>
+            <span>Results</span>
           </h2>
         </div>
+        <!-- Header -->
+
+        <!-- Page Buttons -->
+        <div align="right">
+          <!-- Line buttons and show dropdown -->
+          <div class="block" align="right"></div>
+          <!-- Hide in line buttons and show dropdown -->
+        </div>
+        <!-- End Page Buttons -->
       </div>
-      <!-- Header -->
     </template>
 
+    <!-- Search Field and Button -->
     <div class="py-12">
       <div class="mx-auto sm:px-6 lg:px-8">
         <div class="grid grid-cols-2 px-5 py-3">
@@ -21,41 +30,33 @@
                 type="text"
                 class="block ml-2 mb-4 w-60"
                 placeholder="Search..."
-                v-model="params.search"
               />
             </div>
-            <!-- View filter -->
-            <div class="inline-block">
-              <span class="px-1 text-gray-500">Show</span>
-              <select
-                ref="perpage"
-                id="perpage"
-                class="mt-1 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
-                v-model="params.perpage"
-              >
-                <option
-                  v-for="perpage in perpages"
-                  :key="perpage"
-                  :value="perpage"
-                  class="capitalize"
-                >
-                  <span>{{ perpage }}</span>
-                </option>
-              </select>
-              <span class="px-1 text-gray-500">per page</span>
-            </div>
-            <!-- View filter -->
           </div>
           <div class="block" align="right">
-            <jet-button
-              class="bg-green-500 font-semibold capitalize text-white hover:bg-green-700 hover:text-gray-50"
-              @click="openModal(true)"
-              >Add Applicant
-            </jet-button>
+            <div class="inline-block mx-2">
+              <select
+                ref="college"
+                id="college"
+                class="mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+              >
+                <option class="capitalize">
+                  <span></span>
+                </option>
+              </select>
+            </div>
+            <div class="inline-block">
+              <jet-button
+                class="bg-green-500 font-semibold capitalize text-white hover:bg-green-700 hover:text-gray-50"
+              >
+                Send Results
+              </jet-button>
+            </div>
           </div>
         </div>
       </div>
 
+      <!-- Main Table -->
       <div class="bg-white shadow-xl sm:rounded-lg">
         <div class="flex flex-col">
           <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -68,7 +69,7 @@
                         scope="col"
                         class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                       >
-                        <span class="cursor-pointer" @click="sort('id')">
+                        <span class="cursor-pointer">
                           <div class="inline-block">
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -77,7 +78,6 @@
                               viewBox="0 0 24 24"
                               stroke="currentColor"
                               stroke-width="2"
-                              v-if="params.field === 'id' && params.direction === 'asc'"
                             >
                               <path
                                 stroke-linecap="round"
@@ -92,7 +92,6 @@
                               viewBox="0 0 24 24"
                               stroke="currentColor"
                               stroke-width="2"
-                              v-if="params.field === 'id' && params.direction === 'desc'"
                             >
                               <path
                                 stroke-linecap="round"
@@ -108,7 +107,7 @@
                         scope="col"
                         class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                       >
-                        <span class="cursor-pointer" @click="sort('fname')">
+                        <span class="cursor-pointer">
                           <div class="inline-block">
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -117,9 +116,6 @@
                               viewBox="0 0 24 24"
                               stroke="currentColor"
                               stroke-width="2"
-                              v-if="
-                                params.field === 'fname' && params.direction === 'asc'
-                              "
                             >
                               <path
                                 stroke-linecap="round"
@@ -134,9 +130,6 @@
                               viewBox="0 0 24 24"
                               stroke="currentColor"
                               stroke-width="2"
-                              v-if="
-                                params.field === 'fname' && params.direction === 'desc'
-                              "
                             >
                               <path
                                 stroke-linecap="round"
@@ -145,14 +138,14 @@
                               />
                             </svg>
                           </div>
-                          <div class="inline-block">First Name</div></span
+                          <div class="inline-block">Name</div></span
                         >
                       </th>
                       <th
                         scope="col"
                         class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                       >
-                        <span class="cursor-pointer" @click="sort('mname')">
+                        <span class="cursor-pointer">
                           <div class="inline-block">
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -161,9 +154,6 @@
                               viewBox="0 0 24 24"
                               stroke="currentColor"
                               stroke-width="2"
-                              v-if="
-                                params.field === 'mname' && params.direction === 'asc'
-                              "
                             >
                               <path
                                 stroke-linecap="round"
@@ -178,9 +168,6 @@
                               viewBox="0 0 24 24"
                               stroke="currentColor"
                               stroke-width="2"
-                              v-if="
-                                params.field === 'mname' && params.direction === 'desc'
-                              "
                             >
                               <path
                                 stroke-linecap="round"
@@ -189,14 +176,14 @@
                               />
                             </svg>
                           </div>
-                          <div class="inline-block">Middle Name</div></span
+                          <div class="inline-block">College</div></span
                         >
                       </th>
                       <th
                         scope="col"
                         class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                       >
-                        <span class="cursor-pointer" @click="sort('lname')">
+                        <span class="cursor-pointer">
                           <div class="inline-block">
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -205,9 +192,6 @@
                               viewBox="0 0 24 24"
                               stroke="currentColor"
                               stroke-width="2"
-                              v-if="
-                                params.field === 'lname' && params.direction === 'asc'
-                              "
                             >
                               <path
                                 stroke-linecap="round"
@@ -222,9 +206,6 @@
                               viewBox="0 0 24 24"
                               stroke="currentColor"
                               stroke-width="2"
-                              v-if="
-                                params.field === 'lname' && params.direction === 'desc'
-                              "
                             >
                               <path
                                 stroke-linecap="round"
@@ -233,20 +214,14 @@
                               />
                             </svg>
                           </div>
-                          <div class="inline-block">Last Name</div></span
+                          <div class="inline-block">Score</div></span
                         >
                       </th>
                       <th
                         scope="col"
                         class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                       >
-                        <div class="inline-block">College</div>
-                      </th>
-                      <th
-                        scope="col"
-                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                      >
-                        <span class="cursor-pointer" @click="sort('birthday')">
+                        <span class="cursor-pointer">
                           <div class="inline-block">
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -255,9 +230,6 @@
                               viewBox="0 0 24 24"
                               stroke="currentColor"
                               stroke-width="2"
-                              v-if="
-                                params.field === 'birthday' && params.direction === 'asc'
-                              "
                             >
                               <path
                                 stroke-linecap="round"
@@ -272,9 +244,6 @@
                               viewBox="0 0 24 24"
                               stroke="currentColor"
                               stroke-width="2"
-                              v-if="
-                                params.field === 'birthday' && params.direction === 'desc'
-                              "
                             >
                               <path
                                 stroke-linecap="round"
@@ -283,14 +252,14 @@
                               />
                             </svg>
                           </div>
-                          <div class="inline-block">Birthday</div></span
+                          <div class="inline-block">Status</div></span
                         >
                       </th>
                       <th
                         scope="col"
                         class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                       >
-                        <span class="cursor-pointer" @click="sort('email')">
+                        <span class="cursor-pointer">
                           <div class="inline-block">
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -299,9 +268,6 @@
                               viewBox="0 0 24 24"
                               stroke="currentColor"
                               stroke-width="2"
-                              v-if="
-                                params.field === 'email' && params.direction === 'asc'
-                              "
                             >
                               <path
                                 stroke-linecap="round"
@@ -316,9 +282,6 @@
                               viewBox="0 0 24 24"
                               stroke="currentColor"
                               stroke-width="2"
-                              v-if="
-                                params.field === 'email' && params.direction === 'desc'
-                              "
                             >
                               <path
                                 stroke-linecap="round"
@@ -327,53 +290,7 @@
                               />
                             </svg>
                           </div>
-                          <div class="inline-block">Email</div></span
-                        >
-                      </th>
-                      <th
-                        scope="col"
-                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                      >
-                        <span class="cursor-pointer" @click="sort('phone_number')">
-                          <div class="inline-block">
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              class="h-4 w-4"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              v-if="
-                                params.field === 'phone_number' &&
-                                params.direction === 'asc'
-                              "
-                            >
-                              <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12"
-                              />
-                            </svg>
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              class="h-4 w-4"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              v-if="
-                                params.field === 'phone_number' &&
-                                params.direction === 'desc'
-                              "
-                            >
-                              <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="M3 4h13M3 8h9m-9 4h9m5-4v12m0 0l-4-4m4 4l4-4"
-                              />
-                            </svg>
-                          </div>
-                          <div class="inline-block">Phone Number</div></span
+                          <div class="inline-block">Grade</div></span
                         >
                       </th>
                       <th scope="col" class="relative px-6 py-3">
@@ -382,61 +299,36 @@
                     </tr>
                   </thead>
                   <tbody class="bg-white divide-y divide-gray-200">
-                    <tr v-if="!applicants.data.length">
-                      <td class="p-4 text-center text-xs text-gray-800" colspan="9">
+                    <tr>
+                      <td class="p-4 text-center text-sm text-gray-800" colspan="7">
                         No data
                       </td>
                     </tr>
-                    <tr v-for="applicant in applicants.data" :key="applicant.id">
-                      <td class="px-6 py-4 whitespace-nowrap">
-                        {{ applicant.id }}
-                      </td>
-                      <td class="px-6 py-4 whitespace-nowrap">
-                        {{ applicant.fname }}
-                      </td>
-                      <td class="px-6 py-4 whitespace-nowrap">
-                        {{ applicant.mname }}
-                      </td>
-                      <td class="px-6 py-4 whitespace-nowrap">
-                        {{ applicant.lname }}
-                      </td>
-                      <td class="px-6 py-4 whitespace-nowrap">
-                        <span
-                          v-for="college in applicant.colleges"
-                          v-bind:key="college.id"
-                        >
-                          {{
-                            applicant.colleges.length >= 2
-                              ? college.college_name + ", "
-                              : college.college_name
-                          }}
-                        </span>
-                      </td>
-                      <td class="px-6 py-4 whitespace-nowrap">
-                        {{ applicant.birthday }}
-                      </td>
-                      <td class="px-6 py-4 whitespace-nowrap">
-                        {{ applicant.email }}
-                      </td>
-                      <td class="px-6 py-4 whitespace-nowrap">
-                        {{ applicant.phone_number }}
-                      </td>
+                    <tr>
+                      <td class="px-6 py-4 whitespace-nowrap"></td>
+                      <td class="px-6 py-4 whitespace-nowrap"></td>
+                      <td class="px-6 py-4 whitespace-nowrap"></td>
+                      <td class="px-6 py-4 whitespace-nowrap"></td>
+                      <td class="px-6 py-4 whitespace-nowrap"></td>
                       <td
                         class="px-6 py-4 space-x-1 whitespace-nowrap text-right text-sm font-medium"
                       >
                         <button
                           class="bg-blue-500 hover:bg-blue-700 text-white py-1 px-2 rounded text-sm font-semibold"
-                          @click="edit(applicant, true)"
                         >
-                          Edit
+                          View
                         </button>
 
                         <button
-                          :disabled="disabled"
-                          @click="deleteRow(applicant.id)"
-                          class="bg-red-500 hover:bg-red-700 text-white py-1 px-2 rounded text-sm font-semibold"
+                          class="bg-green-500 hover:bg-green-700 text-white py-1 px-2 rounded text-sm font-semibold"
                         >
-                          Delete
+                          Verify
+                        </button>
+
+                        <button
+                          class="bg-gray-500 hover:bg-gray-700 text-white py-1 px-2 rounded text-sm font-semibold"
+                        >
+                          Send
                         </button>
                       </td>
                     </tr>
@@ -447,7 +339,7 @@
           </div>
         </div>
         <div class="mx-auto sm:px-6 lg:px-8">
-          <jet-pagination class="m-5" :links="applicants.links" />
+          <!-- <jet-pagination class="m-5" /> -->
         </div>
       </div>
     </div>
@@ -455,99 +347,47 @@
 
   <dialog-modal :show="isOpen" @close="openModal(false)">
     <template #title>
-      <span v-show="!editMode"> Add New Applicant </span>
-      <span v-show="editMode"> Update Applicant </span>
+      <span> Create Schedule </span>
     </template>
 
     <template #content>
-      <!-- Colleges -->
+      <!-- Exam -->
       <div class="mb-4">
         <jet-label for="college" value="College" />
-        <div>
-          <Multiselect
-            v-model="form.colleges"
-            mode="tags"
-            placeholder="Select colleges"
-            object="true"
-            valueProp="id"
-            :searchable="true"
-            label="college_name"
-            :options="college_names"
-            @keyup.enter="save(form)"
-            :close-on-select="false"
-          />
-        </div>
+        <select
+          ref="college"
+          id="college"
+          class="mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+        >
+          <option class="capitalize">
+            <span></span>
+          </option>
+        </select>
       </div>
 
-      <!-- First Name -->
+      <!-- Schedule -->
       <div class="mb-4">
-        <jet-label for="fname" value="First Name" />
-        <jet-input
-          id="fname"
-          ref="fname"
-          type="text"
-          class="mt-1 block w-full"
-          v-model="form.fname"
+        <jet-label for="exams" value="Examinations" />
+        <Multiselect
+          id="exams"
+          mode="tags"
+          placeholder="Select examiations"
+          valueProp="id"
+          :searchable="true"
+          label="college_name"
         />
       </div>
 
-      <!-- Middle Name -->
+      <!-- Date -->
       <div class="mb-4">
-        <jet-label for="mname" value="Middle Name" />
-        <jet-input
-          id="mname"
-          ref="mname"
-          type="text"
-          class="mt-1 block w-full"
-          v-model="form.mname"
-        />
+        <jet-label for="sched_date" value="Schedule Date" />
+        <jet-input id="sched_date" type="date" class="mt-1 block w-full" />
       </div>
 
-      <!-- Last Name -->
+      <!-- Time -->
       <div class="mb-4">
-        <jet-label for="lname" value="Last Name" />
-        <jet-input
-          id="lname"
-          ref="lname"
-          type="text"
-          class="mt-1 block w-full"
-          v-model="form.lname"
-        />
-      </div>
-
-      <!-- Email -->
-      <div class="mb-4">
-        <jet-label for="email" value="Email" />
-        <jet-input
-          id="email"
-          ref="email"
-          type="text"
-          class="mt-1 block w-full"
-          v-model="form.email"
-        />
-      </div>
-
-      <!-- Phone -->
-      <div class="mb-4">
-        <jet-label for="phone_number" value="Phone Number (ex. 639123456789)" />
-        <jet-input
-          id="phone_number"
-          ref="phone_number"
-          type="number"
-          class="mt-1 block w-full"
-          v-model="form.phone_number"
-        />
-      </div>
-
-      <!-- Biryhday -->
-      <div class="mb-4">
-        <jet-label for="birthday" value="Birthday" />
-        <jet-input
-          id="birthday"
-          type="date"
-          class="mt-1 block w-full"
-          v-model="form.birthday"
-        />
+        <jet-label for="sched_time" value="Schedule Time" />
+        <jet-input id="sched_time" type="time" class="mt-1 block w-full" />
       </div>
     </template>
 
@@ -557,9 +397,10 @@
       <jet-button
         class="ml-2"
         v-show="!editMode"
-        @click="save(form)"
         :class="{ 'opacity-25': disabled }"
         :disabled="disabled"
+        @click="save(form)"
+        @keyup.enter="save(form)"
       >
         Save
       </jet-button>
@@ -570,6 +411,7 @@
         :disabled="disabled"
         v-show="editMode"
         @click="update(form)"
+        @keyup.enter="update(form)"
       >
         Update
       </jet-button>
@@ -588,8 +430,6 @@ import JetLabel from "@/Jetstream/Label";
 import JetInput from "@/Jetstream/Input";
 import JetDropdown from "@/Jetstream/Dropdown";
 import JetDropdownLink from "@/Jetstream/DropdownLink";
-import JetFormSection from "@/Jetstream/FormSection";
-import JetActionMessage from "@/Jetstream/ActionMessage";
 import DialogModal from "@/Jetstream/DialogModal";
 import JetPagination from "@/Components/Pagination";
 import { Link } from "@inertiajs/inertia-vue3";
@@ -606,39 +446,15 @@ export default {
     JetPagination,
     JetDropdown,
     JetDropdownLink,
-    JetFormSection,
-    JetActionMessage,
     DialogModal,
     Link,
     Multiselect,
   },
 
-  props: {
-    applicants: Object,
-    filters: Object,
-    college_names: Array,
-  },
-
-  extends: shared,
+  props: {},
 
   data() {
     return {
-      params: {
-        search: this.filters.search,
-        field: this.filters.field,
-        direction: this.filters.direction,
-        perpage: this.filters.perpage,
-      },
-
-      form: this.$inertia.form({
-        colleges: [],
-        fname: "",
-        mname: "",
-        lname: "",
-        email: "",
-        phone_number: "",
-        birthday: "",
-      }),
       isOpen: false,
       disabled: null,
       editMode: false,
@@ -663,87 +479,7 @@ export default {
 
       return this.isOpen;
     },
-
-    // Sort function
-    sort(field) {
-      this.params.field = field;
-      this.params.direction = this.params.direction === "asc" ? "desc" : "asc";
-    },
-
-    // Save function
-    save: function (applicants) {
-      this.$inertia.visit("/admin/applicants", {
-        method: "post",
-        data: this.form,
-        onBefore: () => {
-          this.disabledClick(true);
-        },
-        onSuccess: () => {
-          this.disabledClick(false), this.openModal(false), (this.form = {});
-        },
-        preserveScroll: true,
-        preserveState: true,
-      });
-    },
-
-    // Edit mode function
-    edit: function (applicant, status) {
-      this.form = Object.assign({}, applicant);
-
-      this.editMode = true;
-      this.openModal(status);
-    },
-
-    // Update function
-    update: function (applicant) {
-      this.$inertia.visit("/admin/applicants/" + applicant.id, {
-        method: "put",
-        data: applicant,
-        onBefore: () => {
-          this.disabledClick(true);
-        },
-        onSuccess: () => {
-          this.disabledClick(false), this.openModal(false);
-        },
-        onFinish: () => (this.form = {}),
-        preserveScroll: true,
-      });
-    },
-
-    // Delete function
-    deleteRow: function (id) {
-      this.$inertia.visit("/admin/applicants/" + id, {
-        method: "delete",
-        preserveScroll: true,
-        onBefore: () => {
-          this.disabledClick(true);
-        },
-        onSuccess: () => {
-          this.disabledClick(false);
-        },
-      });
-    },
-
-    // Export function
-    applicantExport: function (type) {
-      const url = "/admin/export/applicants?type=" + type;
-      window.location.href = url;
-    },
-  },
-  watch: {
-    params: {
-      handler: throttle(function () {
-        let params = pickBy(this.params);
-
-        this.$inertia.get(this.route("admin.applicants.index"), params, {
-          replace: true,
-          preserveState: true,
-        });
-      }, 150),
-      deep: true,
-    },
   },
 };
 </script>
-
 <style src="@vueform/multiselect/themes/default.css"></style>

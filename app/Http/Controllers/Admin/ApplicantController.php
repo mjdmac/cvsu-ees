@@ -26,7 +26,7 @@ class ApplicantController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         request()->validate([
             'direction' => ['in:asc,desc'],
@@ -37,9 +37,11 @@ class ApplicantController extends Controller
         // $college = DB::table('applicant_college')->where('applicant_id')
 
         $data = Applicant::with('colleges');
+        $perpage = $request->input('perpage') ?: 25;
 
         if (request('search')) {
-            $data->where('applicants.id', 'like', '%' . request('search') . '%')
+            $data
+                ->where('applicants.id', 'like', '%' . request('search') . '%')
                 ->orwhere('applicants.fname', 'like', '%' . request('search') . '%')
                 ->orWhere('applicants.mname', 'like', '%' . request('search') . '%')
                 ->orWhere('applicants.lname', 'like', '%' . request('search') . '%')
@@ -52,11 +54,12 @@ class ApplicantController extends Controller
         }
 
         return Inertia::render('Admin/Applicant/Index', [
-            'applicants' => $data->paginate(25)->withQueryString(),
-            'filters' => request()->all(['search', 'field', 'direction']),
-            'college_names' => $college_names
+            'applicants' => $data->paginate($perpage)->withQueryString(),
+            'filters' => request()->all(['search', 'field', 'direction', 'perpage']),
+            'college_names' => $college_names,
         ]);
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -110,7 +113,7 @@ class ApplicantController extends Controller
         ]);
 
         $colids = [];
-        foreach($request['colleges'] as $col){
+        foreach ($request['colleges'] as $col) {
             array_push($colids, $col['id']);
         }
         $applicant->colleges()->attach($colids);
@@ -177,7 +180,7 @@ class ApplicantController extends Controller
 
         // $applicant->colleges()->detach();
         $colids = [];
-        foreach($request['colleges'] as $col){
+        foreach ($request['colleges'] as $col) {
             array_push($colids, $col['id']);
         }
 
@@ -203,19 +206,6 @@ class ApplicantController extends Controller
         $this->flash('Applicant removed.', 'success');
 
         return redirect()->back();
-    }
-
-    public function applicantsExport()
-    {
-        if (request()->has('type')) {
-            if (request()->get('type') == 'xlsx') {
-                return Excel::download(new ApplicantsExport, auth()->user()->name . '-applicants.xlsx');
-            } elseif (request()->get('type') == 'csv') {
-                return Excel::download(new ApplicantsExport, auth()->user()->name . '-applicants.csv');
-            }
-        }
-
-        return back();
     }
 
     protected function resourceAbilityMap()

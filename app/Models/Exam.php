@@ -15,7 +15,6 @@ class Exam extends Model
         'subject',
         'exam_code',
         'description',
-        'duration',
     ];
 
     protected $appends = [
@@ -25,6 +24,10 @@ class Exam extends Model
      public function questions()
     {
         return $this->hasMany(Question::class);
+    }
+
+    public function schedules(){
+        return $this->belongsToMany(Schedule::class, 'exam_schedule');
     }
 
     public function getCreatedAtAttribute($value)

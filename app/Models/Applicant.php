@@ -32,16 +32,6 @@ class Applicant extends Model
         'phone_number',
     ];
 
-
-    // protected $hidden = [
-    //     'employee_password', 'remember_token',
-    // ];
-
-    // public function getAuthPassword()
-    // {
-    //     return $this->employee_password;
-    // }
-
     protected $appends = [
         'can',
     ];
