@@ -7,7 +7,14 @@
           <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             <Link
               :href="route('admin.exams.index')"
-              class="text-xs uppercase px-2 font-bold cursor-pointer inline-block"
+              class="
+                text-xs
+                uppercase
+                px-2
+                font-bold
+                cursor-pointer
+                inline-block
+              "
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -26,7 +33,9 @@
             </Link>
 
             <!-- <span class="inline-block px-1">Exam: </span> -->
-            <span class="text-gray-500 text-md inline-block"> {{ exam.exam_code }} </span>
+            <span class="text-gray-500 text-md inline-block">
+              {{ exam.exam_code }}
+            </span>
           </h2>
         </div>
         <!-- Header -->
@@ -38,7 +47,16 @@
             <button
               :disabled="disabled"
               @click="deleteModal(true)"
-              class="bg-red-500 hover:bg-red-700 text-white py-1 px-2 rounded text-sm font-semibold"
+              class="
+                bg-red-500
+                hover:bg-red-700
+                text-white
+                py-1
+                px-2
+                rounded
+                text-sm
+                font-semibold
+              "
             >
               Delete
             </button>
@@ -98,7 +116,13 @@
         <div class="block" align="right">
           <jet-button
             @click="addQuestionModal(true)"
-            class="bg-green-500 font-semibold capitalize text-white hover:bg-green-700 hover:text-gray-50"
+            class="
+              bg-green-500
+              font-semibold
+              capitalize
+              text-white
+              hover:bg-green-700 hover:text-gray-50
+            "
             >Add Question
           </jet-button>
         </div>
@@ -143,7 +167,9 @@
     </template>
 
     <template #footer>
-      <jet-secondary-button @click="editModal(false)"> Cancel </jet-secondary-button>
+      <jet-secondary-button @click="editModal(false)">
+        Cancel
+      </jet-secondary-button>
       <jet-button
         class="ml-2"
         :class="{ 'opacity-25': disabled }"
@@ -166,7 +192,9 @@
     <template #content> </template>
 
     <template #footer>
-      <jet-secondary-button @click="deleteModal(false)"> Cancel </jet-secondary-button>
+      <jet-secondary-button @click="deleteModal(false)">
+        Cancel
+      </jet-secondary-button>
       <jet-button
         class="ml-2 bg-red-500 hover:bg-red-700 text-white"
         :class="{ 'opacity-25': disabled }"
@@ -192,38 +220,47 @@
         <jet-label for="question" value="Question" />
         <div class="text-center">
           <jet-input
-            id="choices"
+            id="question"
             type="text"
             v-model="questionform.question"
             placeholder="Enter Question"
             class="inline-block w-full"
+            required
           >
           </jet-input>
 
           <span class="uppercase text-gray-500 mx-4">or</span>
 
           <jet-input
-            id="choices"
+            id="imgphoto"
             type="file"
-            v-model="questionform.question"
             class="inline-block w-full"
+            @input="questionform.img_path = $event.target.files[0]"
+            accept="image/png, image/jpeg"
           >
           </jet-input>
         </div>
       </div>
       <div class="mb-4">
-        <jet-label for="choices" value="Choices" class="mx-2 text-lg " />
-        <div v-for="c in 4" :key="c" class="w-full my-4">
+        <jet-label for="choices" value="Choices" class="mx-2 text-lg" />
+        <div
+          v-for="(value, id) in questionform.choices"
+          :key="id"
+          class="w-full my-4"
+        >
           <div class="inline-block mr-2 mb-1 w-full">
             <span class="text-gray-500">
               Correct Answer:
-              <Toggle v-model="questionform.correct_answer" />
+              <Toggle
+                v-model="value.is_correct"
+                :id="id"
+                @change="toggleChange(id)"
+              />
             </span>
             <div class="inline-block w-full">
               <jet-input
-                id="choices"
                 type="text"
-                v-model="questionform.choices[c]"
+                v-model="value.option"
                 placeholder="Enter option"
               >
               </jet-input>
@@ -231,13 +268,34 @@
               <span class="uppercase text-gray-500 mx-4">or</span>
 
               <jet-input
-                id="choices"
+               :id="id"
                 type="file"
-                v-model="questionform.choices[c]"
-              >
+                @input="value.img_path = $event.target.files[0]"
+                accept="image/png, image/jpeg">
               </jet-input>
             </div>
           </div>
+          <button
+            v-show="questionform.choices.length > 1"
+            @click="removeOption(id)"
+            class="
+              mt-3
+              py-1
+              px-4
+              bg-red-500
+              text-white text-sm
+              font-semibold
+              rounded-md
+              shadow-md
+              hover:bg-red-700
+              focus:outline-none
+              focus:ring-2
+              focus:ring-red-400
+              focus:ring-opacity-75
+            "
+          >
+            Remove
+          </button>
         </div>
       </div>
     </template>
@@ -246,14 +304,22 @@
       <jet-secondary-button @click="addQuestionModal(false)">
         Cancel
       </jet-secondary-button>
+       <jet-button
+        class="ml-2  bg-green-500"
+        :class="{ 'opacity-25': disabled }"
+        :disabled="disabled"
+        @click="addOption()"
+      >
+        Add Option
+      </jet-button>
       <jet-button
         class="ml-2"
         :class="{ 'opacity-25': disabled }"
         :disabled="disabled"
-        @click="saveQuestion(question)"
-        @keyup.enter="saveQuestion(question)"
+        @click="saveQuestion(questionform)"
+        @keyup.enter="saveQuestion(questionform)"
       >
-        Add
+        Save
       </jet-button>
     </template>
   </dialog-modal>
@@ -295,7 +361,7 @@ export default {
   },
   remember: "form",
 
-  data(props) {
+  data() {
     return {
       params: {},
 
@@ -312,16 +378,71 @@ export default {
       }),
 
       valid: true,
-      questionform: {
-        exam: this.exam.id,
+      questionform: this.$inertia.form({
+        exam_id: this.exam.id,
         question: "",
-        choices: [],
-        correct_answer: 1,
-      },
+        img_path: null,
+        choices: [
+          {
+            option: "",
+            is_correct: false,
+            img_path: "",
+          },
+          {
+            option: "",
+            is_correct: false,
+            img_path: "",
+          },
+          {
+            option: "",
+            is_correct: false,
+            img_path: "",
+          },
+          {
+            option: "",
+            is_correct: false,
+            img_path: "",
+          }
+        ],
+      }),
     };
   },
 
   methods: {
+    toggleChange: function (id) {
+      this.questionform.choices.forEach((item, index) => {
+        if (id != index) {
+          item.is_correct = false;
+        }
+      });
+    },
+
+    removeOption(counter) {
+      this.questionform.choices.splice(counter, 1);
+    },
+
+    addOption() {
+      this.questionform.choices.push({
+            option: "",
+            is_correct: false,
+            img_path: "",
+      });
+    },
+
+    saveQuestion: function (questions) {
+      this.$inertia.visit("/admin/questions", {
+        method: "post",
+        data: questions,
+        onBefore: () => {
+          this.disabledClick(true);
+        },
+        onSuccess: () => {
+          this.disabledClick(false),  this.addQuestionModal(false), (this.questionform.reset());
+        },
+        preserveScroll: true,
+        preserveState: true,
+      });
+    },
     // Disable function
     disabledClick: function (s) {
       this.disabled = s;
@@ -345,14 +466,18 @@ export default {
 
     // Exam update function
     updateExam: function (exam) {
-      this.$inertia.put(this.route("admin.exams.update", this.exam.id), this.examform, {
-        onBefore: () => {
-          this.disabledClick(true);
-        },
-        onSuccess: () => {
-          this.disabledClick(false), this.editModal(false);
-        },
-      });
+      this.$inertia.put(
+        this.route("admin.exams.update", this.exam.id),
+        this.examform,
+        {
+          onBefore: () => {
+            this.disabledClick(true);
+          },
+          onSuccess: () => {
+            this.disabledClick(false), this.editModal(false);
+          },
+        }
+      );
     },
 
     // Delete modal
@@ -381,11 +506,8 @@ export default {
 
     // Add question modal
     addQuestionModal: function (status) {
-      if (status == true) {
-        this.addQuestionisOpen = true;
-      } else if (status == false) {
-        this.addQuestionisOpen = false;
-      }
+        this.addQuestionisOpen = status;
+        this.questionform.reset()
       return this.addQuestionisOpen;
     },
   },

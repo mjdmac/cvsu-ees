@@ -15,6 +15,7 @@ class Choice extends Model
         'question_id',
         'option',
         'is_correct',
+        'img_path'
     ];
 
     protected $appends = [

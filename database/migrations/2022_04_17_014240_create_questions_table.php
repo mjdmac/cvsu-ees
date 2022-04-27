@@ -15,8 +15,12 @@ class CreateQuestionsTable extends Migration
     {
         Schema::create('questions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('exam_id')->references('id')->on('exams')->onDelete('cascade');
+            $table->foreignId('exam_id')
+            ->constrained('exams')
+            ->onUpdate('cascade')
+            ->onDelete('cascade');
             $table->string('question');
+            $table->string('img_path')->nullable();
             $table->timestamps();
         });
     }
