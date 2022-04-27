@@ -15,6 +15,7 @@ use App\Http\Controllers\Applicant\ApplicantDashboardController;
 use App\Http\Controllers\Applicant\ApplicantExamController;
 use App\Http\Controllers\Applicant\ApplicantLoginController;
 use App\Http\Controllers\Applicant\ApplicantResultController;
+use App\Http\Controllers\Applicant\ApplicantUpdateController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -87,6 +88,10 @@ Route::prefix('applicant')
         Route::group(['middleware' => ['auth:sanctum', 'verified', 'isApplicant']], function () {
             // Dashboard
             Route::resource('dashboard', ApplicantDashboardController::class);
+
+            // Applicant update
+            Route::resource('profile', ApplicantUpdateController::class);
+
             // Exam
             Route::resource('exams', ApplicantExamController::class);
             // Result

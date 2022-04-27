@@ -20,39 +20,18 @@
 </template>
 
 <script>
+import ApplicantLayout from "@/Layouts/ApplicantLayout";
 import { reactive, watchEffect } from "vue";
 import { pickBy, throttle } from "lodash";
 import { Inertia } from "@inertiajs/inertia";
-import ApplicantLayout from "@/Layouts/ApplicantLayout";
-import JetButton from "@/Jetstream/Button";
-import JetSecondaryButton from "@/Jetstream/SecondaryButton";
-import JetLabel from "@/Jetstream/Label";
-import JetInput from "@/Jetstream/Input";
-import JetDropdown from "@/Jetstream/Dropdown";
-import JetDropdownLink from "@/Jetstream/DropdownLink";
-import JetFormSection from "@/Jetstream/FormSection";
-import JetActionMessage from "@/Jetstream/ActionMessage";
-import DialogModal from "@/Jetstream/DialogModal";
-import JetPagination from "@/Components/Pagination";
 import { Link } from "@inertiajs/inertia-vue3";
-import shared from "@/Scripts/shared";
-import Multiselect from "@vueform/multiselect";
+import JetSectionBorder from "@/Jetstream/SectionBorder.vue";
 
 export default {
   components: {
     ApplicantLayout,
-    JetButton,
-    JetSecondaryButton,
-    JetLabel,
-    JetInput,
-    JetPagination,
-    JetDropdown,
-    JetDropdownLink,
-    JetFormSection,
-    JetActionMessage,
-    DialogModal,
     Link,
-    Multiselect,
+    JetSectionBorder,
   },
 
   props: {},
