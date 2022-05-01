@@ -64,6 +64,7 @@ Route::prefix('admin')
 
         // Exam routes
         Route::resource('exams', ExamController::class);
+        Route::post('status', [ExamController::class, 'statusChange'])->name('exam.status.change');
 
         // Question routes
         Route::resource('questions', QuestionController::class);
@@ -94,6 +95,7 @@ Route::prefix('applicant')
 
             // Exam
             Route::resource('exams', ApplicantExamController::class);
+            
             // Result
             Route::resource('results', ApplicantResultController::class);
         });

@@ -13,9 +13,11 @@ class Schedule extends Model
 
     protected $fillable = [
         'sched_code',
-        'college_id',
+        'sched_name',
         'start_date',
         'end_date',
+        'start_ctrl_num',
+        'end_ctrl_num',
         'status',
     ];
 
@@ -28,10 +30,10 @@ class Schedule extends Model
         return $this->hasMany(Exam::class);
     }
 
-    public function colleges()
-    {
-        return $this->hasMany(College::class);
-    }
+    // public function colleges()
+    // {
+    //     return $this->hasMany(College::class);
+    // }
 
     public function getCreatedAtAttribute($value)
     {

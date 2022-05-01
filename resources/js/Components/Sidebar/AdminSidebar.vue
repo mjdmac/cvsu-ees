@@ -294,7 +294,7 @@
               :class="
                 route().current('admin.schedules.index')
                   ? 'text-emerald-500 hover:text-emerald-600'
-                  : 'text-blueGray-700 hover:text-blueGray-500'
+                  : 'text-gray-700 hover:text-gray-500'
               "
             >
               <svg

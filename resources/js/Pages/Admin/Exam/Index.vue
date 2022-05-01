@@ -49,9 +49,24 @@
           </div>
           <div class="block" align="right">
             <jet-button
+              class="inline-flex items-center mr-2 bg-emerald-200 hover:bg-emerald-300 text-emerald-800 text-sm font-medium rounded-md"
               @click="openModal(true)"
-              class="bg-green-500 font-semibold capitalize text-white hover:bg-green-700 hover:text-gray-50"
-              >Create Exam
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5 mr-2"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"
+                />
+              </svg>
+              Create Exam
             </jet-button>
           </div>
         </div>
@@ -86,8 +101,26 @@
                   <div
                     class="shadow overflow-hidden border-b border-gray-200 rounded-lg m-2 md:m-2 lg:m-4"
                   >
-                    <div class="w-full bg-emerald-500 py-2 px-4">
-                      <span class="text-xl text-white"> {{ exam.exam_code }}</span>
+                    <div class="w-full bg-emerald-500 py-2 px-4 inline-flex">
+                      <span class="mr-2 text-xl text-white"> {{ exam.exam_code }}</span>
+                      <div align="right">
+                        <!-- Active/Inactive -->
+                        <!-- Active -->
+                        <span
+                          v-if="exam.status == 'active'"
+                          class="inline-flex items-center text-emerald-800 bg-emerald-200 px-2 text-sm font-medium rounded-md"
+                        >
+                          Active
+                        </span>
+                        <!-- Inactive -->
+                        <span
+                          v-if="exam.status == 'inactive'"
+                          class="inline-flex items-center text-red-800 bg-red-200 px-2 text-sm font-medium rounded-md"
+                        >
+                          Inactive
+                        </span>
+                        <!-- Active/Inactive -->
+                      </div>
                     </div>
                     <div class="text-md">
                       <div class="px-2 pt-4">
@@ -95,35 +128,78 @@
                         <span> {{ exam.subject }}</span>
                       </div>
                       <div class="px-2">
-                        <span class="text-gray-500 px-2 break-all truncate"
-                          >Description:</span
-                        >
+                        <span class="text-gray-500 px-2 break-all truncate">
+                          Description:
+                        </span>
                         <span> {{ exam.description }}</span>
                       </div>
                     </div>
                     <div
-                      class="px-6 py-4 space-x-1 whitespace-nowrap text-right text-sm font-medium"
+                      class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"
                     >
                       <button
-                        class="bg-gray-500 hover:bg-gray-700 text-white py-1 px-2 rounded text-sm font-semibold"
                         @click="show(exam)"
+                        class="inline-flex items-center px-2 py-2 mr-2 bg-yellow-200 hover:bg-yellow-300 text-yellow-800 text-sm font-medium rounded-md"
                       >
-                        View
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          class="h-5 w-5"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                          stroke-width="2"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                          />
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                          />
+                        </svg>
                       </button>
 
                       <button
-                        class="bg-blue-500 hover:bg-blue-700 text-white py-1 px-2 rounded text-sm font-semibold"
                         @click="edit(exam, true)"
+                        class="inline-flex items-center px-2 py-2 mr-2 bg-blue-200 hover:bg-blue-300 text-blue-800 text-sm font-medium rounded-md"
                       >
-                        Edit
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          class="h-5 w-5"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                          stroke-width="2"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                          />
+                        </svg>
                       </button>
 
                       <button
-                        :disabled="disabled"
                         @click="deleteRow(exam.id)"
-                        class="bg-red-500 hover:bg-red-700 text-white py-1 px-2 rounded text-sm font-semibold"
+                        class="inline-flex items-center px-2 py-2 mr-2 bg-red-200 hover:bg-red-300 text-red-800 text-sm font-medium rounded-md"
                       >
-                        Delete
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          class="h-5 w-5"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                          stroke-width="2"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                          />
+                        </svg>
                       </button>
                     </div>
                   </div>
@@ -188,6 +264,27 @@
           v-show="editMode"
           @keyup.enter="update(form)"
         />
+      </div>
+
+      <!-- Status -->
+      <div class="mb-4" v-show="editMode">
+        <jet-label for="status" value="Status" />
+        <select
+          ref="status"
+          id="status"
+          class="mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+          v-model="form.status"
+          @keyup.enter="update(form)"
+        >
+          <option
+            v-for="status in status"
+            :key="status"
+            :value="status"
+            class="capitalize"
+          >
+            <span>{{ status }}</span>
+          </option>
+        </select>
       </div>
     </template>
 
@@ -274,11 +371,14 @@ export default {
       form: this.$inertia.form({
         subject: this.subject,
         description: this.description,
+        status: "",
       }),
 
       isOpen: false,
       disabled: null,
       editMode: false,
+
+      examStatus: "",
     };
   },
 
@@ -297,7 +397,6 @@ export default {
         this.isOpen = false;
         this.editMode = false;
       }
-
       return this.isOpen;
     },
 
@@ -308,7 +407,6 @@ export default {
     },
 
     show: function (id) {
-      this.form = Object.assign({}, id);
       this.$inertia.visit(route("admin.exams.show", id));
     },
 
@@ -353,13 +451,14 @@ export default {
     deleteRow: function (id) {
       this.$inertia.visit("/admin/exams/" + id, {
         method: "delete",
-        preserveScroll: true,
-        onBefore: () => {
-          this.disabledClick(true);
-        },
-        onSuccess: () => {
-          this.disabledClick(false);
-        },
+      });
+    },
+
+    // Active / inactive status
+    statusChange: function (status, exam) {
+      this.$inertia.visit("/admin/status/" + exam, {
+        method: "post",
+        data: status,
       });
     },
   },

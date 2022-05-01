@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Traits\Banner;
 use App\Models\Exam;
+use App\Models\Question;
 use Haruncpi\LaravelIdGenerator\IdGenerator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -34,7 +35,8 @@ class ExamController extends Controller
             $data
                 ->where('exams.subject', 'like', '%' . request('search') . '%')
                 ->orwhere('exams.exam_code', 'like', '%' . request('search') . '%')
-                ->orWhere('exams.description', 'like', '%' . request('search') . '%');
+                // ->orWhere('exams.description', 'like', '%' . request('search') . '%')
+                ->orWhere('exams.status', 'like', '%' . request('search') . '%');
         }
 
         if (request()->has(['field', 'direction'])) {
@@ -79,7 +81,7 @@ class ExamController extends Controller
 
         Exam::create([
             'exam_code' => $exam_code,
-            'subject' => Str::of($request['subject'])->ucfirst(),
+            'subject' => Str::of($request['subject'])->upper(),
             'description' => Str::of($request['description'])->ucfirst(),
         ]);
 
@@ -94,7 +96,7 @@ class ExamController extends Controller
      * @param  \App\Models\Exam  $exam
      * @return \Illuminate\Http\Response
      */
-    public function show(Exam $exam)
+    public function show(Exam $exam, Request $request)
     {
         return Inertia::render('Admin/Exam/Show', [
             'exam' => [
@@ -102,7 +104,8 @@ class ExamController extends Controller
                 'subject' => $exam->subject,
                 'exam_code' => $exam->exam_code,
                 'description' => $exam->description,
-            ]
+                'questions' => $exam->questions()->get()->map->only('exam_id', 'id', 'question'),
+            ],
         ]);
     }
 
@@ -129,6 +132,7 @@ class ExamController extends Controller
         $val = Validator::make($request->all(), [
             'subject' => ['required'],
             'description' => ['string', 'max:255'],
+            'status' => ['required'],
         ]);
 
         if ($val->fails()) {
@@ -137,8 +141,9 @@ class ExamController extends Controller
         }
 
         $exam->update([
-            'subject' => Str::of($request['subject'])->ucfirst(),
+            'subject' => Str::of($request['subject'])->upper(),
             'description' => Str::of($request['description'])->ucfirst(),
+            'status' => $request['status'],
         ]);
 
         $this->flash('Exam updated!', 'success');
@@ -160,5 +165,18 @@ class ExamController extends Controller
         $this->flash('Exam removed.', 'success');
 
         return redirect()->route("admin.exams.index");
+    }
+
+    public function statusChange($status, $id)
+    {
+        $exam = Exam::find($id);
+
+        $exam->update([
+            'status' => $status,
+        ]);
+
+        $this->flash('Status changed!', 'success');
+
+        return redirect()->route('admin.exams.index');
     }
 }

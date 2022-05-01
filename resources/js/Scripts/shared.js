@@ -5,26 +5,29 @@ export default {
             selectedItem: false,
             roles: ["personnel", "admin"],
             perpages: [1, 5, 10, 25, 50, 100],
-            options: [{
-                option: "",
-                is_correct: false,
-                img_path: "",
-              },
-              {
-                option: "",
-                is_correct: false,
-                img_path: "",
-              },
-              {
-                option: "",
-                is_correct: false,
-                img_path: "",
-              },
-              {
-                option: "",
-                is_correct: false,
-                img_path: "",
-              }]
+            options: [
+                {
+                    option: "",
+                    is_correct: false,
+                    img_path: "",
+                },
+                {
+                    option: "",
+                    is_correct: false,
+                    img_path: "",
+                },
+                {
+                    option: "",
+                    is_correct: false,
+                    img_path: "",
+                },
+                {
+                    option: "",
+                    is_correct: false,
+                    img_path: "",
+                },
+            ],
+            status: ["active", "inactive"],
         };
     },
     methods: {
@@ -43,6 +46,11 @@ export default {
         getPerPage: function () {
             let urlParams = new URLSearchParams(window.location.search);
             return urlParams.get("perpages");
+        },
+
+        getStatus: function () {
+            let urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get("status");
         },
 
         changeStatusColor: function (status) {

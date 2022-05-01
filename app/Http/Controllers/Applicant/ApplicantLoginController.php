@@ -33,18 +33,6 @@ class ApplicantLoginController extends Controller
         Auth::login($applicant->userAccount);
 
         return redirect()->route('applicant.dashboard.index');
-
-        // if ($validator->fails()) {
-        //     return back()->withInput()->withErrors($validator);
-        // } else {
-        //     Auth::loginUsingId($applicant->id);
-        //     return redirect('applicant/dashboard');
-        //     // if (Auth::attempt($request->only(["id", "email", "birthday"]))) {
-        //     //     return redirect("dashboard")->with('success', 'Login Successful');
-        //     // } else {
-        //     //     return back()->withErrors("Invalid credentials");
-        //     // }
-        // }
     }
 
     public function logout()

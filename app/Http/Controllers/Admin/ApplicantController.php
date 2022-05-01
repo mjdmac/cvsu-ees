@@ -34,7 +34,6 @@ class ApplicantController extends Controller
         ]);
 
         $college_names = College::latest()->get();
-        // $college = DB::table('applicant_college')->where('applicant_id')
 
         $data = Applicant::with('colleges');
         $perpage = $request->input('perpage') ?: 25;

@@ -4,17 +4,10 @@
       <!-- Header -->
       <div class="grid grid-cols-2 px-5 py-3 shadow-md rounded-md">
         <div>
-          <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+          <h2 class="font-semibold text-xl text-gray-800 leading-tight inline-flex">
             <Link
               :href="route('admin.exams.index')"
-              class="
-                text-xs
-                uppercase
-                px-2
-                font-bold
-                cursor-pointer
-                inline-block
-              "
+              class="uppercase px-2 font-bold cursor-pointer inline-flex"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -30,12 +23,10 @@
                   d="M15 19l-7-7 7-7"
                 />
               </svg>
+              <span class="text-gray-500 font-thin">
+                {{ exam.exam_code }}
+              </span>
             </Link>
-
-            <!-- <span class="inline-block px-1">Exam: </span> -->
-            <span class="text-gray-500 text-md inline-block">
-              {{ exam.exam_code }}
-            </span>
           </h2>
         </div>
         <!-- Header -->
@@ -43,23 +34,49 @@
         <!-- Page Buttons -->
         <div align="right">
           <!-- Line buttons and show dropdown -->
-          <div class="block" align="right">
-            <button
-              :disabled="disabled"
-              @click="deleteModal(true)"
-              class="
-                bg-red-500
-                hover:bg-red-700
-                text-white
-                py-1
-                px-2
-                rounded
-                text-sm
-                font-semibold
-              "
-            >
-              Delete
-            </button>
+          <div class="inline-flex" align="right">
+            <div class="inline-block px-1">
+              <jet-button
+                @click="addQuestionModal(true)"
+                class="inline-flex items-center mr-2 bg-green-200 hover:bg-green-300 text-green-800 text-xs rounded-md"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-5 w-5 mr-2"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                  />
+                </svg>
+                Add Question
+              </jet-button>
+
+              <jet-button
+                @click="deleteModal(true)"
+                class="inline-flex items-center mr-2 bg-red-200 hover:bg-red-300 text-red-800 text-xs rounded-md"
+                ><svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-5 w-5 mr-2"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                  />
+                </svg>
+                Remove
+              </jet-button>
+            </div>
           </div>
           <!-- Hide in line buttons and show dropdown -->
         </div>
@@ -100,41 +117,100 @@
       </div>
     </div>
 
-    <!-- Search Field and Button -->
-    <div class="mx-auto sm:px-6 lg:px-8">
-      <div class="grid grid-cols-2 px-5 py-3">
-        <div>
-          <div class="inline-block">
-            <jet-input
-              type="text"
-              class="block ml-2 mb-4 w-60"
-              placeholder="Search..."
-              v-model="params.search"
-            />
+    <div class="mx-auto sm:px-6 lg:px-12">
+      <!-- List of exams -->
+      <div>
+        <div class="px-4 py-2 my-4 w-full bg-gray-700">
+          <span class="uppercase tracking-wider text-white">List of Questions</span>
+        </div>
+        <div class="flex flex-col">
+          <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+            <!-- NO data -->
+            <div v-if="!exam.questions.length">
+              <div class="w-full py-8">
+                <div class="p-4 text-center text-sm text-gray-800">
+                  <span class="text-red-500 uppercase text-xl">No questions found!</span>
+                  <NoData />
+                </div>
+              </div>
+            </div>
+            <!-- NO data -->
+
+            <div class="p-4 align-middle sm:px-8 lg:px-10">
+              <!-- One row / data / card -->
+              <div class="flex flex-wrap">
+                <div
+                  v-for="(question, id) in exam.questions"
+                  :key="question.id"
+                  class="w-full md:w-6/12 lg:w-4/12"
+                >
+                  <div
+                    class="shadow overflow-hidden border-b border-gray-200 rounded-lg m-2 md:m-2 lg:m-4"
+                  >
+                    <div class="w-full bg-emerald-500 py-2 px-4">
+                      <span class="text-white px-2">Question:</span>
+                    </div>
+                    <div class="text-md">
+                      <div class="px-2 pt-4">
+                        <span> {{ question.question }}</span>
+                      </div>
+                    </div>
+                    <div
+                      class="px-6 py-4 space-x-1 whitespace-nowrap text-right text-sm font-medium"
+                    >
+                      <button
+                        @click="editQuestion(question.id)"
+                        class="inline-flex items-center px-2 py-2 mr-2 bg-blue-200 hover:bg-blue-300 text-blue-800 text-sm font-medium rounded-md"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          class="h-5 w-5"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                          stroke-width="2"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                          />
+                        </svg>
+                      </button>
+
+                      <button
+                        @click="deleteQuestion(question.id)"
+                        class="inline-flex items-center px-2 py-2 mr-2 bg-red-200 hover:bg-red-300 text-red-800 text-sm font-medium rounded-md"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          class="h-5 w-5"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                          stroke-width="2"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- One row / data / card -->
+            </div>
           </div>
         </div>
-        <div class="block" align="right">
-          <jet-button
-            @click="addQuestionModal(true)"
-            class="
-              bg-green-500
-              font-semibold
-              capitalize
-              text-white
-              hover:bg-green-700 hover:text-gray-50
-            "
-            >Add Question
-          </jet-button>
-        </div>
       </div>
-
-      <!-- Display questions -->
-      <div></div>
-      <!-- Display questions -->
+      <!-- List of exams -->
     </div>
   </admin-layout>
 
-  <!-- Edit Exam Model -->
+  <!-- Edit Exam Modal -->
   <dialog-modal :show="isOpen" @close="editModal(false)">
     <template #title>
       <span> Update Exam </span>
@@ -167,9 +243,7 @@
     </template>
 
     <template #footer>
-      <jet-secondary-button @click="editModal(false)">
-        Cancel
-      </jet-secondary-button>
+      <jet-secondary-button @click="editModal(false)"> Cancel </jet-secondary-button>
       <jet-button
         class="ml-2"
         :class="{ 'opacity-25': disabled }"
@@ -181,7 +255,7 @@
       </jet-button>
     </template>
   </dialog-modal>
-  <!-- Edit Exam Model -->
+  <!-- Edit Exam Modal -->
 
   <!-- Delete Confirm Dialog -->
   <dialog-modal :show="deleteModalisOpen" @close="deleteModal(false)">
@@ -192,9 +266,7 @@
     <template #content> </template>
 
     <template #footer>
-      <jet-secondary-button @click="deleteModal(false)">
-        Cancel
-      </jet-secondary-button>
+      <jet-secondary-button @click="deleteModal(false)"> Cancel </jet-secondary-button>
       <jet-button
         class="ml-2 bg-red-500 hover:bg-red-700 text-white"
         :class="{ 'opacity-25': disabled }"
@@ -243,56 +315,31 @@
       </div>
       <div class="mb-4">
         <jet-label for="choices" value="Choices" class="mx-2 text-lg" />
-        <div
-          v-for="(value, id) in questionform.choices"
-          :key="id"
-          class="w-full my-4"
-        >
+        <div v-for="(value, id) in questionform.choices" :key="id" class="w-full my-4">
           <div class="inline-block mr-2 mb-1 w-full">
             <span class="text-gray-500">
               Correct Answer:
-              <Toggle
-                v-model="value.is_correct"
-                :id="id"
-                @change="toggleChange(id)"
-              />
+              <Toggle v-model="value.is_correct" :id="id" @change="toggleChange(id)" />
             </span>
             <div class="inline-block w-full">
-              <jet-input
-                type="text"
-                v-model="value.option"
-                placeholder="Enter option"
-              >
+              <jet-input type="text" v-model="value.option" placeholder="Enter option">
               </jet-input>
 
               <span class="uppercase text-gray-500 mx-4">or</span>
 
               <jet-input
-               :id="id"
+                :id="id"
                 type="file"
                 @input="value.img_path = $event.target.files[0]"
-                accept="image/png, image/jpeg">
+                accept="image/png, image/jpeg"
+              >
               </jet-input>
             </div>
           </div>
           <button
             v-show="questionform.choices.length > 1"
             @click="removeOption(id)"
-            class="
-              mt-3
-              py-1
-              px-4
-              bg-red-500
-              text-white text-sm
-              font-semibold
-              rounded-md
-              shadow-md
-              hover:bg-red-700
-              focus:outline-none
-              focus:ring-2
-              focus:ring-red-400
-              focus:ring-opacity-75
-            "
+            class="mt-3 py-1 px-4 bg-red-500 text-white text-sm font-semibold rounded-md shadow-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-opacity-75"
           >
             Remove
           </button>
@@ -304,8 +351,8 @@
       <jet-secondary-button @click="addQuestionModal(false)">
         Cancel
       </jet-secondary-button>
-       <jet-button
-        class="ml-2  bg-green-500"
+      <jet-button
+        class="ml-2 bg-green-500"
         :class="{ 'opacity-25': disabled }"
         :disabled="disabled"
         @click="addOption()"
@@ -341,7 +388,6 @@ import DialogModal from "@/Jetstream/DialogModal";
 import shared from "@/Scripts/shared";
 import Toggle from "@vueform/toggle";
 import NoData from "@/Components/Fillers/NoData.vue";
-
 export default {
   components: {
     AdminLayout,
@@ -355,16 +401,12 @@ export default {
     Toggle,
     NoData,
   },
-
   props: {
     exam: Object,
   },
   remember: "form",
-
   data() {
     return {
-      params: {},
-
       isOpen: false,
       deleteModalisOpen: false,
       addQuestionisOpen: false,
@@ -378,6 +420,7 @@ export default {
       }),
 
       valid: true,
+
       questionform: this.$inertia.form({
         exam_id: this.exam.id,
         question: "",
@@ -402,12 +445,11 @@ export default {
             option: "",
             is_correct: false,
             img_path: "",
-          }
+          },
         ],
       }),
     };
   },
-
   methods: {
     toggleChange: function (id) {
       this.questionform.choices.forEach((item, index) => {
@@ -416,19 +458,16 @@ export default {
         }
       });
     },
-
     removeOption(counter) {
       this.questionform.choices.splice(counter, 1);
     },
-
     addOption() {
       this.questionform.choices.push({
-            option: "",
-            is_correct: false,
-            img_path: "",
+        option: "",
+        is_correct: false,
+        img_path: "",
       });
     },
-
     saveQuestion: function (questions) {
       this.$inertia.visit("/admin/questions", {
         method: "post",
@@ -437,7 +476,9 @@ export default {
           this.disabledClick(true);
         },
         onSuccess: () => {
-          this.disabledClick(false),  this.addQuestionModal(false), (this.questionform.reset());
+          this.disabledClick(false),
+            this.addQuestionModal(false),
+            this.questionform.reset();
         },
         preserveScroll: true,
         preserveState: true,
@@ -447,7 +488,6 @@ export default {
     disabledClick: function (s) {
       this.disabled = s;
     },
-
     // Exam edit modal function
     editModal: function (status) {
       if (status == true) {
@@ -457,29 +497,22 @@ export default {
       }
       return this.isOpen;
     },
-
     // Exam assign data
     editExam: function (exam, status) {
       // this.form = Object.assign({}, exam);
       this.editModal(status);
     },
-
     // Exam update function
     updateExam: function (exam) {
-      this.$inertia.put(
-        this.route("admin.exams.update", this.exam.id),
-        this.examform,
-        {
-          onBefore: () => {
-            this.disabledClick(true);
-          },
-          onSuccess: () => {
-            this.disabledClick(false), this.editModal(false);
-          },
-        }
-      );
+      this.$inertia.put(this.route("admin.exams.update", this.exam.id), this.examform, {
+        onBefore: () => {
+          this.disabledClick(true);
+        },
+        onSuccess: () => {
+          this.disabledClick(false), this.editModal(false);
+        },
+      });
     },
-
     // Delete modal
     deleteModal: function (status) {
       if (status == true) {
@@ -489,7 +522,6 @@ export default {
       }
       return this.deleteModalisOpen;
     },
-
     // Destroy exam
     destroyExam: function (id) {
       this.$inertia.visit("/admin/exams/" + id, {
@@ -503,12 +535,24 @@ export default {
         },
       });
     },
-
     // Add question modal
     addQuestionModal: function (status) {
-        this.addQuestionisOpen = status;
-        this.questionform.reset()
+      this.addQuestionisOpen = status;
+      this.questionform.reset();
       return this.addQuestionisOpen;
+    },
+
+    // Edit question
+    editQuestion: function (question) {
+      this.$inertia.visit(route("admin.questions.edit", question));
+      this.questionform = Object.assign({}, question);
+    },
+
+    // Delete question
+    deleteQuestion: function (id) {
+      this.$inertia.visit("/admin/questions/" + id, {
+        method: "delete",
+      });
     },
   },
 };

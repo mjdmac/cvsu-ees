@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Http\Traits\HasCan;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Question extends Model
 {
@@ -26,8 +27,19 @@ class Question extends Model
         return $this->belongsTo(Exam::class);
     }
 
-    public function choices(){
+    public function choices()
+    {
         return $this->hasMany(Choice::class);
+    }
+
+    public function getQuestions()
+    {
+        return Question::orderBy('created_at', 'asc')->with('exam');
+    }
+
+    public function getImgPathAttribute($value)
+    {
+        return asset(Storage::url($value));
     }
 
     public function getCreatedAtAttribute($value)

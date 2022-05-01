@@ -3,16 +3,21 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Traits\Banner;
+use App\Models\Applicant;
 use App\Models\College;
 use App\Models\Exam;
 use App\Models\Schedule;
 use Haruncpi\LaravelIdGenerator\IdGenerator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
 
 class ScheduleController extends Controller
 {
+
+    use Banner;
     /**
      * Display a listing of the resource.
      *
@@ -22,23 +27,32 @@ class ScheduleController extends Controller
     {
         request()->validate([
             'direction' => ['in:asc,desc'],
-            'field' => ['in:course_name,course_desc'],
+            'field' => ['in:sched_code,start_date,end_date,start_ctrl_num,end_ctrl_num,status'],
         ]);
 
-        $exam_subjects = Exam::latest()->get();
-        $colleges = College::latest()->get();
+        $start_num = Schedule::select('start_ctrl_num')
+            ->get();
+        $end_num = Schedule::select('end_ctrl_num')
+            ->get();
+
+        $applicants = Applicant::select('id')
+            ->whereNotIn('id', [$start_num, $end_num])
+            ->latest()
+            ->get();
+
         $perpage = $request->input('perpage') ?: 25;
 
-        $data = Schedule::with('exams')
-            ->with('colleges')
-            ->select(\DB::raw('*'));
+        $data = Schedule::query();
 
         if (request('search')) {
             $data
-                ->join('colleges', 'schedule.college_id', '=', 'colleges.id')
-                ->where('schedule.start_date', 'like', '%' . request('search') . '%')
-                ->orwhere('schedule.end_date', 'like', '%' . request('search') . '%')
-                ->orwhere('colleges.college_name', 'like', '%' . request('search') . '%');
+                ->where('schedules.sched_code', 'like', '%' . request('search') . '%')
+                ->orwhere('schedules.sched_name', 'like', '%' . request('search') . '%')
+                ->orwhere('schedules.start_date', 'like', '%' . request('search') . '%')
+                ->orwhere('schedules.end_date', 'like', '%' . request('search') . '%')
+                ->orwhere('schedules.start_ctrl_num', 'like', '%' . request('search') . '%')
+                ->orwhere('schedules.end_ctrl_num', 'like', '%' . request('search') . '%')
+                ->orwhere('schedules.status', 'like', '%' . request('search') . '%');
         }
 
         if (request()->has(['field', 'direction'])) {
@@ -46,9 +60,8 @@ class ScheduleController extends Controller
         }
 
         return Inertia::render('Admin/Schedule/Index', [
-            'exam_subjects' => $exam_subjects,
-            'colleges' => $colleges,
             'schedules' => $data->paginate($perpage)->withQueryString(),
+            'applicants' => $applicants,
             'filters' => request()->all(['search', 'field', 'direction', 'perpage']),
         ]);
     }
@@ -73,8 +86,9 @@ class ScheduleController extends Controller
     {
         // dd($request['colleges']);
         $val = Validator::make($request->all(), [
-            'college' => ['required'],
-            'exams' => ['required'],
+            'sched_name' => ['required'],
+            'start_ctrl_num' => ['required'],
+            'end_ctrl_num' => ['required'],
             'start_date' => ['required', 'date'],
             'end_date' => ['required', 'date'],
         ]);
@@ -86,19 +100,14 @@ class ScheduleController extends Controller
 
         $sched_code = IdGenerator::generate(['table' => 'schedules', 'field' => 'sched_code', 'length' => 8, 'prefix' => 'SCH-', 'reset_on_prefix_change' => true]);
 
-        $schedule = Schedule::create([
+        Schedule::create([
             'sched_code' => $sched_code,
-            'college_id' => $request['college'],
-            'start_date' => $request['start_date'],
-            'end_date' => $request['end_date'],
+            'sched_name' => $request['sched_name'],
+            'start_ctrl_num' => $request['start_ctrl_num'],
+            'end_ctrl_num' => $request['end_ctrl_num'],
+            'start_date' => date('Y-m-d H:i:s', strtotime($request['start_date'])),
+            'end_date' => date('Y-m-d H:i:s', strtotime($request['end_date'])),
         ]);
-
-
-        $examids = [];
-        foreach ($request['exams'] as $exam) {
-            array_push($examids, $exam['id']);
-        }
-        $schedule->exams()->attach($examids);
 
         $this->flash('Schedule created', 'success');
 

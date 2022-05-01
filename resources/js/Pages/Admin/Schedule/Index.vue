@@ -30,14 +30,51 @@
                 type="text"
                 class="block ml-2 mb-4 w-60"
                 placeholder="Search..."
+                v-model="params.search"
               />
             </div>
+            <!-- View filter -->
+            <div class="inline-block">
+              <span class="px-1 text-gray-500">Show</span>
+              <select
+                ref="perpage"
+                id="perpage"
+                class="mt-1 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+                v-model="params.perpage"
+              >
+                <option
+                  v-for="perpage in perpages"
+                  :key="perpage"
+                  :value="perpage"
+                  class="capitalize"
+                >
+                  <span>{{ perpage }}</span>
+                </option>
+              </select>
+              <span class="px-1 text-gray-500">per page</span>
+            </div>
+            <!-- View filter -->
           </div>
           <div class="block" align="right">
             <jet-button
+              class="inline-flex items-center mr-2 bg-emerald-200 hover:bg-emerald-300 text-emerald-800 text-sm font-medium rounded-md"
               @click="openModal(true)"
-              class="bg-green-500 font-semibold capitalize text-white hover:bg-green-700 hover:text-gray-50"
-              >Create Schedule
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5 mr-2"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                />
+              </svg>
+              Create Schedule
             </jet-button>
           </div>
         </div>
@@ -56,8 +93,11 @@
                         scope="col"
                         class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                       >
-                        <span class="cursor-pointer" @click="sort('sched_code')">
-                          <div class="inline-block">
+                        <span
+                          class="cursor-pointer inline-flex"
+                          @click="sort('sched_code')"
+                        >
+                          <div>
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
                               class="h-4 w-4"
@@ -95,29 +135,66 @@
                               />
                             </svg>
                           </div>
-                          <div class="inline-block">Schedule Code</div></span
+                          <div>Schedule Code</div></span
                         >
                       </th>
                       <th
                         scope="col"
                         class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                       >
-                        <span class=""> <div class="inline-block">Exam</div></span>
+                        <span
+                          class="cursor-pointer inline-flex"
+                          @click="sort('exam_name')"
+                        >
+                          <div>
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              class="h-4 w-4"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              v-if="
+                                params.field === 'exam_name' && params.direction === 'asc'
+                              "
+                            >
+                              <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12"
+                              />
+                            </svg>
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              class="h-4 w-4"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              v-if="
+                                params.field === 'exam_name' &&
+                                params.direction === 'desc'
+                              "
+                            >
+                              <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M3 4h13M3 8h9m-9 4h9m5-4v12m0 0l-4-4m4 4l4-4"
+                              />
+                            </svg>
+                          </div>
+                          <div class="inline-block">Exam Name</div></span
+                        >
                       </th>
                       <th
                         scope="col"
                         class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                       >
-                        <span class="">
-                          <div class="inline-block">College</div>
-                        </span>
-                      </th>
-                      <th
-                        scope="col"
-                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                      >
-                        <span class="cursor-pointer" @click="sort('start_date')">
-                          <div class="inline-block">
+                        <span
+                          class="cursor-pointer inline-flex"
+                          @click="sort('start_date')"
+                        >
+                          <div>
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
                               class="h-4 w-4"
@@ -155,15 +232,18 @@
                               />
                             </svg>
                           </div>
-                          <div class="inline-block">Start Date</div></span
+                          <div>Start Date</div></span
                         >
                       </th>
                       <th
                         scope="col"
                         class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                       >
-                        <span class="cursor-pointer" @click="sort('end_date')">
-                          <div class="inline-block">
+                        <span
+                          class="cursor-pointer inline-flex"
+                          @click="sort('end_date')"
+                        >
+                          <div>
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
                               class="h-4 w-4"
@@ -199,15 +279,66 @@
                               />
                             </svg>
                           </div>
-                          <div class="inline-block">End Date</div></span
+                          <div>End Date</div></span
                         >
                       </th>
+
                       <th
                         scope="col"
                         class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                       >
-                        <span class="cursor-pointer" @click="sort('status')">
-                          <div class="inline-block">
+                        <span
+                          class="cursor-pointer inline-flex"
+                          @click="sort('start_ctrl_num')"
+                        >
+                          <div>
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              class="h-4 w-4"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              v-if="
+                                params.field === 'start_ctrl_num' &&
+                                params.direction === 'asc'
+                              "
+                            >
+                              <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12"
+                              />
+                            </svg>
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              class="h-4 w-4"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              v-if="
+                                params.field === 'start_ctrl_num' &&
+                                params.direction === 'desc'
+                              "
+                            >
+                              <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M3 4h13M3 8h9m-9 4h9m5-4v12m0 0l-4-4m4 4l4-4"
+                              />
+                            </svg>
+                          </div>
+                          <div>Control Numbers</div>
+                        </span>
+                      </th>
+
+                      <th
+                        scope="col"
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      >
+                        <span class="cursor-pointer inline-flex" @click="sort('status')">
+                          <div>
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
                               class="h-4 w-4"
@@ -243,7 +374,7 @@
                               />
                             </svg>
                           </div>
-                          <div class="inline-block">Status</div>
+                          <div>Status</div>
                         </span>
                       </th>
                       <th scope="col" class="relative px-6 py-3">
@@ -252,7 +383,7 @@
                     </tr>
                   </thead>
                   <tbody class="bg-white divide-y divide-gray-200">
-                    <tr>
+                    <tr v-if="!schedules.data.length">
                       <td class="p-4 text-center text-sm text-gray-800" colspan="7">
                         <span class="text-red-500 uppercase text-xl"
                           >No schedules found!</span
@@ -260,31 +391,87 @@
                         <NoData />
                       </td>
                     </tr>
-                    <tr>
-                      <td class="px-6 py-4 whitespace-nowrap"></td>
-                      <td class="px-6 py-4 whitespace-nowrap"></td>
-                      <td class="px-6 py-4 whitespace-nowrap"></td>
-                      <td class="px-6 py-4 whitespace-nowrap"></td>
-                      <td class="px-6 py-4 whitespace-nowrap"></td>
+                    <tr v-for="schedule in schedules.data" :key="schedule.id">
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        {{ schedule.sched_code }}
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        {{ schedule.sched_name }}
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        {{ schedule.start_date }}
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        {{ schedule.end_date }}
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        {{ schedule.start_ctrl_num }}
+
+                        <span class="px-1"> - </span>
+                        {{ schedule.end_ctrl_num }}
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <span
+                          v-if="schedule.status == 'pending'"
+                          class="inline-flex items-center text-orange-800 bg-orange-200 px-2 text-sm font-medium rounded-md"
+                        >
+                          {{ schedule.status }}
+                        </span>
+                        <span
+                          v-if="schedule.status == 'active'"
+                          class="inline-flex items-center text-green-800 bg-green-200 px-2 text-sm font-medium rounded-md"
+                        >
+                          {{ schedule.status }}
+                        </span>
+                        <span
+                          v-if="schedule.status == 'ended'"
+                          class="inline-flex items-center text-red-800 bg-red-200 px-2 text-sm font-medium rounded-md"
+                        >
+                          {{ schedule.status }}
+                        </span>
+                      </td>
                       <td
                         class="px-6 py-4 space-x-1 whitespace-nowrap text-right text-sm font-medium"
                       >
                         <button
-                          class="bg-gray-500 hover:bg-gray-700 text-white py-1 px-2 rounded text-sm font-semibold"
+                          @click="edit(user, true)"
+                          class="inline-flex items-center px-2 py-2 mr-2 bg-blue-200 hover:bg-blue-300 text-blue-800 text-sm font-medium rounded-md"
                         >
-                          View
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="h-5 w-5"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            stroke-width="2"
+                          >
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                            />
+                          </svg>
                         </button>
 
                         <button
-                          class="bg-blue-500 hover:bg-blue-700 text-white py-1 px-2 rounded text-sm font-semibold"
+                          :disabled="disabled"
+                          @click="deleteRow(user.id)"
+                          class="inline-flex items-center px-2 py-2 mr-2 bg-red-200 hover:bg-red-300 text-red-800 text-sm font-medium rounded-md"
                         >
-                          Edit
-                        </button>
-
-                        <button
-                          class="bg-red-500 hover:bg-red-700 text-white py-1 px-2 rounded text-sm font-semibold"
-                        >
-                          Delete
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="h-5 w-5"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            stroke-width="2"
+                          >
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"
+                            />
+                          </svg>
                         </button>
                       </td>
                     </tr>
@@ -294,9 +481,9 @@
             </div>
           </div>
         </div>
-        <div class="mx-auto sm:px-6 lg:px-8">
-          <jet-pagination class="m-5" :links="schedules.links" />
-        </div>
+      </div>
+      <div class="mx-auto sm:px-6 lg:px-8">
+        <jet-pagination class="m-5" :links="schedules.links" />
       </div>
     </div>
   </admin-layout>
@@ -308,106 +495,84 @@
     </template>
 
     <template #content>
-      <!-- Colleges -->
+      <!-- Name -->
       <div class="mb-4">
-        <jet-label for="college" value="College" />
-        <select
-          v-model="form.college"
-          v-show="!editMode"
+        <jet-label for="sched_name" value="Exam Name" />
+        <jet-input
+          id="sched_name"
+          ref="sched_name"
+          type="text"
+          class="mt-1 block w-full"
+          v-model="form.sched_name"
           @keyup.enter="save(form)"
-          :required="true"
-          ref="college"
-          id="college"
-          class="mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
-        >
-          <option
-            class="capitalize"
-            v-for="college in colleges"
-            :key="college.id"
-            v-bind:value="college"
-          >
-            <span>{{ college.college_name }}</span>
-          </option>
-        </select>
-
-        <select
-          v-model="form.college"
-          v-show="editMode"
-          @keyup.enter="update(form)"
-          :required="true"
-          ref="college"
-          id="college"
-          class="mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
-        >
-          <option
-            class="capitalize"
-            v-for="college in colleges"
-            :key="college.id"
-            v-bind:value="college"
-          >
-            <span>{{ college.college_name }}</span>
-          </option>
-        </select>
-      </div>
-
-      <!-- Exams -->
-      <div class="mb-4">
-        <jet-label for="exams" value="Exams" />
-        <Multiselect
-          v-model="form.exams"
-          mode="tags"
-          placeholder="Select exams"
-          object="true"
-          valueProp="id"
-          :searchable="true"
-          label="subject"
-          :options="exam_subjects"
-          :close-on-select="false"
-          id="exams"
         />
       </div>
 
+      <!-- Control Number Range -->
+      <div class="mb-4">
+        <jet-label for="range" value="Control Number Range" />
+        <div class="w-full inline-flex">
+          <Multiselect
+            v-model="form.start_ctrl_num"
+            valueProp="id"
+            :searchable="true"
+            label="id"
+            :options="applicants"
+            :close-on-select="false"
+            id="range"
+          />
+          <span class="mx-2">to</span>
+          <Multiselect
+            v-model="form.end_ctrl_num"
+            valueProp="id"
+            :searchable="true"
+            label="id"
+            :options="applicants"
+            :close-on-select="false"
+            id="range"
+          />
+        </div>
+      </div>
+
       <!-- Sched Date -->
-      <div class="mb-4 w-full">
+      <div class="mb-4">
         <!-- Start -->
-        <div class="inline-block">
-          <jet-label for="start_date" value="Start Date" />
+        <jet-label for="date" value="Schedule Date" />
+        <div class="w-full inline-flex">
           <DatePicker
             v-model="form.start_date"
             mode="dateTime"
             :min-date="new Date()"
             :disabled-dates="{ weekdays: [1, 7] }"
             id="start_date"
+            is24hr
+            class="bg-white border rounded w-full"
           >
             <template v-slot="{ inputValue, inputEvents }">
               <input
-                class="bg-white border px-2 py-1 rounded"
                 :value="inputValue"
                 v-on="inputEvents"
+                class="bg-white border px-2 py-2 rounded w-full"
               />
             </template>
           </DatePicker>
-        </div>
 
-        <div class="inline-block px-4">
-          <span>to</span>
-        </div>
-
-        <!-- End -->
-        <div class="inline-block">
-          <jet-label for="end_date" value="End Date" />
+          <span class="mx-2">to</span>
+          <!-- End -->
           <DatePicker
             v-model="form.end_date"
             mode="dateTime"
             :min-date="new Date()"
             :disabled-dates="{ weekdays: [1, 7] }"
             id="end_date"
+            is24hr
+            class="bg-white border rounded w-full"
           >
             <template v-slot="{ inputValue, inputEvents }">
               <input
-                class="bg-white border px-2 py-1 rounded"
                 :value="inputValue"
                 v-on="inputEvents"
+                class="bg-white border px-2 py-2 rounded w-full"
               />
             </template>
           </DatePicker>
@@ -481,10 +646,11 @@ export default {
 
   props: {
     schedules: Object,
+    applicants: Object,
     filters: Object,
-    colleges: Object,
-    exam_subjects: Array,
   },
+
+  extends: shared,
 
   data() {
     return {
@@ -496,8 +662,9 @@ export default {
       },
 
       form: this.$inertia.form({
-        college: this.colleges,
-        exams: [],
+        sched_name: "",
+        start_ctrl_num: "",
+        end_ctrl_num: "",
         start_date: "",
         end_date: "",
       }),
@@ -547,6 +714,20 @@ export default {
     sort(field) {
       this.params.field = field;
       this.params.direction = this.params.direction === "asc" ? "desc" : "asc";
+    },
+  },
+
+  watch: {
+    params: {
+      handler: throttle(function () {
+        let params = pickBy(this.params);
+
+        this.$inertia.get(this.route("admin.schedules.index"), params, {
+          replace: true,
+          preserveState: true,
+        });
+      }, 150),
+      deep: true,
     },
   },
 };

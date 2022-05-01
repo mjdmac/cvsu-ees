@@ -15,18 +15,20 @@ class Exam extends Model
         'subject',
         'exam_code',
         'description',
+        'status',
     ];
 
     protected $appends = [
         'can',
     ];
 
-     public function questions()
+    public function questions()
     {
         return $this->hasMany(Question::class);
     }
 
-    public function schedules(){
+    public function schedules()
+    {
         return $this->belongsToMany(Schedule::class, 'exam_schedule');
     }
 
