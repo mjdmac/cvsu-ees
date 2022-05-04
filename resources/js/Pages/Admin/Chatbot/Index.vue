@@ -1,11 +1,11 @@
 <template>
-  <admin-layout title="Examinations">
+  <admin-layout title="Courses">
     <template #header>
       <!-- Header -->
       <div class="grid grid-cols-2 px-5 py-3 shadow-md rounded-md">
         <div>
           <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            <span>Examinations</span>
+            <span>Chatbot Questions</span>
           </h2>
         </div>
         <!-- Header -->
@@ -13,7 +13,6 @@
     </template>
 
     <div class="py-12">
-      <!-- Search Field and Button -->
       <div class="mx-auto sm:px-6 lg:px-8">
         <div class="grid grid-cols-2 px-5 py-3">
           <div>
@@ -47,9 +46,10 @@
             </div>
             <!-- View filter -->
           </div>
+
           <div class="block" align="right">
             <jet-button
-              class="inline-flex items-center mr-2 bg-emerald-200 hover:bg-emerald-300 text-emerald-800 text-sm font-medium rounded-md"
+              class="inline-flex items-center px-4 py-2 mr-2 bg-emerald-200 hover:bg-emerald-300 text-emerald-800 text-sm font-medium rounded-md"
               @click="openModal(true)"
             >
               <svg
@@ -63,10 +63,10 @@
                 <path
                   stroke-linecap="round"
                   stroke-linejoin="round"
-                  d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"
+                  d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                 />
               </svg>
-              Create Exam
+              New Question
             </jet-button>
           </div>
         </div>
@@ -75,15 +75,15 @@
       <!-- List of exams -->
       <div>
         <div class="px-4 py-2 w-full bg-gray-700">
-          <span class="uppercase tracking-wider text-white">List of Exams</span>
+          <span class="uppercase tracking-wider text-white">List of Concerns</span>
         </div>
         <div class="flex flex-col">
           <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <!-- NO data -->
-            <div v-if="!exams.data.length">
+            <div v-if="!concerns.data.length">
               <div class="w-full py-8">
                 <div class="p-4 text-center text-sm text-gray-800">
-                  <span class="text-red-500 uppercase text-xl">No exam found!</span>
+                  <span class="text-red-500 uppercase text-xl">No concerns found!</span>
                   <NoData />
                 </div>
               </div>
@@ -94,76 +94,34 @@
               <!-- One row / data / card -->
               <div class="flex flex-wrap">
                 <div
-                  v-for="(exam, id) in exams.data"
-                  :key="exam.id"
+                  v-for="(concern, id) in concerns.data"
+                  :key="concern.id"
                   class="w-full md:w-6/12 lg:w-4/12"
                 >
                   <div
                     class="shadow overflow-hidden border-b border-gray-200 rounded-lg m-2 md:m-2 lg:m-4"
                   >
                     <div class="w-full bg-emerald-500 py-2 px-4 inline-flex">
-                      <span class="mr-2 text-xl text-white"> {{ exam.exam_code }}</span>
-                      <div align="right">
-                        <!-- Active/Inactive -->
-                        <!-- Active -->
-                        <span
-                          v-if="exam.status == 'active'"
-                          class="inline-flex items-center text-emerald-800 bg-emerald-200 px-2 text-sm font-medium rounded-md"
-                        >
-                          Active
-                        </span>
-                        <!-- Inactive -->
-                        <span
-                          v-if="exam.status == 'inactive'"
-                          class="inline-flex items-center text-red-800 bg-red-200 px-2 text-sm font-medium rounded-md"
-                        >
-                          Inactive
-                        </span>
-                        <!-- Active/Inactive -->
-                      </div>
+                      <!-- <span class="mr-2 text-xl text-white"> {{ exam.exam_code }}</span> -->
+                      <div align="right">{{ concern.category }}</div>
                     </div>
                     <div class="text-md">
                       <div class="px-2 pt-4">
-                        <span class="text-gray-500 px-2">Title:</span>
-                        <span> {{ exam.subject }}</span>
+                        <span class="text-gray-500 px-2">Question:</span>
+                        <span> {{ concern.question }}</span>
                       </div>
                       <div class="px-2">
                         <span class="text-gray-500 px-2 break-all truncate">
-                          Description:
+                          Answer:
                         </span>
-                        <span> {{ exam.description }}</span>
+                        <span> {{ concern.answer }}</span>
                       </div>
                     </div>
                     <div
                       class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"
                     >
                       <button
-                        @click="show(exam)"
-                        class="inline-flex items-center px-2 py-2 mr-2 bg-yellow-200 hover:bg-yellow-300 text-yellow-800 text-sm font-medium rounded-md"
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          class="h-5 w-5"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                          stroke-width="2"
-                        >
-                          <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                          />
-                          <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                          />
-                        </svg>
-                      </button>
-
-                      <button
-                        @click="edit(exam, true)"
+                        @click="edit(concern, true)"
                         class="inline-flex items-center px-2 py-2 mr-2 bg-blue-200 hover:bg-blue-300 text-blue-800 text-sm font-medium rounded-md"
                       >
                         <svg
@@ -183,8 +141,8 @@
                       </button>
 
                       <button
-                        @click="deleteRow(exam.id)"
-                        class="inline-flex items-center px-2 py-2 mr-2 bg-red-200 hover:bg-red-300 text-red-800 text-sm font-medium rounded-md"
+                        @click="deleteRow(concern.id)"
+                        class="inline-flex items-center px-2 py-2 bg-red-200 hover:bg-red-300 text-red-800 text-sm font-medium rounded-md"
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -214,90 +172,103 @@
     </div>
 
     <div class="mx-auto sm:px-6 lg:px-8">
-      <jet-pagination class="m-5" :links="exams.links" />
+      <jet-pagination class="m-5" :links="concerns.links" />
     </div>
   </admin-layout>
 
   <dialog-modal :show="isOpen" @close="openModal(false)">
     <template #title>
-      <span> Create Exam </span>
+      <span v-show="!editMode"> Add New Concern/Question </span>
+      <span v-show="editMode"> Update Concern/Question </span>
     </template>
 
     <template #content>
-      <!-- Subject -->
+      <!-- Category -->
       <div class="mb-4">
-        <jet-label for="subject" value="Subject" />
-        <jet-input
-          id="subject"
-          type="text"
-          class="mt-1 block w-full"
-          v-model="form.subject"
-          v-show="!editMode"
-          @keyup.enter="save(form)"
-        />
-        <jet-input
-          id="subject"
-          type="text"
-          class="mt-1 block w-full"
-          v-model="form.subject"
-          v-show="editMode"
-          @keyup.enter="update(form)"
-        />
-      </div>
-
-      <!-- Description -->
-      <div class="mb-4">
-        <jet-label for="description" value="Description" />
-        <jet-input
-          id="description"
-          type="text"
-          class="mt-1 block w-full"
-          v-model="form.description"
-          v-show="!editMode"
-          @keyup.enter="save(form)"
-        />
-        <jet-input
-          id="description"
-          type="text"
-          class="mt-1 block w-full"
-          v-model="form.description"
-          v-show="editMode"
-          @keyup.enter="update(form)"
-        />
-      </div>
-
-      <!-- Status -->
-      <div class="mb-4" v-show="editMode">
-        <jet-label for="status" value="Status" />
+        <jet-label for="category" value="Category" />
         <select
-          ref="status"
-          id="status"
+          v-show="!editMode"
+          :required="true"
+          v-model="form.category"
+          id="category"
           class="mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
-          v-model="form.status"
-          @keyup.enter="update(form)"
         >
           <option
-            v-for="status in status"
-            :key="status"
-            :value="status"
             class="capitalize"
+            v-for="category in categories"
+            :key="category"
+            :value="category"
           >
-            <span>{{ status }}</span>
+            <span>{{ category }}</span>
           </option>
         </select>
+
+        <select
+          v-show="editMode"
+          :required="true"
+          v-model="form.category"
+          id="category"
+          class="mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+        >
+          <option
+            class="capitalize"
+            v-for="category in categories"
+            :key="category"
+            :value="category"
+          >
+            <span>{{ category }}</span>
+          </option>
+        </select>
+      </div>
+
+      <!-- Question -->
+      <div class="mb-4">
+        <jet-label for="question" value="Question/Label" />
+        <textarea
+          v-show="!editMode"
+          v-model="form.question"
+          id="question"
+          type="text"
+          class="mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+        />
+        <textarea
+          v-show="editMode"
+          v-model="form.question"
+          id="question"
+          type="text"
+          class="mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+        />
+      </div>
+
+      <!-- Answer -->
+      <div class="mb-4">
+        <jet-label for="answer" value="Answer/Information" />
+        <textarea
+          v-show="!editMode"
+          v-model="form.answer"
+          id="answer"
+          type="text"
+          class="mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+        />
+        <textarea
+          v-show="editMode"
+          v-model="form.answer"
+          id="answer"
+          type="text"
+          class="mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+        />
       </div>
     </template>
 
     <template #footer>
-      <jet-secondary-button @click="openModal(false)"> Close </jet-secondary-button>
+      <jet-secondary-button @click="openModal(false)"> Cancel </jet-secondary-button>
 
       <jet-button
         class="ml-2"
         v-show="!editMode"
+        @click="save(form)"
         :class="{ 'opacity-25': disabled }"
         :disabled="disabled"
-        @click="save(form)"
-        @keyup.enter="save(form)"
       >
         Save
       </jet-button>
@@ -308,7 +279,6 @@
         :disabled="disabled"
         v-show="editMode"
         @click="update(form)"
-        @keyup.enter="update(form)"
       >
         Update
       </jet-button>
@@ -333,7 +303,6 @@ import DialogModal from "@/Jetstream/DialogModal";
 import JetPagination from "@/Components/Pagination";
 import { Link } from "@inertiajs/inertia-vue3";
 import shared from "@/Scripts/shared";
-import NoData from "@/Components/Fillers/NoData.vue";
 
 export default {
   components: {
@@ -349,11 +318,10 @@ export default {
     JetActionMessage,
     DialogModal,
     Link,
-    NoData,
   },
 
   props: {
-    exams: Object,
+    concerns: Object,
     filters: Object,
   },
 
@@ -365,20 +333,17 @@ export default {
         search: this.filters.search,
         field: this.filters.field,
         direction: this.filters.direction,
-        perpage: this.filters.perpage,
       },
 
       form: this.$inertia.form({
-        subject: this.subject,
-        description: this.description,
-        status: "",
+        category: "",
+        question: "",
+        answer: "",
       }),
 
       isOpen: false,
       disabled: null,
       editMode: false,
-
-      examStatus: "",
     };
   },
 
@@ -397,24 +362,15 @@ export default {
         this.isOpen = false;
         this.editMode = false;
       }
+
       return this.isOpen;
     },
 
-    // Sort function
-    sort(field) {
-      this.params.field = field;
-      this.params.direction = this.params.direction === "asc" ? "desc" : "asc";
-    },
-
-    show: function (id) {
-      this.$inertia.visit(route("admin.exams.show", id));
-    },
-
     // Save function
-    save: function (exams) {
-      this.$inertia.visit("/admin/exams", {
+    save: function (form) {
+      this.$inertia.visit("/admin/chatbot", {
         method: "post",
-        data: exams,
+        data: form,
         onBefore: () => {
           this.disabledClick(true);
         },
@@ -425,20 +381,17 @@ export default {
     },
 
     // Edit mode function
-    edit: function (exam, status) {
-      this.form = Object.assign({}, exam);
+    edit: function (concern, status) {
+      this.form = Object.assign({}, concern);
       this.editMode = true;
       this.openModal(status);
     },
 
     // Update function
-    update: function (exam) {
-      this.$inertia.visit("/admin/exams/" + exam.id, {
+    update: function (concern) {
+      this.$inertia.visit("/admin/chatbot/" + concern.id, {
         method: "put",
-        data: exam,
-        onBefore: () => {
-          this.disabledClick(true);
-        },
+        data: concern,
         onSuccess: () => {
           this.disabledClick(false), this.openModal(false);
         },
@@ -449,16 +402,8 @@ export default {
 
     // Delete function
     deleteRow: function (id) {
-      this.$inertia.visit("/admin/exams/" + id, {
+      this.$inertia.visit("/admin/chatbot/" + id, {
         method: "delete",
-      });
-    },
-
-    // Active / inactive status
-    statusChange: function (status, exam) {
-      this.$inertia.visit("/admin/status/" + exam, {
-        method: "post",
-        data: status,
       });
     },
   },
@@ -468,7 +413,7 @@ export default {
       handler: throttle(function () {
         let params = pickBy(this.params);
 
-        this.$inertia.get(this.route("admin.exams.index"), params, {
+        this.$inertia.get(this.route("admin.chatbot.index"), params, {
           replace: true,
           preserveState: true,
         });

@@ -16,6 +16,8 @@ use App\Http\Controllers\Applicant\ApplicantExamController;
 use App\Http\Controllers\Applicant\ApplicantLoginController;
 use App\Http\Controllers\Applicant\ApplicantResultController;
 use App\Http\Controllers\Applicant\ApplicantUpdateController;
+use App\Http\Controllers\BotManController;
+use App\Http\Controllers\ChatbotController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -77,6 +79,9 @@ Route::prefix('admin')
 
         // Results routes
         Route::resource('results', ResultController::class);
+
+        // Chatbot routes
+        Route::resource('chatbot', ChatbotController::class);
     });
 
 Route::prefix('applicant')
@@ -95,8 +100,11 @@ Route::prefix('applicant')
 
             // Exam
             Route::resource('exams', ApplicantExamController::class);
-            
+
             // Result
             Route::resource('results', ApplicantResultController::class);
         });
     });
+
+
+Route::match(['get', 'post'], '/botman', [BotManController::class, 'handle']);

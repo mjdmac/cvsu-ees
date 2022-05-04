@@ -28,6 +28,7 @@ export default {
                 },
             ],
             status: ["active", "inactive"],
+            categories: ["Requirements", "Admission", "Courses", "Contact Information", "Other"],
         };
     },
     methods: {
@@ -53,13 +54,9 @@ export default {
             return urlParams.get("status");
         },
 
-        changeStatusColor: function (status) {
-            if (status == "personnel" || status == "applicant") {
-                this.statusColor = "text-blue-500";
-            } else if (status == "admin") {
-                this.statusColor = "text-green-500";
-            }
-            return this.statusColor;
+        getCategories: function () {
+            let urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get("categories");
         },
     },
 };
