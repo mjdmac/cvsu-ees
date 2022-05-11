@@ -30,11 +30,6 @@ class Schedule extends Model
         return $this->hasMany(Exam::class);
     }
 
-    // public function colleges()
-    // {
-    //     return $this->hasMany(College::class);
-    // }
-
     public function getCreatedAtAttribute($value)
     {
         return now()->parse($value)->timezone(config('app.timezone'))->format('d F Y, H:i:s');

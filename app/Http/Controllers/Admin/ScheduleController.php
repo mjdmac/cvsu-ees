@@ -37,7 +37,7 @@ class ScheduleController extends Controller
 
         $applicants = Applicant::select('id')
             ->whereNotIn('id', [$start_num, $end_num])
-            ->latest()
+            ->latest()  
             ->get();
 
         $perpage = $request->input('perpage') ?: 25;

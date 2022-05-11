@@ -1,14 +1,5 @@
 <template>
   <home-layout title="Home">
-    <!-- <template #header>
-      <div class="grid grid-cols-2 px-5 py-3 shadow-md rounded-md">
-        <div>
-          <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            <span>Home</span>
-          </h2>
-        </div>
-      </div>
-    </template> -->
     <div class="py-12">
       <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="overflow-hidden shadow-md sm:rounded-lg">

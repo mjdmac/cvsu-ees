@@ -5,7 +5,7 @@
       <div class="grid grid-cols-2 px-5 py-3 shadow-md rounded-md">
         <div>
           <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            <span>Examinations</span>
+            <span>Results</span>
           </h2>
         </div>
       </div>

@@ -78,9 +78,7 @@
             <!-- Account Management -->
             <div class="block px-4 py-2 text-xs text-gray-400">Manage Account</div>
 
-            <jet-dropdown-link
-              :href="route('applicant.profile.index')"
-            >
+            <jet-dropdown-link :href="route('applicant.profile.index')">
               Profile
             </jet-dropdown-link>
 
@@ -199,9 +197,7 @@
                   <!-- Account Management -->
                   <div class="block px-4 py-2 text-xs text-gray-400">Manage Account</div>
 
-                  <jet-dropdown-link
-                    :href="route('applicant.profile.index')"
-                  >
+                  <jet-dropdown-link :href="route('applicant.profile.index')">
                     Profile
                   </jet-dropdown-link>
 
@@ -263,7 +259,15 @@
         <ul class="md:flex-col md:min-w-full flex flex-col list-none">
           <!-- Link Start-->
           <li class="items-center">
-            <jet-nav-link class="text-xs uppercase py-2 font-bold block">
+            <jet-nav-link
+              :href="route('applicant.exams.index')"
+              class="text-xs uppercase py-2 font-bold block"
+              :class="
+                route().current('applicant.exams.index')
+                  ? 'text-emerald-500 hover:text-emerald-600'
+                  : 'text-blueGray-700 hover:text-blueGray-500'
+              "
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 class="h-5 w-5 mr-3"
@@ -285,7 +289,15 @@
 
           <!-- Link Start-->
           <li class="items-center">
-            <jet-nav-link class="text-xs uppercase py-2 font-bold block">
+            <jet-nav-link
+              :href="route('applicant.results.index')"
+              class="text-xs uppercase py-2 font-bold block"
+              :class="
+                route().current('applicant.results.index')
+                  ? 'text-emerald-500 hover:text-emerald-600'
+                  : 'text-gray-700 hover:text-gray-500'
+              "
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 class="h-5 w-5 mr-3"

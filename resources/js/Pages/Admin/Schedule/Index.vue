@@ -669,6 +669,9 @@ export default {
         end_date: "",
       }),
 
+      // Control number checker
+      ctrl_numbers: [],
+
       isOpen: false,
       disabled: null,
       editMode: false,

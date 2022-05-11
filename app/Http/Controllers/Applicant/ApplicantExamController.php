@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Applicant;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class ApplicantExamController extends Controller
 {
@@ -14,7 +15,7 @@ class ApplicantExamController extends Controller
      */
     public function index()
     {
-        //
+        return Inertia::render('Applicant/Exam/Index');
     }
 
     /**
