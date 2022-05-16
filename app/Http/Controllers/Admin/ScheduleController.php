@@ -30,13 +30,16 @@ class ScheduleController extends Controller
             'field' => ['in:sched_code,start_date,end_date,start_ctrl_num,end_ctrl_num,status'],
         ]);
 
+        $start_num = 0;
+        $end_num = 0;
+
         $start_num = Schedule::select('start_ctrl_num')
             ->get();
         $end_num = Schedule::select('end_ctrl_num')
             ->get();
 
         $applicants = Applicant::select('id')
-            ->whereNotIn('id', [$start_num, $end_num])
+            // ->whereNotIn('id', [$start_num, $end _num])
             ->latest()  
             ->get();
 

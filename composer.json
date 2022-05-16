@@ -16,8 +16,10 @@
         "laravel/jetstream": "^2.7",
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
+        "laravel/vonage-notification-channel": "^2.5",
         "maatwebsite/excel": "^3.1",
-        "tightenco/ziggy": "^1.0"
+        "tightenco/ziggy": "^1.0",
+        "vonage/client": "^2.4"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

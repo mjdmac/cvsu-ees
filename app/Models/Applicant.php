@@ -6,11 +6,13 @@ use App\Http\Traits\HasCan;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Haruncpi\LaravelIdGenerator\IdGenerator;
+use Illuminate\Notifications\Notifiable;
 
 class Applicant extends Model
 {
     use HasFactory;
     use HasCan;
+    use Notifiable;
 
     protected $guarded = ['id'];
 
@@ -43,6 +45,11 @@ class Applicant extends Model
     public function colleges()
     {
         return $this->belongsToMany(College::class, 'applicant_college');
+    }
+
+    public function result()
+    {
+        return $this->hasOne(Result::class);
     }
 
     public function getCreatedAtAttribute($value)

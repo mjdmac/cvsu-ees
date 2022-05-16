@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Schedule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
@@ -18,10 +19,18 @@ class AdminDashboardController extends Controller
     {
         $noOfExams = DB::table('exams')->count();
         $noOfApplicants = DB::table('applicants')->count();
+        $noOfSched = DB::table('schedules')->where('status', 'pending')->count();
+        $data = Schedule::where('status', 'pending')
+            ->orWhere('status', 'active')
+            ->orderBy('start_date', 'desc');
+            // ->latest()
+            // ->get();
 
         return Inertia::render('Admin/Dashboard/Index', [
             'noOfExams' => $noOfExams,
             'noOfApplicants' => $noOfApplicants,
+            'noOfSched' => $noOfSched,
+            'schedules' => $data->paginate(10)->withQueryString(),
         ]);
     }
 

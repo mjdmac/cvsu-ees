@@ -79,6 +79,7 @@ Route::prefix('admin')
 
         // Results routes
         Route::resource('results', ResultController::class);
+        Route::get('send-notification', [ResultController::class, 'sendNotification']);
 
         // Chatbot routes
         Route::resource('chatbot', ChatbotController::class);
@@ -105,6 +106,5 @@ Route::prefix('applicant')
             Route::resource('results', ApplicantResultController::class);
         });
     });
-
 
 Route::match(['get', 'post'], '/botman', [BotManController::class, 'handle']);

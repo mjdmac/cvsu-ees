@@ -24,6 +24,7 @@
                 v-model="params.search"
               />
             </div>
+            
           </div>
           <div class="block" align="right">
             <jet-button
@@ -166,7 +167,7 @@
                         No data
                       </td>
                     </tr>
-                    <tr v-for="(course, id) in courses.data" :key="course.id">
+                    <tr v-for="course in courses.data" :key="course.id">
                       <td class="px-6 py-4 whitespace-nowrap">
                         {{ course.college.college_name }}
                       </td>

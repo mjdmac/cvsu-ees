@@ -165,10 +165,10 @@
                         <div class="flex flex-wrap">
                           <div class="relative w-full pr-4 max-w-full flex-grow flex-1">
                             <h5 class="text-gray-400 uppercase font-bold text-xs">
-                              Scheduled Exam
+                              Pending Schedules
                             </h5>
                             <span class="font-semibold text-xl text-gray-700">
-                              {{ noOfExams }}
+                              {{ noOfSched }}
                             </span>
                           </div>
                           <div class="relative w-auto pl-4 flex-initial">
@@ -230,15 +230,120 @@
 
           <!-- Table div -->
           <div class="px-4 py-2 w-full bg-gray-700 mt-12">
-            <span class="uppercase tracking-wider text-white">Schedules</span>
+            <span class="uppercase tracking-wider text-white"
+              >Incoming Exam Schedules</span
+            >
           </div>
           <div class="relative md:pt-6 pb-6 pt-12">
-            <div class="mx-auto w-full">
-              <div>
-                <div class="flex flex-wrap"></div>
+            <div class="flex flex-col">
+              <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+                  <div
+                    class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg"
+                  >
+                    <table class="min-w-full divide-y divide-gray-200">
+                      <thead class="bg-gray-50">
+                        <tr>
+                          <th
+                            scope="col"
+                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                          >
+                            Schedule Code
+                          </th>
+                          <th
+                            scope="col"
+                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                          >
+                            Exam Name
+                          </th>
+                          <th
+                            scope="col"
+                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                          >
+                            Start Date
+                          </th>
+                          <th
+                            scope="col"
+                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                          >
+                            End Date
+                          </th>
+
+                          <th
+                            scope="col"
+                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                          >
+                            Control Numbers
+                          </th>
+
+                          <th
+                            scope="col"
+                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                          >
+                            Status
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody class="bg-white divide-y divide-gray-200">
+                        <tr v-if="!schedules.data.length">
+                          <td class="p-4 text-center text-sm text-gray-800" colspan="7">
+                            <span class="text-red-500 uppercase text-xl"
+                              >No schedules found!</span
+                            >
+                            <NoData />
+                          </td>
+                        </tr>
+                        <tr v-for="schedule in schedules.data" :key="schedule.id">
+                          <td class="px-6 py-4 whitespace-nowrap">
+                            {{ schedule.sched_code }}
+                          </td>
+                          <td class="px-6 py-4 whitespace-nowrap">
+                            {{ schedule.sched_name }}
+                          </td>
+                          <td class="px-6 py-4 whitespace-nowrap">
+                            {{ schedule.start_date }}
+                          </td>
+                          <td class="px-6 py-4 whitespace-nowrap">
+                            {{ schedule.end_date }}
+                          </td>
+                          <td class="px-6 py-4 whitespace-nowrap">
+                            {{ schedule.start_ctrl_num }}
+
+                            <span class="px-1"> - </span>
+                            {{ schedule.end_ctrl_num }}
+                          </td>
+                          <td class="px-6 py-4 whitespace-nowrap">
+                            <span
+                              v-if="schedule.status == 'pending'"
+                              class="inline-flex items-center text-orange-800 bg-orange-200 px-2 text-sm font-medium rounded-md"
+                            >
+                              {{ schedule.status }}
+                            </span>
+                            <span
+                              v-if="schedule.status == 'active'"
+                              class="inline-flex items-center text-green-800 bg-green-200 px-2 text-sm font-medium rounded-md"
+                            >
+                              {{ schedule.status }}
+                            </span>
+                            <span
+                              v-if="schedule.status == 'ended'"
+                              class="inline-flex items-center text-red-800 bg-red-200 px-2 text-sm font-medium rounded-md"
+                            >
+                              {{ schedule.status }}
+                            </span>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <div class="mx-auto sm:px-6 lg:px-8">
+                <jet-pagination class="m-5" :links="schedules.links" />
               </div>
             </div>
           </div>
+
           <!-- Table div -->
         </div>
         <!-- Left side -->
@@ -252,13 +357,7 @@
             <div class="mx-auto w-full">
               <!-- <h5>Calendar</h5> -->
               <div class="px-4">
-                <Calendar
-                  :masks="masks"
-                  :attributes="attrs"
-                  disable-page-swipe
-                  is-expanded
-                >
-                </Calendar>
+                <Calendar :attributes="attrs" disable-page-swipe is-expanded> </Calendar>
               </div>
             </div>
           </div>
@@ -274,6 +373,8 @@
 import AdminLayout from "@/Layouts/AdminLayout.vue";
 import { Link } from "@inertiajs/inertia-vue3";
 import { Calendar, DatePicker } from "v-calendar";
+import JetPagination from "@/Components/Pagination";
+import NoData from "@/Components/Fillers/NoData.vue";
 
 export default {
   components: {
@@ -281,11 +382,15 @@ export default {
     Link,
     Calendar,
     DatePicker,
+    JetPagination,
+    NoData,
   },
 
   props: {
     noOfExams: Number,
     noOfApplicants: Number,
+    noOfSched: Number,
+    schedules: Object,
   },
 
   data() {

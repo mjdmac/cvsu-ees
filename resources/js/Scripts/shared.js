@@ -29,6 +29,7 @@ export default {
             ],
             status: ["active", "inactive"],
             categories: ["Requirements", "Admission", "Courses", "Contact Information", "Other"],
+            qualifications: ["pending", "qualified", "not qualified"]
         };
     },
     methods: {
@@ -57,6 +58,11 @@ export default {
         getCategories: function () {
             let urlParams = new URLSearchParams(window.location.search);
             return urlParams.get("categories");
+        },
+
+        getQualifications: function () {
+            let urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get("qualifications");
         },
     },
 };
