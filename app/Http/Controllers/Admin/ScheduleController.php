@@ -30,14 +30,23 @@ class ScheduleController extends Controller
             'field' => ['in:sched_code,start_date,end_date,start_ctrl_num,end_ctrl_num,status'],
         ]);
 
-        $start_num = Schedule::select('start_ctrl_num')
-            ->get();
-        $end_num = Schedule::select('end_ctrl_num')
-            ->get();
+        $sched =  Schedule::where('status', 'pending')->get();
+        $arr = [];
+
+        foreach($sched as $num){
+            for($x=$num->start_ctrl_num;$x<=$num->end_ctrl_num;$x++){
+                if(!in_array($x, $arr))
+                    array_push($arr, $x);
+            }
+        }
+
+
+        // $end_num = Schedule::pluck('end_ctrl_num')
+        //                     ->toArray();
 
         $applicants = Applicant::select('id')
-            ->whereNotIn('id', [$start_num, $end_num])
-            ->latest()  
+            ->whereNotIn('id', $arr)
+            ->latest()
             ->get();
 
         $perpage = $request->input('perpage') ?: 25;
