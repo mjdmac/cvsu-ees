@@ -10,11 +10,36 @@
               <div class="flex">
                 <!-- Navigation Links -->
                 <div class="sm:items-center sm:-my-px sm:flex">
-                  <span>Cavite State University</span>
+                  <Link
+                    :href="'/'"
+                    class="inline-flex align-middle mr-2"
+                  >
+                    <div class="flex items-center">
+                      <div class="flex-shrink-0 h-10 w-10">
+                        <img
+                          src="https://upload.wikimedia.org/wikipedia/en/8/80/Cavite_State_University.png"
+                          class="w-10"
+                          alt="CvSU Logo"
+                          title="CvSU"
+                        />
+                      </div>
+                      <div class="ml-4">
+                        <div class="text-md font-medium text-gray-900">
+                          Cavite State University
+                        </div>
+                      </div>
+                    </div>
+                  </Link>
                 </div>
               </div>
               <div class="sm:flex sm:items-center sm:ml-6">
-                <div class="ml-3 relative">asdsa</div>
+                <div class="ml-3 relative">
+                  <jet-button
+                    class="inline-flex items-center px-4 py-2 mr-2 bg-emerald-200 hover:bg-emerald-300 text-emerald-800 text-sm font-medium rounded-md"
+                    @click="login"
+                    >Login</jet-button
+                  >
+                </div>
               </div>
             </div>
           </div>
@@ -41,6 +66,7 @@ import AdminSideBar from "@/Components/SideBar/AdminSidebar.vue";
 import JetDropdown from "@/Jetstream/Dropdown.vue";
 import JetBanner from "@/Jetstream/Banner.vue";
 import JetDropdownLink from "@/Jetstream/DropdownLink.vue";
+import JetButton from "@/Jetstream/Button.vue";
 
 export default {
   props: {
@@ -53,6 +79,13 @@ export default {
     JetDropdown,
     JetDropdownLink,
     JetBanner,
+    JetButton,
+  },
+
+  methods: {
+    login: function () {
+      this.$inertia.visit(route("applicant.login"));
+    },
   },
 };
 </script>
