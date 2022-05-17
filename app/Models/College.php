@@ -35,10 +35,6 @@ class College extends Model
         return $this->hasMany(Course::class, 'college_id', 'id');
     }
 
-    public function applicants(){
-        return $this->hasMany(Applicant::class, 'college_id', 'id');
-    }
-
     public function getCreatedAtAttribute($value)
     {
         return now()->parse($value)->timezone(config('app.timezone'))->format('d F Y, H:i:s');

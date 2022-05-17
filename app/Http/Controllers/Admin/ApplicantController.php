@@ -12,6 +12,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class ApplicantController extends Controller
 {
@@ -29,9 +31,8 @@ class ApplicantController extends Controller
             'field' => ['in:fname,mname,lname,email,phone_number'],
         ]);
 
-        $college_names = College::latest()->get();
 
-        $data = Applicant::with('colleges');
+        $data = Applicant::query();
         $perpage = $request->input('perpage') ?: 25;
 
         if (request('search')) {
@@ -51,7 +52,6 @@ class ApplicantController extends Controller
         return Inertia::render('Admin/Applicant/Index', [
             'applicants' => $data->paginate($perpage)->withQueryString(),
             'filters' => request()->all(['search', 'field', 'direction', 'perpage']),
-            'college_names' => $college_names,
         ]);
     }
 
@@ -74,10 +74,7 @@ class ApplicantController extends Controller
      */
     public function store(Request $request)
     {
-
-        // dd($request['colleges']);
         $val = Validator::make($request->all(), [
-            'colleges' => ['required'],
             'fname' => ['required', 'string', 'max:255'],
             'lname' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:applicants'],
@@ -90,7 +87,7 @@ class ApplicantController extends Controller
             return back();
         }
         $user = User::create([
-            'name' => $request['lname'] . ', ' . $request['fname'] . ' ' . $request['mname'],
+            'name' =>  Str::of($request['lname'])->ucfirst() . ', ' . Str::of($request['fname'])->ucfirst() . ' ' . Str::of($request['mname'])->ucfirst(),
             'email' => $request['email'],
             'phone' => $request['phone_number'],
             'role' => 'applicant',
@@ -99,19 +96,13 @@ class ApplicantController extends Controller
 
         $applicant = Applicant::create([
             'user_id' => $user->id,
-            'fname' => $request['fname'],
-            'mname' => $request['mname'],
-            'lname' => $request['lname'],
+            'fname' => Str::of($request['fname'])->ucfirst(),
+            'mname' => Str::of($request['mname'])->ucfirst(),
+            'lname' => Str::of($request['lname'])->ucfirst(),
             'email' => $request['email'],
             'phone_number' => $request['phone_number'],
             'birthday' => $request['birthday'],
         ]);
-
-        $colids = [];
-        foreach ($request['colleges'] as $col) {
-            array_push($colids, $col['id']);
-        }
-        $applicant->colleges()->attach($colids);
 
         $this->flash('Applicant added', 'success');
 
@@ -149,9 +140,7 @@ class ApplicantController extends Controller
      */
     public function update(Request $request, Applicant $applicant)
     {
-        // dd($request['colleges']);
         $val = Validator::make($request->all(), [
-            'colleges' => ['required'],
             'fname' => ['required', 'string', 'max:255'],
             'lname' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255'],
@@ -164,22 +153,23 @@ class ApplicantController extends Controller
             return back();
         }
 
+        $user = User::where('users.id', '=', $applicant->user_id)
+            ->first();
+
+        $user->update([
+            'name' =>  Str::of($request['lname'])->ucfirst() . ', ' . Str::of($request['fname'])->ucfirst() . ' ' . Str::of($request['mname'])->ucfirst(),
+            'email' => $request['email'],
+            'phone' => $request['phone_number'],
+        ]);
+
         $applicant->update([
-            'fname' => $request['fname'],
-            'mname' => $request['mname'],
-            'lname' => $request['lname'],
+            'fname' => Str::of($request['fname'])->ucfirst(),
+            'mname' => Str::of($request['mname'])->ucfirst(),
+            'lname' => Str::of($request['lname'])->ucfirst(),
             'email' => $request['email'],
             'phone_number' => $request['phone_number'],
             'birthday' => $request['birthday'],
         ]);
-
-        // $applicant->colleges()->detach();
-        $colids = [];
-        foreach ($request['colleges'] as $col) {
-            array_push($colids, $col['id']);
-        }
-
-        $applicant->colleges()->sync($colids);
 
         $this->flash('Applicant updated!', 'success');
 

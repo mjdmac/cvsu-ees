@@ -540,31 +540,11 @@
         <jet-label for="date" value="Schedule Date" />
         <div class="w-full inline-flex">
           <DatePicker
-            v-model="form.start_date"
+            v-model="form.date"
             mode="dateTime"
             :min-date="new Date()"
             :disabled-dates="{ weekdays: [1, 7] }"
             id="start_date"
-            is24hr
-            class="bg-white border rounded w-full"
-          >
-            <template v-slot="{ inputValue, inputEvents }">
-              <input
-                :value="inputValue"
-                v-on="inputEvents"
-                class="bg-white border px-2 py-2 rounded w-full"
-              />
-            </template>
-          </DatePicker>
-
-          <span class="mx-2">to</span>
-          <!-- End -->
-          <DatePicker
-            v-model="form.end_date"
-            mode="dateTime"
-            :min-date="new Date()"
-            :disabled-dates="{ weekdays: [1, 7] }"
-            id="end_date"
             is24hr
             class="bg-white border rounded w-full"
           >
@@ -663,10 +643,8 @@ export default {
 
       form: this.$inertia.form({
         sched_name: "",
-        start_ctrl_num: "",
-        end_ctrl_num: "",
-        start_date: "",
-        end_date: "",
+        ctrl_num: "",
+        date: "",
       }),
 
       // Control number checker

@@ -133,6 +133,12 @@
                         </span>
                         <span> {{ exam.description }}</span>
                       </div>
+                      <div class="px-2">
+                        <span class="text-gray-500 px-2 break-all truncate">
+                          Duration:
+                        </span>
+                        <span> {{ exam.duration }}</span>
+                      </div>
                     </div>
                     <div
                       class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"
@@ -266,6 +272,27 @@
         />
       </div>
 
+      <!-- Duration -->
+      <div class="mb-4">
+        <jet-label for="duration" value="Duration (in minutes)" />
+        <jet-input
+          id="duration"
+          type="number"
+          class="mt-1 block w-full"
+          v-model="form.duration"
+          v-show="!editMode"
+          @keyup.enter="save(form)"
+        />
+        <jet-input
+          id="duration"
+          type="number"
+          class="mt-1 block w-full"
+          v-model="form.duration"
+          v-show="editMode"
+          @keyup.enter="update(form)"
+        />
+      </div>
+
       <!-- Status -->
       <div class="mb-4" v-show="editMode">
         <jet-label for="status" value="Status" />
@@ -371,6 +398,7 @@ export default {
       form: this.$inertia.form({
         subject: this.subject,
         description: this.description,
+        duration: this.duration,
         status: "",
       }),
 

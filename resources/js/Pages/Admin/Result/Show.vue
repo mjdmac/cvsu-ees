@@ -4,361 +4,166 @@
       <!-- Header -->
       <div class="grid grid-cols-2 px-5 py-3 shadow-md rounded-md">
         <div>
-          <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            <span>Results</span>
-          </h2>
+          <Link
+            :href="route('admin.results.index')"
+            class="capitalize px-2 font-bold cursor-pointer inline-flex"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-6 w-6 text-gray-500"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+            </svg>
+            <span class="text-gray-500 font-thin"> Back to Results </span>
+          </Link>
         </div>
         <!-- Header -->
-
-        <!-- Page Buttons -->
-        <div align="right">
-          <!-- Line buttons and show dropdown -->
-          <div class="block" align="right"></div>
-          <!-- Hide in line buttons and show dropdown -->
-        </div>
-        <!-- End Page Buttons -->
       </div>
     </template>
 
-    <!-- Search Field and Button -->
-    <div class="py-12">
-      <div class="mx-auto sm:px-6 lg:px-8">
-        <div class="grid grid-cols-2 px-5 py-3">
-          <div>
-            <div class="inline-block">
-              <jet-input
-                type="text"
-                class="block ml-2 mb-4 w-60"
-                placeholder="Search..."
-                v-model="params.search"
-              />
-            </div>
-
-            <!-- View filter -->
-            <div class="inline-block">
-              <span class="px-1 text-gray-500">Show</span>
-              <select
-                ref="perpage"
-                id="perpage"
-                class="mt-1 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
-                v-model="params.perpage"
-              >
-                <option
-                  v-for="perpage in perpages"
-                  :key="perpage"
-                  :value="perpage"
-                  class="capitalize"
-                >
-                  <span>{{ perpage }}</span>
-                </option>
-              </select>
-              <span class="px-1 text-gray-500">per page</span>
-            </div>
-            <!-- View filter -->
-          </div>
-          <div class="block" align="right">
-            <div class="inline-block">
-              <jet-button
-                class="inline-flex items-center px-4 py-2 bg-emerald-200 hover:bg-emerald-300 text-emerald-800 text-sm font-medium rounded-md"
-              >
-                Send Results
-              </jet-button>
-            </div>
-          </div>
+    <div class="flex flex-col sm:justify-center items-center pt-6 sm:pt-0">
+      <div
+        class="w-full sm:max-w-2xl mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg"
+      >
+        <div class="w-full bg-emerald-500 py-2 px-4">
+          <span class="mr-2 text-xl text-white">
+            Application Result: {{ result.applicant_id }}
+          </span>
         </div>
-      </div>
 
-      <!-- Main Table -->
-      <div class="bg-white shadow-xl sm:rounded-lg">
-        <div class="flex flex-col">
-          <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-            <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-              <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-                <table class="min-w-full divide-y divide-gray-200">
-                  <thead class="bg-gray-50">
-                    <tr>
-                      <th
-                        scope="col"
-                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+        <div class="w-full py-2 px-4">
+          <table class="w-full">
+            <tbody>
+              <tr>
+                <td class="text-right text-gray-500 px-2">Name:</td>
+                <td class="px-4 py-2">
+                  <jet-input
+                    v-model="form.name"
+                    disabled
+                    readonly
+                    class="w-full px-4 py-2 bg-transparent text-md"
+                  ></jet-input>
+                </td>
+              </tr>
+              <tr>
+                <td class="text-right text-gray-500 px-2">Control Number:</td>
+                <td class="px-4 py-2">
+                  <jet-input
+                    v-model="form.applicant_id"
+                    disabled
+                    readonly
+                    class="w-full px-4 py-2 bg-transparent text-md"
+                  ></jet-input>
+                </td>
+              </tr>
+              <tr>
+                <td class="text-right text-gray-500 px-2">Exam:</td>
+                <td class="px-4 py-2">
+                  <jet-input
+                    v-model="form.exam"
+                    disabled
+                    readonly
+                    class="w-full px-4 py-2 bg-transparent text-md"
+                  ></jet-input>
+                </td>
+              </tr>
+              <tr>
+                <td class="text-right text-gray-500 px-2">Score:</td>
+                <td class="px-4 py-2">
+                  <jet-input
+                    v-model="form.score"
+                    disabled
+                    readonly
+                    class="w-full px-4 py-2 bg-transparent text-md"
+                  ></jet-input>
+                </td>
+              </tr>
+              <tr>
+                <td class="text-right text-gray-500 px-2">Email:</td>
+                <td class="px-4 py-2">
+                  <jet-input v-model="form.email" class="w-full px-4 py-2 bg-gray-50" />
+                </td>
+              </tr>
+              <tr>
+                <td class="text-right text-gray-500 px-2">Phone Number:</td>
+                <td class="px-4 py-2">
+                  <jet-input
+                    v-model="form.phone_number"
+                    class="w-full px-4 py-2 bg-gray-50"
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td class="text-right text-gray-500 px-2">Course:</td>
+                <td class="px-4 py-2">
+                  <Multiselect
+                    v-model="form.course"
+                    placeholder="Select course"
+                    valueProp="course_name"
+                    :searchable="true"
+                    label="course_name"
+                    :options="courses"
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td class="text-right text-gray-500 px-2">Status:</td>
+                <td class="px-4 py-2">
+                  <select
+                    ref="role"
+                    id="role"
+                    class="mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+                    v-model="form.status"
+                  >
+                    <option
+                      v-for="qualification in qualifications"
+                      :key="qualification"
+                      :value="qualification"
+                      class="capitalize"
+                    >
+                      <span>{{ qualification }}</span>
+                    </option>
+                  </select>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2" class="px-4 py-6">
+                  <div class="float-right">
+                    <jet-secondary-button
+                      @click="back()"
+                      class="inline-flex items-center mx-2 bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium rounded-md"
+                    >
+                      Back to Results
+                    </jet-secondary-button>
+                    <jet-button
+                      @click="send(form)"
+                      class="inline-flex items-center mx-2 bg-blue-200 hover:bg-blue-300 text-blue-800 font-medium rounded-md"
+                    >
+                      Verify and Send
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-5 w-5 ml-2 rotate-90"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        stroke-width="2"
                       >
-                        <span class="cursor-pointer flex" @click="sort('applicant_id')">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            class="h-4 w-4"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            v-if="
-                              params.field === 'applicant_id' &&
-                              params.direction === 'asc'
-                            "
-                          >
-                            <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12"
-                            />
-                          </svg>
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            class="h-4 w-4"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            v-if="
-                              params.field === 'applicant_id' &&
-                              params.direction === 'desc'
-                            "
-                          >
-                            <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              d="M3 4h13M3 8h9m-9 4h9m5-4v12m0 0l-4-4m4 4l4-4"
-                            />
-                          </svg>
-                          Control Number
-                        </span>
-                      </th>
-                      <th
-                        scope="col"
-                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                      >
-                        <span class="cursor-pointer flex" @click="sort('name')">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            class="h-4 w-4"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            v-if="params.field === 'name' && params.direction === 'asc'"
-                          >
-                            <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12"
-                            />
-                          </svg>
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            class="h-4 w-4"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            v-if="params.field === 'name' && params.direction === 'desc'"
-                          >
-                            <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              d="M3 4h13M3 8h9m-9 4h9m5-4v12m0 0l-4-4m4 4l4-4"
-                            />
-                          </svg>
-                          Name
-                        </span>
-                      </th>
-                      <th
-                        scope="col"
-                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                      >
-                        <span class="cursor-pointer flex" @click="sort('course')">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            class="h-4 w-4"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            v-if="params.field === 'course' && params.direction === 'asc'"
-                          >
-                            <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12"
-                            />
-                          </svg>
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            class="h-4 w-4"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            v-if="
-                              params.field === 'course' && params.direction === 'desc'
-                            "
-                          >
-                            <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              d="M3 4h13M3 8h9m-9 4h9m5-4v12m0 0l-4-4m4 4l4-4"
-                            />
-                          </svg>
-                          Course
-                        </span>
-                      </th>
-                      <th
-                        scope="col"
-                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                      >
-                        <span class="cursor-pointer flex" @click="sort('score')">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            class="h-4 w-4"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            v-if="params.field === 'score' && params.direction === 'asc'"
-                          >
-                            <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12"
-                            />
-                          </svg>
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            class="h-4 w-4"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            v-if="params.field === 'score' && params.direction === 'desc'"
-                          >
-                            <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              d="M3 4h13M3 8h9m-9 4h9m5-4v12m0 0l-4-4m4 4l4-4"
-                            />
-                          </svg>
-                          Score
-                        </span>
-                      </th>
-                      <th
-                        scope="col"
-                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                      >
-                        <span class="cursor-pointer flex" @click="sort('status')">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            class="h-4 w-4"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            v-if="params.field === 'status' && params.direction === 'asc'"
-                          >
-                            <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12"
-                            />
-                          </svg>
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            class="h-4 w-4"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            v-if="
-                              params.field === 'status' && params.direction === 'desc'
-                            "
-                          >
-                            <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              d="M3 4h13M3 8h9m-9 4h9m5-4v12m0 0l-4-4m4 4l4-4"
-                            />
-                          </svg>
-                          Status
-                        </span>
-                      </th>
-                      <th scope="col" class="relative px-6 py-3">
-                        <span class="sr-only">Edit</span>
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody class="bg-white divide-y divide-gray-200">
-                    <tr v-if="!results.data.length">
-                      <td class="p-4 text-center text-sm text-gray-800" colspan="7">
-                        <span class="text-red-500 uppercase text-xl"
-                          >No Results Found</span
-                        >
-                        <NoData />
-                      </td>
-                    </tr>
-                    <tr v-for="result in results.data" :key="result.id">
-                      <td class="px-6 py-4 whitespace-nowrap">
-                        {{ result.applicant_id }}
-                      </td>
-                      <td class="px-6 py-4 whitespace-nowrap">
-                        {{ result.name }}
-                      </td>
-                      <td class="px-6 py-4 whitespace-nowrap">
-                        {{ result.course }}
-                      </td>
-                      <td class="px-6 py-4 whitespace-nowrap">
-                        {{ result.score }}
-                      </td>
-                      <td class="px-6 py-4 whitespace-nowrap">
-                        {{ result.status }}
-                      </td>
-                      <td
-                        class="px-6 py-4 space-x-1 whitespace-nowrap text-right text-sm font-medium"
-                      >
-                        <button
-                          class="inline-flex items-center px-4 py-2 bg-blue-200 hover:bg-blue-300 text-blue-800 text-sm font-medium rounded-md"
-                        >
-                          Verify
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            class="h-5 w-5 ml-1"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                            stroke-width="2"
-                          >
-                            <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                            />
-                          </svg>
-                        </button>
-
-                        <button
-                          class="inline-flex items-center px-4 py-2 bg-emerald-200 hover:bg-emerald-300 text-emerald-800 text-sm font-medium rounded-md"
-                        >
-                          Send
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            class="h-5 w-5 ml-1"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                            stroke-width="2"
-                          >
-                            <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                            />
-                          </svg>
-                        </button>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="mx-auto sm:px-6 lg:px-8">
-          <!-- <jet-pagination class="m-5" /> -->
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
+                        />
+                      </svg>
+                    </jet-button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
@@ -374,8 +179,6 @@ import JetButton from "@/Jetstream/Button";
 import JetSecondaryButton from "@/Jetstream/SecondaryButton";
 import JetLabel from "@/Jetstream/Label";
 import JetInput from "@/Jetstream/Input";
-import JetDropdown from "@/Jetstream/Dropdown";
-import JetDropdownLink from "@/Jetstream/DropdownLink";
 import DialogModal from "@/Jetstream/DialogModal";
 import JetPagination from "@/Components/Pagination";
 import { Link } from "@inertiajs/inertia-vue3";
@@ -391,8 +194,6 @@ export default {
     JetLabel,
     JetInput,
     JetPagination,
-    JetDropdown,
-    JetDropdownLink,
     DialogModal,
     Link,
     Multiselect,
@@ -402,9 +203,9 @@ export default {
   extends: shared,
 
   props: {
-    results: Object,
-    filters: Object,
-    course_names: Object,
+    result: Object,
+    applicant: Object,
+    courses: Object,
   },
 
   data() {
@@ -413,10 +214,15 @@ export default {
       disabled: null,
       editMode: false,
 
-      params: {
-        search: this.filters.search,
-        field: this.filters.field,
-        direction: this.filters.direction,
+      form: {
+        name: this.result.name,
+        applicant_id: this.result.applicant_id,
+        course: this.result.course,
+        exam: this.result.exam,
+        score: this.result.score,
+        status: this.result.status,
+        phone_number: this.applicant.phone_number,
+        email: this.applicant.email,
       },
     };
   },
@@ -440,24 +246,23 @@ export default {
       return this.isOpen;
     },
 
-    // Sort function
-    sort(field) {
-      this.params.field = field;
-      this.params.direction = this.params.direction === "asc" ? "desc" : "asc";
+    // Send
+    send: function (result) {
+      this.$inertia.put(
+        this.route("admin.results.update", this.result.id),
+        this.form,
+        {}
+      );
+
+      this.$inertia.visit(route("admin.send.notif"), {
+        method: "get",
+        data: result,
+      });
     },
-  },
 
-  watch: {
-    params: {
-      handler: throttle(function () {
-        let params = pickBy(this.params);
-
-        this.$inertia.get(this.route("admin.results.index"), params, {
-          replace: true,
-          preserveState: true,
-        });
-      }, 150),
-      deep: true,
+    // Return
+    back: function () {
+      this.$inertia.visit(route("admin.results.index"));
     },
   },
 };

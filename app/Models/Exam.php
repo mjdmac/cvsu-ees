@@ -15,6 +15,7 @@ class Exam extends Model
         'subject',
         'exam_code',
         'description',
+        'duration',
         'status',
     ];
 

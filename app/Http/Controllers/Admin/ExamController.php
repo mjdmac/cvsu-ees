@@ -34,7 +34,6 @@ class ExamController extends Controller
             $data
                 ->where('exams.subject', 'like', '%' . request('search') . '%')
                 ->orwhere('exams.exam_code', 'like', '%' . request('search') . '%')
-                // ->orWhere('exams.description', 'like', '%' . request('search') . '%')
                 ->orWhere('exams.status', 'like', '%' . request('search') . '%');
         }
 
@@ -82,6 +81,7 @@ class ExamController extends Controller
             'exam_code' => $exam_code,
             'subject' => Str::of($request['subject'])->upper(),
             'description' => Str::of($request['description'])->ucfirst(),
+            'duration' => $request['duration'],
         ]);
 
         $this->flash('Exam created!', 'success');
@@ -103,6 +103,7 @@ class ExamController extends Controller
                 'subject' => $exam->subject,
                 'exam_code' => $exam->exam_code,
                 'description' => $exam->description,
+                'duration' => $exam->duration,
                 'questions' => $exam->questions()->get()->map->only('exam_id', 'id', 'question'),
             ],
         ]);
@@ -143,6 +144,7 @@ class ExamController extends Controller
             'subject' => Str::of($request['subject'])->upper(),
             'description' => Str::of($request['description'])->ucfirst(),
             'status' => $request['status'],
+            'duration' => $request['duration'],
         ]);
 
         $this->flash('Exam updated!', 'success');

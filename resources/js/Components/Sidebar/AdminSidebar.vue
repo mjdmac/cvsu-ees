@@ -411,7 +411,8 @@
               :href="route('admin.results.index')"
               class="text-xs uppercase py-2 font-bold block"
               :class="
-                route().current('admin.results.index')
+                route().current('admin.results.index') ||
+                route().current('admin.results.show')
                   ? 'text-emerald-500 hover:text-emerald-600'
                   : 'text-blueGray-700 hover:text-blueGray-500'
               "

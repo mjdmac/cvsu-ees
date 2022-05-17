@@ -251,12 +251,7 @@
                           <div class="inline-block">Last Name</div></span
                         >
                       </th>
-                      <th
-                        scope="col"
-                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                      >
-                        <div class="inline-block">College</div>
-                      </th>
+
                       <th
                         scope="col"
                         class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
@@ -416,18 +411,6 @@
                         {{ applicant.lname }}
                       </td>
                       <td class="px-6 py-4 whitespace-nowrap">
-                        <span
-                          v-for="college in applicant.colleges"
-                          v-bind:key="college.id"
-                        >
-                          {{
-                            applicant.colleges.length >= 2
-                              ? college.college_name + ", "
-                              : college.college_name
-                          }}
-                        </span>
-                      </td>
-                      <td class="px-6 py-4 whitespace-nowrap">
                         {{ applicant.birthday }}
                       </td>
                       <td class="px-6 py-4 whitespace-nowrap">
@@ -500,25 +483,6 @@
     </template>
 
     <template #content>
-      <!-- Colleges -->
-      <div class="mb-4">
-        <jet-label for="college" value="College" />
-        <div>
-          <Multiselect
-            v-model="form.colleges"
-            mode="tags"
-            placeholder="Select colleges"
-            object="true"
-            valueProp="id"
-            :searchable="true"
-            label="college_name"
-            :options="college_names"
-            @keyup.enter="save(form)"
-            :close-on-select="false"
-          />
-        </div>
-      </div>
-
       <!-- First Name -->
       <div class="mb-4">
         <jet-label for="fname" value="First Name" />
@@ -656,7 +620,6 @@ export default {
   props: {
     applicants: Object,
     filters: Object,
-    college_names: Array,
   },
 
   extends: shared,
@@ -671,7 +634,6 @@ export default {
       },
 
       form: this.$inertia.form({
-        colleges: [],
         fname: "",
         mname: "",
         lname: "",

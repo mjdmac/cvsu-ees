@@ -9,14 +9,6 @@
           </h2>
         </div>
         <!-- Header -->
-
-        <!-- Page Buttons -->
-        <div align="right">
-          <!-- Line buttons and show dropdown -->
-          <div class="block" align="right"></div>
-          <!-- Hide in line buttons and show dropdown -->
-        </div>
-        <!-- End Page Buttons -->
       </div>
     </template>
 
@@ -370,6 +362,8 @@
                       >
                         <button
                           class="inline-flex items-center px-4 py-2 bg-blue-200 hover:bg-blue-300 text-blue-800 text-sm font-medium rounded-md"
+                          v-if="result.status == 'pending'"
+                          @click="verify(result)"
                         >
                           Verify
                           <svg
@@ -387,11 +381,15 @@
                             />
                           </svg>
                         </button>
-
                         <button
                           class="inline-flex items-center px-4 py-2 bg-emerald-200 hover:bg-emerald-300 text-emerald-800 text-sm font-medium rounded-md"
+                          v-if="
+                            result.status == 'qualified' ||
+                            result.status == 'not qualified'
+                          "
+                          @click="verify(result)"
                         >
-                          Send
+                          Verified
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             class="h-5 w-5 ml-1"
@@ -403,7 +401,7 @@
                             <path
                               stroke-linecap="round"
                               stroke-linejoin="round"
-                              d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                              d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
                             />
                           </svg>
                         </button>
@@ -416,7 +414,7 @@
           </div>
         </div>
         <div class="mx-auto sm:px-6 lg:px-8">
-          <!-- <jet-pagination class="m-5" /> -->
+          <jet-pagination class="m-5" :links="results.links" />
         </div>
       </div>
     </div>
@@ -502,6 +500,12 @@ export default {
     sort(field) {
       this.params.field = field;
       this.params.direction = this.params.direction === "asc" ? "desc" : "asc";
+    },
+
+    // Verify
+    verify: function (result) {
+      this.$inertia.visit(route("admin.results.show", result));
+      this.questionform = Object.assign({}, result);
     },
   },
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Traits\Banner;
 use App\Mail\ResultMail;
 use App\Models\Applicant;
 use App\Models\Course;
@@ -13,10 +14,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
 
 class ResultController extends Controller
 {
+
+    use Banner;
     /**
      * Display a listing of the resource.
      *
@@ -31,8 +35,8 @@ class ResultController extends Controller
 
         $course_names = Course::latest()->get();
         $applicant = DB::table('results')
-        ->join('applicants', 'results.applicant_id', '=', 'applicants.id')
-        ->where('results.applicant_id' , '=', 'applicants.id');
+            ->join('applicants', 'results.applicant_id', '=', 'applicants.id')
+            ->where('results.applicant_id', '=', 'applicants.id');
 
         $data = Result::query();
         $perpage = $request->input('perpage') ?: 25;
@@ -84,9 +88,26 @@ class ResultController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Result $result)
     {
-        //
+        $applicant = Applicant::where('applicants.id', '=', $result->applicant_id)
+            ->first();
+
+        $courses = Course::latest()->get();
+
+        return Inertia::render('Admin/Result/Show', [
+            'result' => [
+                'id' => $result->id,
+                'applicant_id' => $result->applicant_id,
+                'name' => $result->name,
+                'course' => $result->course,
+                'exam' => $result->exam,
+                'score' => $result->score,
+                'status' => $result->status,
+            ],
+            'applicant' => $applicant,
+            'courses' => $courses,
+        ]);
     }
 
     /**
@@ -107,9 +128,26 @@ class ResultController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Result $result)
     {
-        //
+        $val = Validator::make($request->all(), [
+            'name' => ['required'],
+            'applicant_id' =>  ['required'],
+            'exam' => ['required'],
+            'score' => ['required'],
+            'course' => ['required'],
+            'status' => ['required'],
+        ]);
+
+        if ($val->fails()) {
+            $this->flash($val->errors()->first(), 'danger');
+            return back();
+        }
+
+        $result->update([
+            'course' => $request['course'],
+            'status' => $request['status'],
+        ]);
     }
 
     /**
@@ -125,33 +163,46 @@ class ResultController extends Controller
 
     public function sendNotification(Request $request)
     {
-        $result = [
-            'subject' => '',
-            'greetings' => 'Good Day Applicant,',
-            'body' => 'Congratulations! You passed the entrance examination and is qualified to enroll to Cavite State University-Main Campus. Proceed on submitting all the requirements for the enrollment.',
-            'text' => 'See the results',
-            'url' => url('/'),
-            'thanks' => 'Thank you!',
+        $data = [
+            'name' => $request['name'],
+            'status' => $request['status'],
+            'course' => $request['course'],
+            'regards' => 'Cavite State University-Main Campus',
         ];
 
-        $basic  = new \Vonage\Client\Credentials\Basic("68ad8f1a", "4PMcuDQ5mVe0STkl");
-        $client = new \Vonage\Client($basic);
+        // $sms_message = 'Greetings Mr/Ms ' . $request['name'] . '. This is Cavite State University. You have passed the examination and is ' . $request['status'] . ' to enroll to ' . $request['course'] . ' program in Cavite State University-Main Campus. Please proceed on completing the requirements for the enrollment. Thank you.';
 
-        $response = $client->sms()->send(
-            new \Vonage\SMS\Message\SMS("639072203266", BRAND_NAME, 'A text message sent using the Nexmo SMS API')
-        );
+        $sms_message = 'This is Cavite State University. You are ' . $request['status'] . ' to enroll to ' . $request['course'] . ' program in Cavite State University-Main Campus.';
 
-        $message = $response->current();
+        $phone = $request['phone_number'];
+        $email = $request['email'];
 
-        if ($message->getStatus() == 0) {
-            echo "The message was sent successfully\n";
+        if ($request['status'] == 'qualified') {
+            $basic  = new \Vonage\Client\Credentials\Basic("68ad8f1a", "4PMcuDQ5mVe0STkl");
+            $client = new \Vonage\Client($basic);
+
+            $response = $client->sms()->send(
+                new \Vonage\SMS\Message\SMS($phone, 'Cavite State University', $sms_message)
+            );
+
+            $message = $response->current();
+
+            if ($message->getStatus() == 0) {
+                $this->flash('Result was sent!', 'success');
+            } else {
+
+                $this->flash('Result was not sent!', 'danger');
+                // echo "The message failed with status: " . $message->getStatus() . "\n";
+            }
+
+            Mail::to($email)->send(new ResultMail($data));
+
+
+            $this->flash('Result was sent!', 'success');
+
+            return redirect()->back();
         } else {
-            echo "The message failed with status: " . $message->getStatus() . "\n";
+            return redirect(route('admin.results.index'));
         }
-
-        // Notification::send($applicant, new ResultNotification($result));
-        Mail::to("banogfires@gmail.com")->send(new ResultMail($result));
-
-        dd('Result has been sent!');
     }
 }

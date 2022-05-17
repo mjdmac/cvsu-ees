@@ -29,6 +29,6 @@ class ResultMail extends Mailable
      */
     public function build()
     {
-        return $this->subject('Cavite State University-Main Campus Application Status')->view('Email.ResultMail');
+        return $this->subject('Cavite State University-Main Campus Application Status')->view('email.result');
     }
 }

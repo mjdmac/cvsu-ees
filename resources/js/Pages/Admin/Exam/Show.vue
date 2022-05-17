@@ -86,7 +86,7 @@
 
     <div class="mx-auto sm:px-6 lg:px-8">
       <div class="px-5 py-3">
-        <div class="text-2xl">
+        <div class="text-2xl py-1">
           <span class="text-gray-800 font-bold uppercase">
             <span>{{ exam.subject }}</span>
           </span>
@@ -110,9 +110,13 @@
             </svg>
           </button>
         </div>
-        <div class="text-md">
-          <span> Description: </span>
-          <span class="text-gray-500">{{ exam.description }}</span>
+        <div class="text-md py-1">
+          <span class="text-gray-500"> Description: </span>
+          <span class="text-lg">{{ exam.description }}</span>
+        </div>
+        <div class="text-md py-1">
+          <span class="text-gray-500"> Duration: </span>
+          <span class="text-lg">{{ exam.duration }}</span>
         </div>
       </div>
     </div>
@@ -237,6 +241,18 @@
           type="text"
           class="mt-1 block w-full"
           v-model="examform.description"
+          @keyup.enter="updateExam(exam)"
+        />
+      </div>
+
+      <!-- Duration -->
+      <div class="mb-4">
+        <jet-label for="duration" value="Duration" />
+        <jet-input
+          id="duration"
+          type="text"
+          class="mt-1 block w-full"
+          v-model="examform.duration"
           @keyup.enter="updateExam(exam)"
         />
       </div>

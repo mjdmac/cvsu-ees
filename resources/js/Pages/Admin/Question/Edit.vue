@@ -87,7 +87,11 @@
           <span class="uppercase text-sm mr-2 text-gray-500"> Question: </span>
           <span class="text-lg capitalize">
             <!-- {{ question.question }} -->
-            <img :src="question.img_path" v-if="question.img_path != null" class="object-contain" />
+            <img
+              :src="question.img_path"
+              v-if="question.img_path != null"
+              class="object-contain"
+            />
             {{ question.img_path }}
 
             <jet-input

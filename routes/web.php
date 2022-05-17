@@ -79,7 +79,7 @@ Route::prefix('admin')
 
         // Results routes
         Route::resource('results', ResultController::class);
-        Route::get('send-notification', [ResultController::class, 'sendNotification']);
+        Route::get('send-notification', [ResultController::class, 'sendNotification'])->name('send.notif');
 
         // Chatbot routes
         Route::resource('chatbot', ChatbotController::class);
