@@ -27,22 +27,19 @@ class ScheduleController extends Controller
     {
         request()->validate([
             'direction' => ['in:asc,desc'],
-            'field' => ['in:sched_code,start_date,end_date,start_ctrl_num,end_ctrl_num,status'],
+            'field' => ['in:sched_code,date,ctrl_num,status'],
         ]);
 
         $sched =  Schedule::where('status', 'pending')->get();
+
         $arr = [];
 
-        foreach($sched as $num){
-            for($x=$num->start_ctrl_num;$x<=$num->end_ctrl_num;$x++){
-                if(!in_array($x, $arr))
+        foreach ($sched as $num) {
+            for ($x = $num->ctrl_num; $x <= $num->ctrl_num; $x++) {
+                if (!in_array($x, $arr))
                     array_push($arr, $x);
             }
         }
-
-
-        // $end_num = Schedule::pluck('end_ctrl_num')
-        //                     ->toArray();
 
         $applicants = Applicant::select('id')
             ->whereNotIn('id', $arr)
@@ -57,10 +54,8 @@ class ScheduleController extends Controller
             $data
                 ->where('schedules.sched_code', 'like', '%' . request('search') . '%')
                 ->orwhere('schedules.sched_name', 'like', '%' . request('search') . '%')
-                ->orwhere('schedules.start_date', 'like', '%' . request('search') . '%')
-                ->orwhere('schedules.end_date', 'like', '%' . request('search') . '%')
-                ->orwhere('schedules.start_ctrl_num', 'like', '%' . request('search') . '%')
-                ->orwhere('schedules.end_ctrl_num', 'like', '%' . request('search') . '%')
+                ->orwhere('schedules.date', 'like', '%' . request('search') . '%')
+                ->orwhere('schedules.ctrl_num', 'like', '%' . request('search') . '%')
                 ->orwhere('schedules.status', 'like', '%' . request('search') . '%');
         }
 
@@ -93,13 +88,20 @@ class ScheduleController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request['colleges']);
+
+        // $arr = [];
+        // for ($x = $request->start_ctrl_num; $x <= $request->end_ctrl_num; $x++) {
+        //     if (!in_array($x, $arr))
+        //         array_push($arr, $x);
+        // }
+
+        // dd($arr);
+
         $val = Validator::make($request->all(), [
             'sched_name' => ['required'],
             'start_ctrl_num' => ['required'],
             'end_ctrl_num' => ['required'],
-            'start_date' => ['required', 'date'],
-            'end_date' => ['required', 'date'],
+            'date' => ['required', 'date'],
         ]);
 
         if ($val->fails()) {
@@ -109,16 +111,22 @@ class ScheduleController extends Controller
 
         $sched_code = IdGenerator::generate(['table' => 'schedules', 'field' => 'sched_code', 'length' => 8, 'prefix' => 'SCH-', 'reset_on_prefix_change' => true]);
 
-        Schedule::create([
-            'sched_code' => $sched_code,
-            'sched_name' => $request['sched_name'],
-            'start_ctrl_num' => $request['start_ctrl_num'],
-            'end_ctrl_num' => $request['end_ctrl_num'],
-            'start_date' => date('Y-m-d H:i:s', strtotime($request['start_date'])),
-            'end_date' => date('Y-m-d H:i:s', strtotime($request['end_date'])),
-        ]);
+        $arr = [];
+        for ($x = $request->start_ctrl_num; $x <= $request->end_ctrl_num; $x++) {
 
-        $this->flash('Schedule created', 'success');
+            if (!in_array($x, $arr)) {
+                array_push($arr, $x);
+            }
+
+            Schedule::create([
+                'sched_code' => $sched_code,
+                'sched_name' => $request['sched_name'],
+                'ctrl_num' => $x,
+                'date' => date('Y-m-d H:i:s', strtotime($request['date'])),
+            ]);
+        }
+
+        $this->flash('Schedule created!', 'success');
 
         return redirect()->back();
     }

@@ -190,10 +190,7 @@
                         scope="col"
                         class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                       >
-                        <span
-                          class="cursor-pointer inline-flex"
-                          @click="sort('start_date')"
-                        >
+                        <span class="cursor-pointer inline-flex" @click="sort('date')">
                           <div>
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -202,10 +199,7 @@
                               viewBox="0 0 24 24"
                               stroke="currentColor"
                               stroke-width="2"
-                              v-if="
-                                params.field === 'start_date' &&
-                                params.direction === 'asc'
-                              "
+                              v-if="params.field === 'date' && params.direction === 'asc'"
                             >
                               <path
                                 stroke-linecap="round"
@@ -221,8 +215,7 @@
                               stroke="currentColor"
                               stroke-width="2"
                               v-if="
-                                params.field === 'start_date' &&
-                                params.direction === 'desc'
+                                params.field === 'date' && params.direction === 'desc'
                               "
                             >
                               <path
@@ -232,55 +225,8 @@
                               />
                             </svg>
                           </div>
-                          <div>Start Date</div></span
-                        >
-                      </th>
-                      <th
-                        scope="col"
-                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                      >
-                        <span
-                          class="cursor-pointer inline-flex"
-                          @click="sort('end_date')"
-                        >
-                          <div>
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              class="h-4 w-4"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              v-if="
-                                params.field === 'end_date' && params.direction === 'asc'
-                              "
-                            >
-                              <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12"
-                              />
-                            </svg>
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              class="h-4 w-4"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              v-if="
-                                params.field === 'end_date' && params.direction === 'desc'
-                              "
-                            >
-                              <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="M3 4h13M3 8h9m-9 4h9m5-4v12m0 0l-4-4m4 4l4-4"
-                              />
-                            </svg>
-                          </div>
-                          <div>End Date</div></span
-                        >
+                          <div>Date</div>
+                        </span>
                       </th>
 
                       <th
@@ -289,7 +235,7 @@
                       >
                         <span
                           class="cursor-pointer inline-flex"
-                          @click="sort('start_ctrl_num')"
+                          @click="sort('ctrl_num')"
                         >
                           <div>
                             <svg
@@ -300,8 +246,7 @@
                               stroke="currentColor"
                               stroke-width="2"
                               v-if="
-                                params.field === 'start_ctrl_num' &&
-                                params.direction === 'asc'
+                                params.field === 'ctrl_num' && params.direction === 'asc'
                               "
                             >
                               <path
@@ -318,8 +263,7 @@
                               stroke="currentColor"
                               stroke-width="2"
                               v-if="
-                                params.field === 'start_ctrl_num' &&
-                                params.direction === 'desc'
+                                params.field === 'ctrl_num' && params.direction === 'desc'
                               "
                             >
                               <path
@@ -329,7 +273,7 @@
                               />
                             </svg>
                           </div>
-                          <div>Control Numbers</div>
+                          <div>Control Number</div>
                         </span>
                       </th>
 
@@ -391,7 +335,7 @@
                         <NoData />
                       </td>
                     </tr>
-                    <tr v-for="schedule in schedules.data" :key="schedule.id">
+                    <tr v-for="schedule in schedules.data" :key="schedule">
                       <td class="px-6 py-4 whitespace-nowrap">
                         {{ schedule.sched_code }}
                       </td>
@@ -399,16 +343,10 @@
                         {{ schedule.sched_name }}
                       </td>
                       <td class="px-6 py-4 whitespace-nowrap">
-                        {{ schedule.start_date }}
+                        {{ schedule.date }}
                       </td>
                       <td class="px-6 py-4 whitespace-nowrap">
-                        {{ schedule.end_date }}
-                      </td>
-                      <td class="px-6 py-4 whitespace-nowrap">
-                        {{ schedule.start_ctrl_num }}
-
-                        <span class="px-1"> - </span>
-                        {{ schedule.end_ctrl_num }}
+                        {{ schedule.ctrl_num }}
                       </td>
                       <td class="px-6 py-4 whitespace-nowrap">
                         <span
@@ -544,7 +482,7 @@
             mode="dateTime"
             :min-date="new Date()"
             :disabled-dates="{ weekdays: [1, 7] }"
-            id="start_date"
+            id="date"
             is24hr
             class="bg-white border rounded w-full"
           >
@@ -643,7 +581,8 @@ export default {
 
       form: this.$inertia.form({
         sched_name: "",
-        ctrl_num: "",
+        start_ctrl_num: "",
+        end_ctrl_num: "",
         date: "",
       }),
 
@@ -685,9 +624,8 @@ export default {
         },
         onSuccess: () => {
           this.disabledClick(false), (this.form = {});
+          this.isOpen = false;
         },
-        preserveScroll: true,
-        preserveState: true,
       });
     },
 

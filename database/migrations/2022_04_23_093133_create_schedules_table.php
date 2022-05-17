@@ -17,10 +17,8 @@ class CreateSchedulesTable extends Migration
             $table->id();
             $table->string('sched_code');
             $table->string('sched_name');
-            $table->dateTime('start_date')->nullable();
-            $table->dateTime('end_date')->nullable();
-            $table->bigInteger('start_ctrl_num')->nullable();
-            $table->bigInteger('end_ctrl_num')->nullable();
+            $table->dateTime('date')->nullable();
+            $table->bigInteger('ctrl_num')->nullable();
             $table->string('status')->default('pending');
             $table->timestamps();
         });

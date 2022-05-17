@@ -14,10 +14,8 @@ class Schedule extends Model
     protected $fillable = [
         'sched_code',
         'sched_name',
-        'start_date',
-        'end_date',
-        'start_ctrl_num',
-        'end_ctrl_num',
+        'date',
+        'ctrl_num',
         'status',
     ];
 
