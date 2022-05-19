@@ -15,7 +15,7 @@ class Schedule extends Model
         'sched_code',
         'sched_name',
         'date',
-        'ctrl_num',
+        'applicant_id',
         'status',
     ];
 

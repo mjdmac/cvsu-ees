@@ -346,7 +346,7 @@
                         {{ schedule.date }}
                       </td>
                       <td class="px-6 py-4 whitespace-nowrap">
-                        {{ schedule.ctrl_num }}
+                        {{ schedule.applicant_id }}
                       </td>
                       <td class="px-6 py-4 whitespace-nowrap">
                         <span
@@ -372,7 +372,7 @@
                         class="px-6 py-4 space-x-1 whitespace-nowrap text-right text-sm font-medium"
                       >
                         <button
-                          @click="edit(user, true)"
+                          @click="edit(schedule, true)"
                           class="inline-flex items-center px-2 py-2 mr-2 bg-blue-200 hover:bg-blue-300 text-blue-800 text-sm font-medium rounded-md"
                         >
                           <svg
@@ -393,7 +393,7 @@
 
                         <button
                           :disabled="disabled"
-                          @click="deleteRow(user.id)"
+                          @click="deleteRow(schedule.id)"
                           class="inline-flex items-center px-2 py-2 mr-2 bg-red-200 hover:bg-red-300 text-red-800 text-sm font-medium rounded-md"
                         >
                           <svg
@@ -626,6 +626,21 @@ export default {
           this.disabledClick(false), (this.form = {});
           this.isOpen = false;
         },
+      });
+    },
+
+    // Edit mode function
+    edit: function (schedule, status) {
+      this.form = Object.assign({}, schedule);
+      this.editMode = true;
+      this.openModal(status);
+    },
+
+    // Update function
+    update: function (schedule) {
+      this.$inertia.visit("/admin/schedules/" + schedule.id, {
+        method: "put",
+        data: schedule,
       });
     },
 

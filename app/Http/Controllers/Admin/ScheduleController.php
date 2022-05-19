@@ -35,7 +35,7 @@ class ScheduleController extends Controller
         $arr = [];
 
         foreach ($sched as $num) {
-            for ($x = $num->ctrl_num; $x <= $num->ctrl_num; $x++) {
+            for ($x = $num->applicant_id; $x <= $num->applicant_id; $x++) {
                 if (!in_array($x, $arr))
                     array_push($arr, $x);
             }
@@ -55,7 +55,7 @@ class ScheduleController extends Controller
                 ->where('schedules.sched_code', 'like', '%' . request('search') . '%')
                 ->orwhere('schedules.sched_name', 'like', '%' . request('search') . '%')
                 ->orwhere('schedules.date', 'like', '%' . request('search') . '%')
-                ->orwhere('schedules.ctrl_num', 'like', '%' . request('search') . '%')
+                ->orwhere('schedules.applicant_id', 'like', '%' . request('search') . '%')
                 ->orwhere('schedules.status', 'like', '%' . request('search') . '%');
         }
 
@@ -89,14 +89,6 @@ class ScheduleController extends Controller
     public function store(Request $request)
     {
 
-        // $arr = [];
-        // for ($x = $request->start_ctrl_num; $x <= $request->end_ctrl_num; $x++) {
-        //     if (!in_array($x, $arr))
-        //         array_push($arr, $x);
-        // }
-
-        // dd($arr);
-
         $val = Validator::make($request->all(), [
             'sched_name' => ['required'],
             'start_ctrl_num' => ['required'],
@@ -121,7 +113,7 @@ class ScheduleController extends Controller
             Schedule::create([
                 'sched_code' => $sched_code,
                 'sched_name' => $request['sched_name'],
-                'ctrl_num' => $x,
+                'applicant_id' => $x,
                 'date' => date('Y-m-d H:i:s', strtotime($request['date'])),
             ]);
         }
