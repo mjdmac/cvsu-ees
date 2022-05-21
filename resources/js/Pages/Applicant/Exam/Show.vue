@@ -2,104 +2,120 @@
   <applicant-layout title="Applicant">
     <template #header>
       <!-- Header -->
-      <div class="grid grid-cols-2 px-5 py-3 shadow-md rounded-md">
+      <div class="grid grid-cols-2 px-5 py-3 shadow-lg rounded-md bg-emerald-600">
         <div>
-          <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            <span>Examinations</span>
+          <h2 class="font-semibold text-xl text-white leading-tight">
+            <span>{{ exam.exam_code }}</span>
           </h2>
         </div>
+        <!-- Page Buttons -->
+        <div align="right">
+          <!-- Line buttons and show dropdown -->
+          <div class="inline-flex" align="right">
+            <div class="text-xl font-medium text-white leading-tight">
+              Duration: <span>{{ exam.duration }}</span>
+            </div>
+          </div>
+          <!-- Hide in line buttons and show dropdown -->
+        </div>
+        <!-- End Page Buttons -->
       </div>
     </template>
 
     <div class="flex flex-col">
       <!-- Card -->
-      <div class="w-full lg:w-6/12 xl:w-6/12 px-4">
+      <div class="w-full px-4">
         <div
-          class="relative flex flex-col min-w-0 break-words bg-white rounded mb-6 xl:mb-0 shadow-lg"
+          class="relative flex flex-col min-w-0 break-words bg-white rounded mb-6 xl:mb-0 shadow-sm"
         >
           <div class="flex-auto p-8">
             <div class="flex flex-wrap">
               <div class="relative w-full pr-4 max-w-full flex-grow flex-1">
-                <h5 class="text-gray-400 uppercase font-bold text-xl">Title</h5>
+                <h5 class="text-gray-400 uppercase font-bold text-xl">
+                  {{ exam.subject }}
+                </h5>
                 <span class="font-semibold text-xl text-gray-700">
-                  <!-- {{ noOfSched }} -->
-                  Description
+                  {{ exam.description }}
                 </span>
-              </div>
-              <div class="relative w-auto pl-4 flex-initial">
-                <Link class="cursor-pointer" :href="route('applicant.results.index')">
-                  <div
-                    class="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 shadow-lg rounded-full bg-blue-500"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      class="h-6 w-6"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      stroke-width="2"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-                      />
-                    </svg>
-                  </div>
-                </Link>
               </div>
             </div>
-            <p class="text-md text-gray-400 mt-4">
-              <Link
-                class="cursor-pointer mr-2 text-emerald-500 hover:text-emerald-700 hover:animate-pulse"
-                :href="route('applicant.results.index')"
-              >
-                <span class="inline-flex">
-                  Take exam
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="h-6 w-6"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    stroke-width="2"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M13 7l5 5m0 0l-5 5m5-5H6"
-                    />
-                  </svg>
-                </span>
-              </Link>
-            </p>
           </div>
         </div>
       </div>
       <!-- Card -->
+
+      <!-- Full dashboard -->
+      <div>
+        <div class="flex flex-wrap mt-8">
+          <!-- Left side -->
+          <div class="w-full lg:w-8/12">
+            <!-- Table div -->
+            <div class="px-4 py-2 w-full bg-gray-700">
+              <span class="uppercase tracking-wider text-white">Question</span>
+            </div>
+
+            <div class="relative md:pt-6 pb-6 pt-12">
+              <div class="mx-auto w-full">
+                <div>
+                  <div class="flex flex-wrap"></div>
+                </div>
+              </div>
+            </div>
+            <!-- Table div -->
+          </div>
+          <!-- Left side -->
+
+          <!-- Right side -->
+          <div class="w-full lg:w-4/12">
+            <div class="px-4 py-2 w-full bg-emerald-600">
+              <span class="uppercase tracking-wider text-white">Navigation</span>
+            </div>
+            <div class="relative md:pt-6 pb-6 pt-12">
+              <div class="mx-auto w-full">
+                <div class="px-4"></div>
+              </div>
+            </div>
+
+            <div class="relative md:pt-6 pb-6 pt-12">
+              <div class="mx-auto w-full">
+                <div class="px-4"></div>
+              </div>
+            </div>
+          </div>
+          <!-- Right side -->
+        </div>
+      </div>
+      <!-- Full dashboard -->
     </div>
   </applicant-layout>
 </template>
 
 <script>
 import ApplicantLayout from "@/Layouts/ApplicantLayout";
-import { reactive, watchEffect } from "vue";
-import { pickBy, throttle } from "lodash";
-import { Inertia } from "@inertiajs/inertia";
 import { Link } from "@inertiajs/inertia-vue3";
-import JetSectionBorder from "@/Jetstream/SectionBorder.vue";
+import JetPagination from "@/Components/Pagination";
 
 export default {
   components: {
     ApplicantLayout,
     Link,
-    JetSectionBorder,
+    JetPagination,
   },
 
-  props: {},
+  props: {
+    exam: Object,
+    questions: Object,
+    examHasTaken: Object,
+  },
 
   data() {
-    return {};
+    return {
+      radioGroup: 0,
+      questionIndex: 0,
+      applicantResponses: Array(this.questions),
+      currentQuestion: 0,
+      currentAnswe: 0,
+    };
   },
 
   methods: {},

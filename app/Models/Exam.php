@@ -33,6 +33,18 @@ class Exam extends Model
         return $this->belongsToMany(Schedule::class, 'exam_schedule');
     }
 
+    public function hasExamAttempted()
+    {
+        $attemptedExam = [];
+        $authApplicant = auth()->user()->id;
+        $applicant = Applicant::where('user_id', $authApplicant)->first();
+        foreach($applicant as $appl){
+            array_push($attemptedExam, $appl->exam_id);
+        }
+
+        return $attemptedExam;
+    }
+
     public function getCreatedAtAttribute($value)
     {
         return now()->parse($value)->timezone(config('app.timezone'))->format('d F Y, H:i:s');

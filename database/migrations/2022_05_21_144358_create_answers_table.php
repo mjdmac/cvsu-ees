@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateApplicantAnswerTable extends Migration
+class CreateAnswersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class CreateApplicantAnswerTable extends Migration
      */
     public function up()
     {
-        Schema::create('applicant_answer', function (Blueprint $table) {
+        Schema::create('answers', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('appplicant_id');
+            $table->bigInteger('applicant_id');
             $table->bigInteger('exam_id');
             $table->bigInteger('question_id');
             $table->bigInteger('answer_id');
@@ -30,6 +30,6 @@ class CreateApplicantAnswerTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('applicant_answer');
+        Schema::dropIfExists('answers');
     }
 }

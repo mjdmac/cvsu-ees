@@ -260,13 +260,7 @@
                             scope="col"
                             class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                           >
-                            Start Date
-                          </th>
-                          <th
-                            scope="col"
-                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                          >
-                            End Date
+                            Date
                           </th>
 
                           <th
@@ -301,17 +295,9 @@
                             {{ schedule.sched_name }}
                           </td>
                           <td class="px-6 py-4 whitespace-nowrap">
-                            {{ schedule.start_date }}
+                            {{ schedule.date }}
                           </td>
-                          <td class="px-6 py-4 whitespace-nowrap">
-                            {{ schedule.end_date }}
-                          </td>
-                          <td class="px-6 py-4 whitespace-nowrap">
-                            {{ schedule.start_ctrl_num }}
-
-                            <span class="px-1"> - </span>
-                            {{ schedule.end_ctrl_num }}
-                          </td>
+                          <td class="px-6 py-4 whitespace-nowrap"></td>
                           <td class="px-6 py-4 whitespace-nowrap">
                             <span
                               v-if="schedule.status == 'pending'"

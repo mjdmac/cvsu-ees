@@ -42,7 +42,7 @@ class Applicant extends Model
     {
         return $this->hasOne(User::class, 'id', 'user_id');
     }
-    
+
     public function result()
     {
         return $this->hasOne(Result::class);

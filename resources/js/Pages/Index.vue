@@ -20,8 +20,6 @@
                 </div>
               </div>
               <!-- Table div -->
-
-              
             </div>
             <!-- Left side -->
 
@@ -34,26 +32,22 @@
                 <div class="mx-auto w-full">
                   <!-- <h5>Calendar</h5> -->
                   <div class="px-4">
-                    <Calendar
-                      :masks="masks"
-                      :attributes="attrs"
-                      disable-page-swipe
-                      is-expanded
-                    >
+                    <Calendar :attributes="attrs" disable-page-swipe is-expanded>
                     </Calendar>
                   </div>
                 </div>
               </div>
 
               <!--  -->
-              
+
               <div class="px-4 py-2 w-full bg-emerald-600">
-                <span class="uppercase tracking-wider text-white">Contact Information</span>
+                <span class="uppercase tracking-wider text-white"
+                  >Contact Information</span
+                >
               </div>
               <div class="relative md:pt-6 pb-6 pt-12">
                 <div class="mx-auto w-full">
-                  <div class="px-4">
-                  </div>
+                  <div class="px-4"></div>
                 </div>
               </div>
             </div>

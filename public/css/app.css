@@ -1081,6 +1081,10 @@ select {
   margin-left: 0.5rem;
   margin-right: 0.5rem;
 }
+.my-12 {
+  margin-top: 3rem;
+  margin-bottom: 3rem;
+}
 .ml-3 {
   margin-left: 0.75rem;
 }
@@ -1893,6 +1897,10 @@ select {
   padding-left: 1.25rem;
   padding-right: 1.25rem;
 }
+.px-10 {
+  padding-left: 2.5rem;
+  padding-right: 2.5rem;
+}
 .pt-6 {
   padding-top: 1.5rem;
 }
@@ -2165,6 +2173,18 @@ select {
 .text-yellow-800 {
   --tw-text-opacity: 1;
   color: rgb(133 77 14 / var(--tw-text-opacity));
+}
+.text-blue-900 {
+  --tw-text-opacity: 1;
+  color: rgb(30 58 138 / var(--tw-text-opacity));
+}
+.text-emerald-100 {
+  --tw-text-opacity: 1;
+  color: rgb(209 250 229 / var(--tw-text-opacity));
+}
+.text-red-900 {
+  --tw-text-opacity: 1;
+  color: rgb(127 29 29 / var(--tw-text-opacity));
 }
 .underline {
   -webkit-text-decoration-line: underline;

@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Applicant;
 
 use App\Http\Controllers\Controller;
+use App\Models\Applicant;
+use App\Models\Schedule;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -19,7 +22,19 @@ class ApplicantDashboardController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Applicant/Dashboard/Index');
+        $authApplicant = auth()->user()->id;
+        $applicant = Applicant::where('user_id', $authApplicant)->first();
+
+        $schedule = Schedule::where('applicant_id', $applicant->id)->first();
+
+        $sched_date = date('F j, Y', strtotime($schedule->date));
+        $sched_time = date('h:i A', strtotime($schedule->date));
+
+
+        return Inertia::render('Applicant/Dashboard/Index', [
+            'date' => $sched_date,
+            'time' => $sched_time,
+        ]);
     }
 
     /**

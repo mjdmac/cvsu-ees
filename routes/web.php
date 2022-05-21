@@ -98,6 +98,8 @@ Route::prefix('applicant')
 
             // Applicant update
             Route::resource('profile', ApplicantUpdateController::class);
+            Route::post('update-personal', [ApplicantUpdateController::class, 'updatePersonal'])->name('update.personal');
+            Route::post('update-profile', [ApplicantUpdateController::class, 'updateProfile'])->name('update.profile');
 
             // Exam
             Route::resource('exams', ApplicantExamController::class);

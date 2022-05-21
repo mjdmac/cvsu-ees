@@ -3,11 +3,21 @@
 namespace App\Http\Controllers\Applicant;
 
 use App\Http\Controllers\Controller;
+use App\Http\Traits\Banner;
+use App\Models\Answer;
+use App\Models\Applicant;
+use App\Models\Exam;
+use App\Models\Question;
+use App\Models\Schedule;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class ApplicantExamController extends Controller
 {
+    use Banner;
+
     /**
      * Display a listing of the resource.
      *
@@ -15,7 +25,23 @@ class ApplicantExamController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Applicant/Exam/Index');
+        $authApplicant = auth()->user()->id;
+        $applicant = Applicant::where('user_id', $authApplicant)->first();
+
+        $schedule = Schedule::where('applicant_id', $applicant->id)->first();
+
+        if ($schedule->status == 'active') {
+            $exams = Exam::where('status', 'active')->latest()->get();
+            $questions = Exam::with('questions')->get();
+        } else {
+            $exams = Exam::query();
+            $questions = null;
+        }
+
+        return Inertia::render('Applicant/Exam/Index', [
+            'exams' => $exams,
+            'schedule' => $schedule,
+        ]);
     }
 
     /**
@@ -45,14 +71,41 @@ class ApplicantExamController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request, Exam $exam)
     {
-        return Inertia::render('Applicant/Exam/Show');
+        $authApplicant = auth()->user()->id;
+        $applicant = Applicant::where('user_id', $authApplicant)->first();
+
+        $schedule = Schedule::where('applicant_id', $applicant->id)->first();
+
+        if ($schedule->status == 'inactive') {
+            $this->flash("You are not allowed to take this exam or you're not scheduled for today.", 'danger');
+            return back();
+        }
+
+        $applicant_id = $applicant->id;
+        $exam_id = $exam->id;
+
+        $exam = Exam::find($exam_id);
+        $questions = Question::with('choices')->where('exam_id', $exam_id)->get();
+        $examHasTaken = Answer::where(['applicant_id' => $applicant_id, 'exam_id' => $exam_id])->get();
+        $wasCompleted = Answer::where('applicant_id', $applicant_id)->whereIn('exam_id', (new Exam)->hasExamAttempted())->pluck('exam_id')->toArray();
+
+        if(in_array($exam_id, $wasCompleted)){
+            $this->flash("You already taken this exam.", 'danger');
+            return back();
+        }
+
+        return Inertia::render('Applicant/Exam/Show', [
+            'exam' => $exam,
+            'questions' => $questions,
+            'examHasTaken' => $examHasTaken,
+        ]);
     }
 
     /**
      * Show the form for editing the specified resource.
-     *
+     * 
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */

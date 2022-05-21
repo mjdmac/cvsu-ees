@@ -22,7 +22,7 @@ class AdminDashboardController extends Controller
         $noOfSched = DB::table('schedules')->where('status', 'pending')->count();
         $data = Schedule::where('status', 'pending')
             ->orWhere('status', 'active')
-            ->orderBy('start_date', 'desc');
+            ->orderBy('date', 'desc');
             // ->latest()
             // ->get();
 

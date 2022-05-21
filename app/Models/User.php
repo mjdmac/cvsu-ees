@@ -63,7 +63,7 @@ class User extends Authenticatable
         'profile_photo_url',
         'can',
     ];
-
+    
     public function getCreatedAtAttribute($value)
     {
         return now()->parse($value)->timezone(config('app.timezone'))->format('d F Y, H:i:s');

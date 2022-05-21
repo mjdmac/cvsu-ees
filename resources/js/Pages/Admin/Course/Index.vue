@@ -24,7 +24,6 @@
                 v-model="params.search"
               />
             </div>
-            
           </div>
           <div class="block" align="right">
             <jet-button
@@ -433,8 +432,6 @@ export default {
         onSuccess: () => {
           this.disabledClick(false), this.openModal(false), (this.form = {});
         },
-        // preserveScroll: true,
-        // preserveState: true,
       });
     },
 

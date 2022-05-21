@@ -2,22 +2,22 @@
   <applicant-layout title="Applicant">
     <template #header>
       <!-- Header -->
-      <div class="grid grid-cols-2 px-5 py-3 shadow-md rounded-md">
+      <div class="grid grid-cols-2 px-5 py-3 shadow-lg rounded-md bg-emerald-600">
         <div>
-          <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+          <h2 class="font-semibold text-xl text-white leading-tight">
             <span>Results</span>
           </h2>
         </div>
       </div>
     </template>
 
-    <div class="flex flex-col">
+    <div class="flex flex-col my-12">
       <!-- Card -->
-      <div class="w-full px-4">
-        <div
-          class="relative flex flex-col min-w-0 break-words bg-white rounded mb-6 xl:mb-0 shadow-lg"
-        >
-          <div class="flex-auto p-8">
+      <div class="flex flex-col sm:justify-center items-center pt-6 sm:pt-0">
+        <div class="w-full sm:max-w-2xl mt-6 px-6 py-4">
+          <div
+            class="relative px-10 py-8 flex flex-col min-w-0 break-words bg-white rounded mb-6 xl:mb-0 shadow-lg"
+          >
             <div class="flex flex-wrap">
               <div class="relative w-full pr-4 max-w-full flex-grow flex-1">
                 <h5 class="text-gray-400 uppercase font-bold text-xl">Results</h5>
@@ -52,30 +52,6 @@
                 </jet-button>
               </div>
             </div>
-            <p class="text-md text-gray-400 mt-4">
-              <Link
-                class="cursor-pointer mr-2 text-emerald-500 hover:text-emerald-700 hover:animate-pulse"
-                :href="route('applicant.results.index')"
-              >
-                <span class="inline-flex">
-                  Save result
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="h-6 w-6"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    stroke-width="2"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M13 7l5 5m0 0l-5 5m5-5H6"
-                    />
-                  </svg>
-                </span>
-              </Link>
-            </p>
           </div>
         </div>
       </div>

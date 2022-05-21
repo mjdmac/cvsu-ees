@@ -491,6 +491,7 @@
           ref="fname"
           type="text"
           class="mt-1 block w-full"
+          autocomplete
           v-model="form.fname"
         />
       </div>
@@ -503,6 +504,7 @@
           ref="mname"
           type="text"
           class="mt-1 block w-full"
+          autocomplete
           v-model="form.mname"
         />
       </div>
@@ -515,6 +517,7 @@
           ref="lname"
           type="text"
           class="mt-1 block w-full"
+          autocomplete
           v-model="form.lname"
         />
       </div>
@@ -527,6 +530,7 @@
           ref="email"
           type="text"
           class="mt-1 block w-full"
+          autocomplete
           v-model="form.email"
         />
       </div>
@@ -539,6 +543,7 @@
           ref="phone_number"
           type="number"
           class="mt-1 block w-full"
+          autocomplete
           v-model="form.phone_number"
         />
       </div>
@@ -550,6 +555,7 @@
           id="birthday"
           type="date"
           class="mt-1 block w-full"
+          autocomplete
           v-model="form.birthday"
         />
       </div>

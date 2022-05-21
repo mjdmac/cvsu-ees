@@ -58,8 +58,6 @@ import JetActionMessage from "@/Jetstream/ActionMessage.vue";
 import JetSecondaryButton from "@/Jetstream/SecondaryButton.vue";
 
 export default {
-//   props: ["applicant"],
-
   components: {
     JetActionMessage,
     JetButton,
@@ -70,26 +68,30 @@ export default {
     JetSecondaryButton,
   },
 
-//   data() {
-//     return {
-//       form: this.$inertia.form({
-//         _method: "PUT",
-//         fname: this.user.fname,
-//         mname: this.user.mname,
-//         lname: this.user.lname,
-//       }),
+  // props: {
+  //   applicant: Object,
+  // },
 
-//       photoPreview: null,
-//     };
-//   },
+  //   data() {
+  //     return {
+  //       form: this.$inertia.form({
+  //         _method: "PUT",
+  //         fname: this.user.fname,
+  //         mname: this.user.mname,
+  //         lname: this.user.lname,
+  //       }),
 
-//   methods: {
-//     updatePersonalInformation() {
-//       this.form.post(route("user-profile-information.update"), {
-//         errorBag: "updatePersonalInformation",
-//         preserveScroll: true,
-//       });
-//     },
-//   },
+  //       photoPreview: null,
+  //     };
+  //   },
+
+  //   methods: {
+  //     updatePersonalInformation() {
+  //       this.form.post(route("user-profile-information.update"), {
+  //         errorBag: "updatePersonalInformation",
+  //         preserveScroll: true,
+  //       });
+  //     },
+  //   },
 };
 </script>
