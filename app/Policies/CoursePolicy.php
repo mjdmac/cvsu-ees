@@ -87,7 +87,6 @@ class CoursePolicy
      */
     public function restore(User $user, Course $course)
     {
-        //
     }
 
     /**
@@ -99,13 +98,5 @@ class CoursePolicy
      */
     public function forceDelete(User $user, Course $course)
     {
-        //
-    }
-
-    public function coursesExport (User $user)
-    {
-        if ($user->hasRole('personnel')){
-            return true;
-        }
     }
 }

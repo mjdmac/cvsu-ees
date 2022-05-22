@@ -2,11 +2,11 @@
 
 namespace App\Policies;
 
-use App\Models\College;
+use App\Models\Chatbot;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class CollegePolicy
+class ChatbotPolicy
 {
     use HandlesAuthorization;
 
@@ -27,12 +27,12 @@ class CollegePolicy
      * Determine whether the user can view the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\College  $college
+     * @param  \App\Models\Chatbot  $chatbot
      * @return \Illuminate\Auth\Access\Response|bool
      */
     public function view(User $user)
     {
-        if ($user->hasRole('personnel')){
+        if ($user->hasRole('personnel')) {
             return true;
         }
     }
@@ -45,7 +45,7 @@ class CollegePolicy
      */
     public function create(User $user)
     {
-        if ($user->hasRole('personnel')){
+        if ($user->hasRole('personnel')) {
             return true;
         }
     }
@@ -54,12 +54,12 @@ class CollegePolicy
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\College  $college
+     * @param  \App\Models\Chatbot  $chatbot
      * @return \Illuminate\Auth\Access\Response|bool
      */
     public function update(User $user)
     {
-        if ($user->hasRole('personnel')){
+        if ($user->hasRole('personnel')) {
             return true;
         }
     }
@@ -68,12 +68,12 @@ class CollegePolicy
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\College  $college
+     * @param  \App\Models\Chatbot  $chatbot
      * @return \Illuminate\Auth\Access\Response|bool
      */
     public function delete(User $user)
     {
-        if ($user->hasRole('personnel')){
+        if ($user->hasRole('personnel')) {
             return true;
         }
     }
@@ -82,23 +82,21 @@ class CollegePolicy
      * Determine whether the user can restore the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\College  $college
+     * @param  \App\Models\Chatbot  $chatbot
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function restore(User $user, College $college)
+    public function restore(User $user, Chatbot $chatbot)
     {
-        //
     }
 
     /**
      * Determine whether the user can permanently delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\College  $college
+     * @param  \App\Models\Chatbot  $chatbot
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function forceDelete(User $user, College $college)
+    public function forceDelete(User $user, Chatbot $chatbot)
     {
-        //
     }
 }

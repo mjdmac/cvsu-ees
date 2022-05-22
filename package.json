@@ -12,7 +12,8 @@
   "dependencies": {
     "@vueform/multiselect": "^2.3.3",
     "@vueform/toggle": "^2.0.1",
-    "v-calendar": "^3.0.0-alpha.8"
+    "v-calendar": "^3.0.0-alpha.8",
+    "vue-moment": "^4.1.0"
   },
   "devDependencies": {
     "@inertiajs/inertia": "^0.11.0",

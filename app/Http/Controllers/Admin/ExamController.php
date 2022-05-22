@@ -19,6 +19,12 @@ class ExamController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function __construct()
+    {
+        $this->authorizeResource(Exam::class);
+    }
+
     public function index(Request $request)
     {
         request()->validate([

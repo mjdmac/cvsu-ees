@@ -368,7 +368,7 @@
         Cancel
       </jet-secondary-button>
       <jet-button
-        class="ml-2 bg-green-500"
+        class="inline-flex items-center mr-2 bg-green-200 hover:bg-green-300 text-green-800 text-xs rounded-md"
         :class="{ 'opacity-25': disabled }"
         :disabled="disabled"
         @click="addOption()"

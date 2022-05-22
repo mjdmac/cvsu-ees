@@ -26,6 +26,12 @@ class ResultController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function __construct()
+    {
+        $this->authorizeResource(Result::class);
+    }
+
     public function index(Request $request)
     {
         request()->validate([

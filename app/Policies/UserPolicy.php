@@ -76,7 +76,7 @@ class UserPolicy
      */
     public function restore(User $user, User $model)
     {
-        //
+        return false;
     }
 
     /**
@@ -88,7 +88,7 @@ class UserPolicy
      */
     public function forceDelete(User $user, User $model)
     {
-        //
+        return false;
     }
 
     public function usersExport (User $user)

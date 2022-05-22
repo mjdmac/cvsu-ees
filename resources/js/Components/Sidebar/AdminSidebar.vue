@@ -259,6 +259,7 @@
           <!-- Link Start-->
           <li class="items-center">
             <jet-nav-link
+              v-if="$page.props.permission.exams.viewAny"
               :href="route('admin.exams.index')"
               class="text-xs uppercase py-2 font-bold block"
               :class="
@@ -290,6 +291,7 @@
           <!-- Link Start-->
           <li class="items-center">
             <jet-nav-link
+              v-if="$page.props.permission.schedules.viewAny"
               :href="route('admin.schedules.index')"
               class="text-xs uppercase py-2 font-bold block"
               :class="
@@ -408,6 +410,7 @@
           <!-- Link Start-->
           <li class="items-center">
             <jet-nav-link
+              v-if="$page.props.permission.results.viewAny"
               :href="route('admin.results.index')"
               class="text-xs uppercase py-2 font-bold block"
               :class="
@@ -452,6 +455,7 @@
           <!-- Link Start-->
           <li class="items-center">
             <jet-nav-link
+              v-if="$page.props.permission.chatbot.viewAny"
               :href="route('admin.chatbot.index')"
               class="text-xs uppercase py-2 font-bold block"
               :class="

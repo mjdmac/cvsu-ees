@@ -37,7 +37,7 @@ class Exam extends Model
     {
         $attemptedExam = [];
         $authApplicant = auth()->user()->id;
-        $applicant = Applicant::where('user_id', $authApplicant)->first();
+        $applicant = Answer::where('applicant_id', $authApplicant)->get();
         foreach($applicant as $appl){
             array_push($attemptedExam, $appl->exam_id);
         }

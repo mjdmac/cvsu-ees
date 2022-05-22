@@ -87,7 +87,6 @@ class ApplicantPolicy
      */
     public function restore(User $user, Applicant $applicant)
     {
-        //
     }
 
     /**
@@ -99,13 +98,5 @@ class ApplicantPolicy
      */
     public function forceDelete(User $user, Applicant $applicant)
     {
-        //
-    }
-
-    public function applicantsExport (User $user)
-    {
-        if ($user->hasRole('personnel')){
-            return true;
-        }
     }
 }

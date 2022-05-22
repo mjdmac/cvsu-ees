@@ -88,6 +88,8 @@ class ApplicantExamController extends Controller
 
         $exam = Exam::find($exam_id);
         $questions = Question::with('choices')->where('exam_id', $exam_id)->get();
+        $duration = Exam::where('id', $exam_id)->value('duration');
+
         $examHasTaken = Answer::where(['applicant_id' => $applicant_id, 'exam_id' => $exam_id])->get();
         $wasCompleted = Answer::where('applicant_id', $applicant_id)->whereIn('exam_id', (new Exam)->hasExamAttempted())->pluck('exam_id')->toArray();
 
@@ -98,6 +100,7 @@ class ApplicantExamController extends Controller
 
         return Inertia::render('Applicant/Exam/Show', [
             'exam' => $exam,
+            'duration' => $duration,
             'questions' => $questions,
             'examHasTaken' => $examHasTaken,
         ]);

@@ -2,6 +2,13 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Chatbot;
+use App\Models\College;
+use App\Models\Course;
+use App\Models\Exam;
+use App\Models\Result;
+use App\Models\Schedule;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -43,29 +50,24 @@ class HandleInertiaRequests extends Middleware
                     if (!$authUser) return;
 
                     return [
-                        'users' => [
-                            'create' => $authUser->can('create', User::class),
-                            'viewAny' => $authUser->can('viewAny', User::class),
-                            'view' => $authUser->can('view', User::class),
-                            'create' => $authUser->can('create', User::class),
-                            'update' => $authUser->can('update', User::class),
-                            'delete' => $authUser->can('delete', User::class),
-                            'usersExport' => $authUser->can('usersExport', User::class),
-                        ],
-
                         'applicants' => [
-                            'create' => $authUser->can('create', Applicant::class),
                             'viewAny' => $authUser->can('viewAny', Applicant::class),
                             'view' => $authUser->can('view', Applicant::class),
                             'create' => $authUser->can('create', Applicant::class),
                             'update' => $authUser->can('update', Applicant::class),
                             'delete' => $authUser->can('delete', Applicant::class),
-                            'applicantsExport' => $authUser->can('applicantsExport', Applicant::class),
                             'editRole' => $authUser->hasRole('admin'),
                         ],
 
+                        'chatbot' => [
+                            'viewAny' => $authUser->can('viewAny', Chatbot::class),
+                            'view' => $authUser->can('view', Chatbot::class),
+                            'create' => $authUser->can('create', Chatbot::class),
+                            'update' => $authUser->can('update', Chatbot::class),
+                            'delete' => $authUser->can('delete', Chatbot::class),
+                        ],
+
                         'colleges' => [
-                            'create' => $authUser->can('create', College::class),
                             'viewAny' => $authUser->can('viewAny', College::class),
                             'view' => $authUser->can('view', College::class),
                             'create' => $authUser->can('create', College::class),
@@ -74,12 +76,43 @@ class HandleInertiaRequests extends Middleware
                         ],
 
                         'courses' => [
-                            'create' => $authUser->can('create', Course::class),
                             'viewAny' => $authUser->can('viewAny', Course::class),
                             'view' => $authUser->can('view', Course::class),
                             'create' => $authUser->can('create', Course::class),
                             'update' => $authUser->can('update', Course::class),
                             'delete' => $authUser->can('delete', Course::class),
+                        ],
+
+                        'exams' => [
+                            'viewAny' => $authUser->can('viewAny', Exam::class),
+                            'view' => $authUser->can('view', Exam::class),
+                            'create' => $authUser->can('create', Exam::class),
+                            'update' => $authUser->can('update', Exam::class),
+                            'delete' => $authUser->can('delete', Exam::class),
+                        ],
+
+                        'schedules' => [
+                            'viewAny' => $authUser->can('viewAny', Schedule::class),
+                            'view' => $authUser->can('view', Schedule::class),
+                            'create' => $authUser->can('create', Schedule::class),
+                            'update' => $authUser->can('update', Schedule::class),
+                            'delete' => $authUser->can('delete', Schedule::class),
+                        ],
+
+                        'results' => [
+                            'viewAny' => $authUser->can('viewAny', Result::class),
+                            'view' => $authUser->can('view', Result::class),
+                            'create' => $authUser->can('create', Result::class),
+                            'update' => $authUser->can('update', Result::class),
+                            'delete' => $authUser->can('delete', Result::class),
+                        ],
+
+                        'users' => [
+                            'viewAny' => $authUser->can('viewAny', User::class),
+                            'view' => $authUser->can('view', User::class),
+                            'create' => $authUser->can('create', User::class),
+                            'update' => $authUser->can('update', User::class),
+                            'delete' => $authUser->can('delete', User::class),
                         ],
                     ];
                 },

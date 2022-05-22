@@ -13,7 +13,7 @@
           <!-- Line buttons and show dropdown -->
           <div class="inline-flex" align="right">
             <div class="text-xl font-medium text-white leading-tight">
-              Duration: <span>{{ exam.duration }}</span>
+              <!-- Time left: <span>{{ time }}</span> -->
             </div>
           </div>
           <!-- Hide in line buttons and show dropdown -->
@@ -57,7 +57,48 @@
             <div class="relative md:pt-6 pb-6 pt-12">
               <div class="mx-auto w-full">
                 <div>
-                  <div class="flex flex-wrap"></div>
+                  <div class="flex flex-wrap">
+                    <!-- Question card -->
+                    <div
+                      v-for="question in questions"
+                      :key="question.id"
+                      class="w-full px-4"
+                    >
+                      <div
+                        class="relative flex flex-col min-w-0 break-words bg-white rounded mb-6 xl:mb-0 shadow-lg"
+                      >
+                        <div class="flex-auto p-8">
+                          <div class="flex flex-wrap">
+                            <div class="relative w-full pr-4 max-w-full flex-grow flex-1">
+                              <p class="capitalize font-medium text-md py-2">
+                                <span>{{ currentQuestion + 1 + ")" }}</span>
+                                {{ question.question }}
+                              </p>
+                              <jet-input
+                                v-for="choice in question.choices"
+                                :key="choice.id"
+                                v-model="choice.option"
+                                class="w-full p-4 shadow overflow-hidden border-b border-gray-500 rounded-lg m-2 md:m-2 lg:m-4"
+                                solo
+                                readonly
+                              >
+                                <div class="text-lg">
+                                  <div class="px-4 py-4">
+                                    <jet-input
+                                      type="radio"
+                                      :value="choice.is_correct == 1 ? 1 : choice.option"
+                                      ><span> {{ choice.option }}</span>
+                                    </jet-input>
+                                  </div>
+                                </div>
+                              </jet-input>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- Question card -->
+                  </div>
                 </div>
               </div>
             </div>
@@ -75,12 +116,6 @@
                 <div class="px-4"></div>
               </div>
             </div>
-
-            <div class="relative md:pt-6 pb-6 pt-12">
-              <div class="mx-auto w-full">
-                <div class="px-4"></div>
-              </div>
-            </div>
           </div>
           <!-- Right side -->
         </div>
@@ -92,31 +127,54 @@
 
 <script>
 import ApplicantLayout from "@/Layouts/ApplicantLayout";
+import moment from "moment";
 import { Link } from "@inertiajs/inertia-vue3";
 import JetPagination from "@/Components/Pagination";
+import JetInput from "@/Jetstream/Input";
 
 export default {
   components: {
     ApplicantLayout,
+    moment,
     Link,
     JetPagination,
+    JetInput,
   },
 
   props: {
     exam: Object,
     questions: Object,
     examHasTaken: Object,
+    duration: Number,
   },
 
   data() {
     return {
       radioGroup: 0,
       questionIndex: 0,
-      applicantResponses: Array(this.questions),
+      applicantResponses: Array(this.questions.length).fill(false),
       currentQuestion: 0,
-      currentAnswe: 0,
+      currentAnswer: 0,
+      clock: moment(this.duration * 60 * 1000),
     };
   },
+
+  // mounted() {
+  //   setInterval(() => {
+  //     this.clock = moment(this.clock.subtract(1, "seconds"));
+  //   }, 1000);
+  // },
+
+  // computed: {
+  //   time: function () {
+  //     var time = this.clock.format("mm:ss");
+
+  //     if (time == "00:00") {
+  //       alert("test");
+  //     }
+  //     return time;
+  //   },
+  // },
 
   methods: {},
 };
