@@ -53,7 +53,6 @@ Route::prefix('admin')
 
         // Users routes
         Route::resource('users', UserController::class);
-        Route::get('/export/users', [UserController::class, 'usersExport'])->name('users.export'); //Export data to excel
 
         // College routes
         Route::resource('colleges', CollegeController::class);
@@ -63,6 +62,7 @@ Route::prefix('admin')
 
         // Applicant routes
         Route::resource('applicants', ApplicantController::class);
+        Route::get('/export/applicants', [ApplicantController::class, 'export'])->name('applicants.export'); //Export data
 
         // Exam routes
         Route::resource('exams', ExamController::class);

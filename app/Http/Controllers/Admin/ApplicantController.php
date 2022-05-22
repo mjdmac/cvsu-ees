@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\ApplicantExport;
 use App\Exports\ApplicantsExport;
 use App\Http\Controllers\Controller;
 use App\Http\Traits\Banner;
 use App\Models\Applicant;
 use App\Models\College;
 use App\Models\User;
+use Carbon\Carbon;
+use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
@@ -197,5 +200,22 @@ class ApplicantController extends Controller
     protected function resourceAbilityMap()
     {
         return array_merge(parent::resourceAbilityMap(), ['applicantsExport' => 'applicantsExport']);
+    }
+
+    // Export function
+    public function export()
+    {
+        $date = Carbon::now()->format('d-m-Y');
+
+        if (request()->has('type')) {
+            if (request()->get('type') == 'xlsx') {
+                return Excel::download(new ApplicantsExport, $date . '-applicants.xlsx');
+            } elseif (request()->get('type') == 'csv') {
+                return Excel::download(new ApplicantsExport, $date . '-applicants.csv');
+            } elseif (request()->get('type') == 'pdf') {
+                return Excel::download(new ApplicantsExport, $date . '-applicants.csv');
+            }
+        }
+        return back();
     }
 }

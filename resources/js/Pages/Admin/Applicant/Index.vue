@@ -8,6 +8,68 @@
             <span>Applicants</span>
           </h2>
         </div>
+
+        <!-- Page Buttons -->
+        <div align="right">
+          <!-- Line buttons and show dropdown -->
+          <div class="block" align="right">
+            <jet-dropdown>
+              <template #trigger>
+                <span class="inline-flex rounded-md">
+                  <button
+                    type="button"
+                    class="inline-flex items-center px-4 py-2 mr-2 bg-gray-800 hover:bg-gray-600 text-gray-100 text-sm font-medium rounded-md"
+                  >
+                    <span>Data Export</span>
+                    <svg
+                      class="ml-2 -mr-0.5 h-4 w-4"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                        clip-rule="evenodd"
+                      />
+                    </svg>
+                  </button>
+                </span>
+              </template>
+              <template #content>
+                <!-- Export buttons -->
+                <div class="px-2 py-2">
+                  <div class="py-1">
+                    <jet-button
+                      @click="exportData('xlsx')"
+                      class="inline-flex items-center px-4 py-2 mr-2 bg-blue-200 hover:bg-blue-300 text-blue-800 text-sm font-medium rounded-md"
+                    >
+                      Export(.xlsx)
+                    </jet-button>
+                  </div>
+                  <div class="py-1">
+                    <jet-button
+                      @click="exportData('csv')"
+                      class="inline-flex items-center px-4 py-2 mr-2 bg-blue-200 hover:bg-blue-300 text-blue-800 text-sm font-medium rounded-md"
+                    >
+                      Export(.csv)
+                    </jet-button>
+                  </div>
+                  <div class="py-1">
+                    <jet-button
+                      @click="exportData('pdf')"
+                      class="inline-flex items-center px-4 py-2 mr-2 bg-blue-200 hover:bg-blue-300 text-blue-800 text-sm font-medium rounded-md"
+                    >
+                      Save PDF
+                    </jet-button>
+                  </div>
+                </div>
+              </template>
+            </jet-dropdown>
+          </div>
+          <!-- Hide in line buttons and show dropdown -->
+        </div>
+        <!-- End Page Buttons -->
       </div>
       <!-- Header -->
     </template>
@@ -733,7 +795,7 @@ export default {
     },
 
     // Export function
-    applicantExport: function (type) {
+    exportData: function (type) {
       const url = "/admin/export/applicants?type=" + type;
       window.location.href = url;
     },
