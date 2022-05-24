@@ -36983,13 +36983,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "onUpdate:modelValue": _cache[12] || (_cache[12] = function ($event) {
           return $data.form.date = $event;
         }),
-        mode: "dateTime",
         "min-date": new Date(),
         "disabled-dates": {
           weekdays: [1, 7]
         },
         id: "date",
-        is24hr: "",
         "class": "bg-white border rounded w-full"
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref) {

@@ -14,7 +14,7 @@ use Maatwebsite\Excel\Events\AfterSheet;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class ResultsExport implements FromCollection, WithEvents, WithHeadings, ShouldAutoSize, WithColumnFormatting, WithStyles
+class ResultsExport implements FromCollection, WithEvents, WithHeadings, ShouldAutoSize, WithStyles
 {
     /**
      * @return \Illuminate\Support\Collection
@@ -23,12 +23,10 @@ class ResultsExport implements FromCollection, WithEvents, WithHeadings, ShouldA
     {
         // return User::all();
 
-        $data = Result::select(\DB::raw('applicants.id as Control_Number, 
-                                            applicants.fname as First_Name, 
-                                            applicants.mname as Middle_Name, 
-                                            applicants.lname as Last_Name, 
-                                            applicants.email as Email, 
-                                            applicants.phone_number as Phone_Number'))
+        $data = Result::select(\DB::raw('results.applicant_id as Control_Number, 
+                                            results.name as Name, 
+                                            results.course as Course, 
+                                            results.status as Status '))
             ->orderBy('applicants.id')
             ->get();
 
@@ -41,14 +39,7 @@ class ResultsExport implements FromCollection, WithEvents, WithHeadings, ShouldA
 
     public function headings(): array
     {
-        return ['Control Number', 'First Name', 'Middle Name', 'Last Name', 'Email', 'Phone Number'];
-    }
-
-    public function columnFormats(): array
-    {
-        return [
-            'F' => NumberFormat::FORMAT_NUMBER,
-        ];
+        return ['Control Number', 'Name', 'Course', 'Status'];
     }
 
     public function styles(Worksheet $sheet)
@@ -69,8 +60,8 @@ class ResultsExport implements FromCollection, WithEvents, WithHeadings, ShouldA
     {
         return [
             AfterSheet::class =>  function (AfterSheet $event) {
-                $cellRange = 'A1:F1';
-                $event->sheet->getDelegate()->getStyle($cellRange)->getFont()->getSize(12);
+                $cellRange = 'A1:D1';
+                $event->sheet->getDelegate()->getStyle($cellRange)->getFont()->getSize(10);
             },
         ];
     }

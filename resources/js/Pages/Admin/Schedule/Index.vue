@@ -479,11 +479,9 @@
         <div class="w-full inline-flex">
           <DatePicker
             v-model="form.date"
-            mode="dateTime"
             :min-date="new Date()"
             :disabled-dates="{ weekdays: [1, 7] }"
             id="date"
-            is24hr
             class="bg-white border rounded w-full"
           >
             <template v-slot="{ inputValue, inputEvents }">
