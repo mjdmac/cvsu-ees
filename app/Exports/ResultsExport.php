@@ -2,7 +2,7 @@
 
 namespace App\Exports;
 
-use App\Models\Applicant;
+use App\Models\Result;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithColumnFormatting;
@@ -14,7 +14,7 @@ use Maatwebsite\Excel\Events\AfterSheet;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class ApplicantsExport implements FromCollection, WithEvents, WithHeadings, ShouldAutoSize, WithColumnFormatting, WithStyles
+class ResultsExport implements FromCollection, WithEvents, WithHeadings, ShouldAutoSize, WithColumnFormatting, WithStyles
 {
     /**
      * @return \Illuminate\Support\Collection
@@ -23,7 +23,7 @@ class ApplicantsExport implements FromCollection, WithEvents, WithHeadings, Shou
     {
         // return User::all();
 
-        $data = Applicant::select(\DB::raw('applicants.id as Control_Number, 
+        $data = Result::select(\DB::raw('applicants.id as Control_Number, 
                                             applicants.fname as First_Name, 
                                             applicants.mname as Middle_Name, 
                                             applicants.lname as Last_Name, 

@@ -22,15 +22,17 @@
                   >
                     <span>Data Export</span>
                     <svg
-                      class="ml-2 -mr-0.5 h-4 w-4"
                       xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
+                      class="ml-2 -mr-0.5 h-4 w-4"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      stroke-width="2"
                     >
                       <path
-                        fill-rule="evenodd"
-                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                        clip-rule="evenodd"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"
                       />
                     </svg>
                   </button>
@@ -57,7 +59,7 @@
                   </div>
                   <div class="py-1">
                     <jet-button
-                      @click="exportData('pdf')"
+                      @click="exportPDF()"
                       class="inline-flex items-center px-4 py-2 mr-2 bg-blue-200 hover:bg-blue-300 text-blue-800 text-sm font-medium rounded-md"
                     >
                       Save PDF
@@ -797,6 +799,12 @@ export default {
     // Export function
     exportData: function (type) {
       const url = "/admin/export/applicants?type=" + type;
+      window.location.href = url;
+    },
+
+    // Export function
+    exportPDF: function () {
+      const url = "/admin/pdf/applicants";
       window.location.href = url;
     },
   },

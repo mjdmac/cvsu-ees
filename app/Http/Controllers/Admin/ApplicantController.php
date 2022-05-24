@@ -17,6 +17,7 @@ use Inertia\Inertia;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use PDF;
 
 class ApplicantController extends Controller
 {
@@ -212,10 +213,22 @@ class ApplicantController extends Controller
                 return Excel::download(new ApplicantsExport, $date . '-applicants.xlsx');
             } elseif (request()->get('type') == 'csv') {
                 return Excel::download(new ApplicantsExport, $date . '-applicants.csv');
-            } elseif (request()->get('type') == 'pdf') {
-                return Excel::download(new ApplicantsExport, $date . '-applicants.csv');
             }
         }
         return back();
+    }
+
+    public function generate_pdf()
+    {
+        $date = Carbon::now()->format('d-m-Y');
+        $data = Applicant::orderBy('lname', 'asc')->get();
+        $ddate = Carbon::now()->format('d/m/Y');
+        
+        $pdf = PDF::loadView('pdf.applicants', [
+            'data' => $data,
+            'ddate' => $ddate,
+        ]);
+
+        return $pdf->stream($date . '-applicants.pdf');
     }
 }

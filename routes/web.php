@@ -19,6 +19,8 @@ use App\Http\Controllers\Applicant\ApplicantUpdateController;
 use App\Http\Controllers\BotManController;
 use App\Http\Controllers\ChatbotController;
 use App\Http\Controllers\HomeController;
+use App\Models\Applicant;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -63,6 +65,18 @@ Route::prefix('admin')
         // Applicant routes
         Route::resource('applicants', ApplicantController::class);
         Route::get('/export/applicants', [ApplicantController::class, 'export'])->name('applicants.export'); //Export data
+        Route::get('/pdf/applicants', [ApplicantController::class, 'generate_pdf'])->name('applicants.pdf'); //Export pdf
+
+        Route::get('pdf', function () {
+
+            $data = Applicant::orderBy('id', 'asc')->get();
+            $ddate = Carbon::now()->format('d/m/Y');
+
+            return view('pdf.applicants', [
+                'data' => $data,
+                'ddate' => $ddate,
+            ]);
+        });
 
         // Exam routes
         Route::resource('exams', ExamController::class);

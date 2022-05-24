@@ -9,6 +9,70 @@
           </h2>
         </div>
         <!-- Header -->
+
+        <!-- Page Buttons -->
+        <div align="right">
+          <!-- Line buttons and show dropdown -->
+          <div class="block" align="right">
+            <jet-dropdown>
+              <template #trigger>
+                <span class="inline-flex rounded-md">
+                  <button
+                    type="button"
+                    class="inline-flex items-center px-4 py-2 mr-2 bg-gray-800 hover:bg-gray-600 text-gray-100 text-sm font-medium rounded-md"
+                  >
+                    <span>Data Export</span>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="ml-2 -mr-0.5 h-4 w-4"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"
+                      />
+                    </svg>
+                  </button>
+                </span>
+              </template>
+              <template #content>
+                <!-- Export buttons -->
+                <div class="px-2 py-2">
+                  <div class="py-1">
+                    <jet-button
+                      @click="exportData('xlsx')"
+                      class="inline-flex items-center px-4 py-2 mr-2 bg-blue-200 hover:bg-blue-300 text-blue-800 text-sm font-medium rounded-md"
+                    >
+                      Export(.xlsx)
+                    </jet-button>
+                  </div>
+                  <div class="py-1">
+                    <jet-button
+                      @click="exportData('csv')"
+                      class="inline-flex items-center px-4 py-2 mr-2 bg-blue-200 hover:bg-blue-300 text-blue-800 text-sm font-medium rounded-md"
+                    >
+                      Export(.csv)
+                    </jet-button>
+                  </div>
+                  <div class="py-1">
+                    <jet-button
+                      @click="exportPDF()"
+                      class="inline-flex items-center px-4 py-2 mr-2 bg-blue-200 hover:bg-blue-300 text-blue-800 text-sm font-medium rounded-md"
+                    >
+                      Save PDF
+                    </jet-button>
+                  </div>
+                </div>
+              </template>
+            </jet-dropdown>
+          </div>
+          <!-- Hide in line buttons and show dropdown -->
+        </div>
+        <!-- End Page Buttons -->
       </div>
     </template>
 
@@ -497,6 +561,18 @@ export default {
     verify: function (result) {
       this.$inertia.visit(route("admin.results.show", result));
       this.questionform = Object.assign({}, result);
+    },
+
+    // Export function
+    exportData: function (type) {
+      const url = "/admin/export/results?type=" + type;
+      window.location.href = url;
+    },
+
+    // Export function
+    exportPDF: function () {
+      const url = "/admin/pdf/results";
+      window.location.href = url;
     },
   },
 
