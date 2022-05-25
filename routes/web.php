@@ -67,17 +67,6 @@ Route::prefix('admin')
         Route::get('/export/applicants', [ApplicantController::class, 'export'])->name('applicants.export'); //Export data
         Route::get('/pdf/applicants', [ApplicantController::class, 'generate_pdf'])->name('applicants.pdf'); //Export pdf
 
-        Route::get('pdf', function () {
-
-            $data = Applicant::orderBy('id', 'asc')->get();
-            $ddate = Carbon::now()->format('d/m/Y');
-
-            return view('pdf.applicants', [
-                'data' => $data,
-                'ddate' => $ddate,
-            ]);
-        });
-
         // Exam routes
         Route::resource('exams', ExamController::class);
         Route::post('status', [ExamController::class, 'statusChange'])->name('exam.status.change');
@@ -90,6 +79,7 @@ Route::prefix('admin')
 
         // Schedule routes
         Route::resource('schedules', ScheduleController::class);
+        Route::get('send-schedule', [ScheduleController::class, 'sendNotification'])->name('send.schedule');
 
         // Results routes
         Route::resource('results', ResultController::class);

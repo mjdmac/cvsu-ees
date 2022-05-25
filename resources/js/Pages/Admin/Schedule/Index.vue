@@ -55,27 +55,52 @@
             </div>
             <!-- View filter -->
           </div>
-          <div class="block" align="right">
-            <jet-button
-              class="inline-flex items-center mr-2 bg-emerald-200 hover:bg-emerald-300 text-emerald-800 text-sm font-medium rounded-md"
-              @click="openModal(true)"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-5 w-5 mr-2"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                stroke-width="2"
+          <div class="" align="right">
+            <div class="inline-block">
+              <jet-button
+                class="inline-flex items-center mr-2 bg-emerald-200 hover:bg-emerald-300 text-emerald-800 text-sm font-medium rounded-md"
+                @click="openModal(true)"
               >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                />
-              </svg>
-              Create Schedule
-            </jet-button>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-5 w-5 mr-2"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                  />
+                </svg>
+                Create Schedule
+              </jet-button>
+            </div>
+
+            <div class="inline-block">
+              <jet-button
+                @click="send"
+                class="inline-flex items-center mr-2 mt-3 bg-blue-200 hover:bg-blue-300 text-blue-800 text-sm font-medium rounded-md"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-5 w-5 mr-2 rotate-90"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
+                  />
+                </svg>
+                Send Schedules
+              </jet-button>
+            </div>
           </div>
         </div>
       </div>
@@ -640,6 +665,11 @@ export default {
         method: "put",
         data: schedule,
       });
+    },
+
+    // Send
+    send: function () {
+      this.$inertia.visit(this.route("admin.send.schedule"), {});
     },
 
     // Sort function

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Traits\Banner;
+use App\Mail\ScheduleMail;
 use App\Models\Applicant;
 use App\Models\College;
 use App\Models\Exam;
@@ -11,6 +12,7 @@ use App\Models\Schedule;
 use Haruncpi\LaravelIdGenerator\IdGenerator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
 
@@ -124,6 +126,14 @@ class ScheduleController extends Controller
             ]);
         }
 
+        // EMAIL
+        $data = [
+            'name' => $request['name'],
+            'status' => $request['status'],
+            'course' => $request['course'],
+            'regards' => 'Cavite State University-Main Campus',
+        ];
+
         $this->flash('Schedule created!', 'success');
 
         return redirect()->back();
@@ -172,5 +182,77 @@ class ScheduleController extends Controller
     public function destroy(Schedule $schedule)
     {
         //
+    }
+
+
+    public function sendNotification(Request $request)
+    {
+        $applicants = \DB::table('schedules')
+            ->join('applicants', 'schedules.applicant_id', '=', 'applicants.id')
+            ->select(
+                'applicants.id',
+                'applicants.fname',
+                'applicants.mname',
+                'applicants.lname',
+                'applicants.email',
+                'applicants.phone_number',
+                'schedules.sched_name',
+                'schedules.date'
+            )
+            ->where('schedules.status', '=', 'pending')
+            ->get();
+
+
+        foreach ($applicants as $applicant) {
+            $data = [
+                'ctrl_num' => $applicant->id,
+                'name' => $applicant->lname . ', ' . $applicant->fname . ' ' . $applicant->mname,
+                'email' => $applicant->email,
+                'phone_number' => $applicant->phone_number,
+                'sched_name' => $applicant->sched_name,
+                'date' => $applicant->date,
+                'regards' => 'Cavite State University-Main Campus',
+            ];
+
+            Mail::to($applicant->email)->send(new ScheduleMail($data));
+        }
+        
+            $this->flash('Schedule sent!', 'success');
+
+            return redirect()->back();
+
+        // $sms_message = 'This is Cavite State University. You are ' . $request['status'] . ' to enroll to ' . $request['course'] . ' program in Cavite State University-Main Campus.';
+
+        // $phone = $request['phone_number'];
+        // $email = $request['email'];
+
+        // if ($request['status'] == 'qualified') {
+
+        // SMS
+        // $basic  = new Basic("68ad8f1a", "4PMcuDQ5mVe0STkl");
+        // $client = new Client($basic);
+
+        // $response = $client->sms()->send(
+        //     new SMS($phone, 'Cavite State University', $sms_message)
+        // );
+
+        // $message = $response->current();
+
+        // if ($message->getStatus() == 0) {
+        //     $this->flash('Result was sent!', 'success');
+        // } else {
+
+        //     $this->flash('Result was not sent!', 'danger');
+        // }
+
+        // EMAIL
+        //     Mail::to($email)->send(new ScheduleMail($data));
+
+        //     $this->flash('Result was sent!', 'success');
+
+        //     return redirect()->back();
+        // } else {
+        //     return redirect(route('admin.results.index'));
+        // }
     }
 }
