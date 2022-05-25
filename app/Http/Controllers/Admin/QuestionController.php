@@ -8,6 +8,7 @@ use App\Models\Choice;
 use Illuminate\Http\Request;
 use App\Http\Traits\Banner;
 use Inertia\Inertia;
+use Illuminate\Support\Str;
 
 class QuestionController extends Controller
 {
@@ -109,9 +110,58 @@ class QuestionController extends Controller
      * @param  \App\Models\Question  $question
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Question $question)
+    public function update(Request $request, $id)
     {
-        //
+        $question = Question::find($id);
+        $question->exam_id = $request->get('exam_id');
+        $question->question = $request->get('question');
+
+        if ($question->save()) {
+            $options = $request->get('choices');
+
+            foreach ($options as $key => $option) {
+
+                $answer = Choice::find($option['id']);
+                $answer->option = $option['option'];
+                $answer->is_correct = $option['is_correct'];
+                $answer->save();
+            };
+
+            $this->flash('Question updated', 'success');
+
+            return redirect()->back();
+        }
+
+        // $data = $request->only('exam_id', 'question', 'img_path', 'choices');
+
+        // $path = null;
+        // if ($request->hasFile('img_path')) {
+        //     $path = $request->file('img_path')->store('public/photos');
+        // }
+
+        // $question->update([
+        //     'exam_id' => $data['exam_id'],
+        //     'question' => $data['question'],
+        //     'img_path' => $path,
+        // ]);
+
+        // $choice = Choice::query();
+        // foreach ($data['choices'] as $opt) {
+        //     $path1 = null;
+        //     // if ($opt['img_path']) {
+        //     //     $path1 = $opt['img_path']->store('public/photos');
+        //     // }
+        //     $choice->update([
+        //         'question_id' => $question->id,
+        //         'option' => $opt['option'],
+        //         'is_correct' => $opt['is_correct'],
+        //         'img_path' => $path1
+        //     ]);
+        // }
+
+        // $this->flash('Question updated', 'success');
+
+        // return redirect()->back();
     }
 
     /**

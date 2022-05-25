@@ -264,7 +264,8 @@
               class="text-xs uppercase py-2 font-bold block"
               :class="
                 route().current('admin.exams.index') ||
-                route().current('admin.exams.show')
+                route().current('admin.exams.show') ||
+                route().current('admin.questions.edit')
                   ? 'text-emerald-500 hover:text-emerald-600'
                   : 'text-blueGray-700 hover:text-blueGray-500'
               "

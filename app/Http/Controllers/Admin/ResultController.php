@@ -16,6 +16,9 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
+use Vonage\Client;
+use Vonage\Client\Credentials\Basic;
+use Vonage\SMS\Message\SMS;
 
 class ResultController extends Controller
 {
@@ -176,7 +179,6 @@ class ResultController extends Controller
             'regards' => 'Cavite State University-Main Campus',
         ];
 
-        // $sms_message = 'Greetings Mr/Ms ' . $request['name'] . '. This is Cavite State University. You have passed the examination and is ' . $request['status'] . ' to enroll to ' . $request['course'] . ' program in Cavite State University-Main Campus. Please proceed on completing the requirements for the enrollment. Thank you.';
 
         $sms_message = 'This is Cavite State University. You are ' . $request['status'] . ' to enroll to ' . $request['course'] . ' program in Cavite State University-Main Campus.';
 
@@ -184,11 +186,13 @@ class ResultController extends Controller
         $email = $request['email'];
 
         if ($request['status'] == 'qualified') {
-            $basic  = new \Vonage\Client\Credentials\Basic("68ad8f1a", "4PMcuDQ5mVe0STkl");
-            $client = new \Vonage\Client($basic);
+
+            // SMS
+            $basic  = new Basic("68ad8f1a", "4PMcuDQ5mVe0STkl");
+            $client = new Client($basic);
 
             $response = $client->sms()->send(
-                new \Vonage\SMS\Message\SMS($phone, 'Cavite State University', $sms_message)
+                new SMS($phone, 'Cavite State University', $sms_message)
             );
 
             $message = $response->current();
@@ -198,11 +202,10 @@ class ResultController extends Controller
             } else {
 
                 $this->flash('Result was not sent!', 'danger');
-                // echo "The message failed with status: " . $message->getStatus() . "\n";
             }
 
+            // EMAIL
             Mail::to($email)->send(new ResultMail($data));
-
 
             $this->flash('Result was sent!', 'success');
 

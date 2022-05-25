@@ -34,6 +34,7 @@
           <!-- Line buttons and show dropdown -->
           <div class="block" align="right">
             <button
+              @click="updateQuestion"
               class="inline-flex items-center px-4 py-2 mr-2 bg-emerald-200 hover:bg-emerald-300 text-emerald-800 text-sm font-medium rounded-md"
             >
               <svg
@@ -81,6 +82,14 @@
     </template>
 
     <div class="mx-auto sm:px-6 lg:px-8">
+      <div class="px-5 py-3">
+        <div class="inline-flex">
+          <span class="text-xs mr-2 text-red-500">
+            *Note: You can't update images in questions and choice. If you want to change
+            them, delete and add them again.
+          </span>
+        </div>
+      </div>
       <!-- Question -->
       <div class="px-5 py-3">
         <div class="inline-flex">
@@ -96,21 +105,21 @@
               id="question"
               type="text"
               v-model="questionform.question"
-              v-if="questionform.img_path"
               placeholder="Enter Question"
               class="inline-block w-full my-2"
               required
             >
             </jet-input>
-            <jet-input
+            <!-- <jet-input
               id="imgphoto"
               type="file"
+              placeholder=""
               class="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 my-2"
-              @change="previewImage"
-              v-if="questionform.img_path"
+              @input="questionform.img_path = $event.target.files[0]"
               accept="image/png, image/jpeg"
+              @change="previewImage"
             >
-            </jet-input>
+            </jet-input> -->
           </span>
         </div>
       </div>
@@ -120,7 +129,7 @@
         <!-- One row / data / card -->
         <div class="flex flex-wrap">
           <div
-            v-for="(choice, id) in question.choices"
+            v-for="(choice, id) in questionform.choices"
             :key="choice.id"
             class="w-full md:w-6/12 lg:w-4/12"
           >
@@ -156,15 +165,14 @@
                     required
                   >
                   </jet-input>
-                  <jet-input
+                  <!-- <jet-input
                     id="imgphoto"
                     type="file"
                     class="inline-block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 my-2"
-                    @change="previewImage"
-                    v-if="choice.img_path"
+                    @change="previewChoice"
                     accept="image/png, image/jpeg"
                   >
-                  </jet-input>
+                  </jet-input> -->
                 </div>
               </div>
             </div>
@@ -177,7 +185,6 @@
 </template>
 
 <script>
-import { Inertia } from "@inertiajs/inertia";
 import { Link } from "@inertiajs/inertia-vue3";
 import AdminLayout from "@/Layouts/AdminLayout";
 import JetButton from "@/Jetstream/Button";
@@ -186,7 +193,6 @@ import JetFormSection from "@/Jetstream/FormSection";
 import JetInput from "@/Jetstream/Input";
 import JetLabel from "@/Jetstream/Label";
 import DialogModal from "@/Jetstream/DialogModal";
-import shared from "@/Scripts/shared";
 import Toggle from "@vueform/toggle";
 
 export default {
@@ -208,43 +214,30 @@ export default {
 
   data() {
     return {
-      valid: true,
-
       questionform: this.$inertia.form({
+        exam_id: this.question.exam_id,
         question: this.question.question,
         img_path: this.question.img_path,
-        choices: [
-          {
-            option: this.question.choices.option,
-            is_correct: this.question.choices.is_correct,
-            img_path: this.question.choices.img_path,
-          },
-          {
-            option: "",
-            is_correct: false,
-            img_path: "",
-          },
-          {
-            option: "",
-            is_correct: false,
-            img_path: "",
-          },
-          {
-            option: "",
-            is_correct: false,
-            img_path: "",
-          },
-        ],
+        choices: this.question.choices,
       }),
     };
   },
 
   methods: {
     // Delete question
-    deleteQuestion: function (id, exam_id) {
+    deleteQuestion: function (id) {
       this.$inertia.visit(route("admin.questions.destroy", id), {
         method: "delete",
       });
+    },
+
+    // Update
+    updateQuestion: function () {
+      this.$inertia.put(
+        this.route("admin.questions.update", this.question.id),
+        this.questionform,
+        {}
+      );
     },
 
     // Preview image question

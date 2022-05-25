@@ -1519,9 +1519,6 @@ select {
   --tw-divide-opacity: 1;
   border-color: rgb(229 231 235 / var(--tw-divide-opacity));
 }
-.place-self-center {
-  place-self: center;
-}
 .overflow-hidden {
   overflow: hidden;
 }
@@ -1812,10 +1809,6 @@ select {
 .object-cover {
   -o-object-fit: cover;
      object-fit: cover;
-}
-.object-none {
-  -o-object-fit: none;
-     object-fit: none;
 }
 .object-center {
   -o-object-position: center;
@@ -2210,6 +2203,10 @@ select {
 .text-emerald-100 {
   --tw-text-opacity: 1;
   color: rgb(209 250 229 / var(--tw-text-opacity));
+}
+.text-red-300 {
+  --tw-text-opacity: 1;
+  color: rgb(252 165 165 / var(--tw-text-opacity));
 }
 .underline {
   -webkit-text-decoration-line: underline;

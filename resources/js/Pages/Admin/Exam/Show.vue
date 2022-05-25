@@ -306,23 +306,26 @@
       <!-- Question -->
       <div class="mb-4">
         <jet-label for="question" value="Question" />
-        <div class="text-center">
+        <div class="text-left">
           <jet-input
             id="question"
             type="text"
             v-model="questionform.question"
             placeholder="Enter Question"
-            class="inline-block w-full"
+            class="block w-full"
             required
           >
           </jet-input>
 
-          <!-- <span class="uppercase text-gray-500 mx-4">or</span> -->
+          <span class="block text-gray-800 mx-4 my-2">
+            You can add image/illustration to your question.
+          </span>
 
           <jet-input
             id="imgphoto"
             type="file"
-            class="inline-block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 my-2"
+            placeholder=""
+            class="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 my-2"
             @input="questionform.img_path = $event.target.files[0]"
             accept="image/png, image/jpeg"
           >
@@ -331,9 +334,13 @@
       </div>
       <div class="mb-4">
         <jet-label for="choices" value="Choices" class="mx-2 text-lg" />
-        <div v-for="(value, id) in questionform.choices" :key="id" class="w-full my-4">
+        <div
+          v-for="(value, id) in questionform.choices"
+          :key="id"
+          class="w-full my-4 p-4 rounded bg-gray-200"
+        >
           <div class="inline-block mr-2 mb-1 w-full">
-            <span class="text-gray-500">
+            <span class="text-gray-800">
               Correct Answer:
               <Toggle v-model="value.is_correct" :id="id" @change="toggleChange(id)" />
               <button
@@ -353,7 +360,9 @@
               >
               </jet-input>
 
-              <!-- <span class="uppercase text-gray-500 mx-4">or</span> -->
+              <span class="block text-gray-800 mx-4 my-2">
+                You can add image/illustration to your option.
+              </span>
 
               <jet-input
                 :id="id"
@@ -374,7 +383,7 @@
         Cancel
       </jet-secondary-button>
       <jet-button
-        class="inline-flex items-center mx-2 bg-green-200 hover:bg-green-300 text-green-800 text-xs rounded-md"
+        class="inline-flex items-center mx-2 bg-blue-200 hover:bg-blue-300 text-blue-800 text-xs rounded-md"
         :class="{ 'opacity-25': disabled }"
         :disabled="disabled"
         @click="addOption()"
@@ -494,16 +503,6 @@ export default {
       this.$inertia.visit("/admin/questions", {
         method: "post",
         data: questions,
-        onBefore: () => {
-          this.disabledClick(true);
-        },
-        onSuccess: () => {
-          this.disabledClick(false),
-            this.addQuestionModal(false),
-            this.questionform.reset();
-        },
-        preserveScroll: true,
-        preserveState: true,
       });
     },
     // Disable function
