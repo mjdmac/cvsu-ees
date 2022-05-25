@@ -86,28 +86,28 @@
         <div class="inline-flex">
           <span class="uppercase text-sm mr-2 text-gray-500"> Question: </span>
           <span class="text-lg capitalize">
-            <!-- {{ question.question }} -->
             <img
-              :src="question.img_path"
-              v-if="question.img_path != null"
-              class="object-contain"
+              :src="questionform.img_path"
+              v-if="questionform.img_path"
+              class="object-contain h-80"
             />
-            {{ question.img_path }}
 
             <jet-input
               id="question"
               type="text"
               v-model="questionform.question"
+              v-if="questionform.img_path"
               placeholder="Enter Question"
-              class="inline-block w-full"
+              class="inline-block w-full my-2"
               required
             >
             </jet-input>
             <jet-input
               id="imgphoto"
               type="file"
-              class="inline-block w-full"
-              v-model="questionform.question.img_path"
+              class="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 my-2"
+              @change="previewImage"
+              v-if="questionform.img_path"
               accept="image/png, image/jpeg"
             >
             </jet-input>
@@ -127,20 +127,42 @@
             <div
               class="shadow overflow-hidden border-b border-gray-200 rounded-lg m-2 md:m-2 lg:m-4"
             >
-              <div class="w-full bg-emerald-500 py-2 px-4">
-                <!-- <span class="text-xl text-white"> {{ exam.exam_code }}</span> -->
+              <div class="w-full py-2 px-4">
+                <span class="text-gray-500 float-right">
+                  Correct Answer:
+                  <Toggle
+                    v-model="choice.is_correct"
+                    :id="id"
+                    @change="toggleChange(id)"
+                  />
+                </span>
               </div>
               <div class="text-lg">
                 <div class="px-4 py-4">
-                  <span> {{ choice.option }}</span>
+                  <div class="object-center">
+                    <img
+                      :src="choice.img_path"
+                      v-if="choice.img_path"
+                      class="object-contain h-80"
+                    />
+                  </div>
 
                   <jet-input
                     id="question"
                     type="text"
                     v-model="choice.option"
                     placeholder="Enter Question"
-                    class="inline-block w-full"
+                    class="inline-block w-full my-2"
                     required
+                  >
+                  </jet-input>
+                  <jet-input
+                    id="imgphoto"
+                    type="file"
+                    class="inline-block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 my-2"
+                    @change="previewImage"
+                    v-if="choice.img_path"
+                    accept="image/png, image/jpeg"
                   >
                   </jet-input>
                 </div>
@@ -190,7 +212,29 @@ export default {
 
       questionform: this.$inertia.form({
         question: this.question.question,
-        img_path: "",
+        img_path: this.question.img_path,
+        choices: [
+          {
+            option: this.question.choices.option,
+            is_correct: this.question.choices.is_correct,
+            img_path: this.question.choices.img_path,
+          },
+          {
+            option: "",
+            is_correct: false,
+            img_path: "",
+          },
+          {
+            option: "",
+            is_correct: false,
+            img_path: "",
+          },
+          {
+            option: "",
+            is_correct: false,
+            img_path: "",
+          },
+        ],
       }),
     };
   },
@@ -200,6 +244,27 @@ export default {
     deleteQuestion: function (id, exam_id) {
       this.$inertia.visit(route("admin.questions.destroy", id), {
         method: "delete",
+      });
+    },
+
+    // Preview image question
+    previewImage(e) {
+      const file = e.target.files[0];
+      this.questionform.img_path = URL.createObjectURL(file);
+    },
+
+    // Preview image option
+    previewChoice(e) {
+      const file = e.target.files[0];
+      this.choice.img_path = URL.createObjectURL(file);
+    },
+
+    // Toggle change
+    toggleChange: function (id) {
+      this.questionform.choices.forEach((item, index) => {
+        if (id != index) {
+          item.is_correct = false;
+        }
       });
     },
 

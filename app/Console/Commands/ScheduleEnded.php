@@ -50,5 +50,7 @@ class ScheduleEnded extends Command
                 ]);
             }
         }
+
+        $this->info('Schedule status changed.');
     }
 }

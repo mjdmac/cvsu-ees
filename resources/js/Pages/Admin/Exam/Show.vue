@@ -317,12 +317,12 @@
           >
           </jet-input>
 
-          <span class="uppercase text-gray-500 mx-4">or</span>
+          <!-- <span class="uppercase text-gray-500 mx-4">or</span> -->
 
           <jet-input
             id="imgphoto"
             type="file"
-            class="inline-block w-full"
+            class="inline-block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 my-2"
             @input="questionform.img_path = $event.target.files[0]"
             accept="image/png, image/jpeg"
           >
@@ -336,29 +336,35 @@
             <span class="text-gray-500">
               Correct Answer:
               <Toggle v-model="value.is_correct" :id="id" @change="toggleChange(id)" />
+              <button
+                v-show="questionform.choices.length > 1"
+                @click="removeOption(id)"
+                class="inline-flex items-center py-1 px-4 mx-2 bg-red-200 hover:bg-red-300 text-red-900 text-xs rounded-md"
+              >
+                Remove
+              </button>
             </span>
             <div class="inline-block w-full">
-              <jet-input type="text" v-model="value.option" placeholder="Enter option">
+              <jet-input
+                type="text"
+                v-model="value.option"
+                placeholder="Enter option"
+                class="block w-full text-sm mr-4 py-2 px-4 border-0 font-semibold hover:bg-blue-100 my-2"
+              >
               </jet-input>
 
-              <span class="uppercase text-gray-500 mx-4">or</span>
+              <!-- <span class="uppercase text-gray-500 mx-4">or</span> -->
 
               <jet-input
                 :id="id"
                 type="file"
+                class="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 my-2"
                 @input="value.img_path = $event.target.files[0]"
                 accept="image/png, image/jpeg"
               >
               </jet-input>
             </div>
           </div>
-          <button
-            v-show="questionform.choices.length > 1"
-            @click="removeOption(id)"
-            class="mt-3 py-1 px-4 bg-red-500 text-white text-sm font-semibold rounded-md shadow-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-opacity-75"
-          >
-            Remove
-          </button>
         </div>
       </div>
     </template>
@@ -368,7 +374,7 @@
         Cancel
       </jet-secondary-button>
       <jet-button
-        class="inline-flex items-center mr-2 bg-green-200 hover:bg-green-300 text-green-800 text-xs rounded-md"
+        class="inline-flex items-center mx-2 bg-green-200 hover:bg-green-300 text-green-800 text-xs rounded-md"
         :class="{ 'opacity-25': disabled }"
         :disabled="disabled"
         @click="addOption()"
@@ -376,7 +382,7 @@
         Add Option
       </jet-button>
       <jet-button
-        class="ml-2"
+        class=""
         :class="{ 'opacity-25': disabled }"
         :disabled="disabled"
         @click="saveQuestion(questionform)"

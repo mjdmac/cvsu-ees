@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Http\Traits\HasCan;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Choice extends Model
 {
@@ -25,6 +26,11 @@ class Choice extends Model
     public function question()
     {
         return $this->belongsTo(Question::class);
+    }
+
+    public function getImgPathAttribute($value)
+    {
+        return asset(Storage::url($value));
     }
 
     public function getCreatedAtAttribute($value)

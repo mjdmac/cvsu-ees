@@ -43,7 +43,7 @@ class ScheduleActive extends Command
 
         $schedule = Schedule::where('date', $date_now)->get();
 
-        dd($date_now);
+        // dd($schedule);
 
         foreach ($schedule as $s) {
             if ($s->date == $date_now && $s->status == 'pending') {
@@ -52,5 +52,7 @@ class ScheduleActive extends Command
                 ]);
             }
         }
+
+        $this->info('Schedule status changed.');
     }
 }
