@@ -202,57 +202,29 @@ class ScheduleController extends Controller
             ->where('schedules.status', '=', 'pending')
             ->get();
 
+        // dd($applicants);
 
-        foreach ($applicants as $applicant) {
-            $data = [
-                'ctrl_num' => $applicant->id,
-                'name' => $applicant->lname . ', ' . $applicant->fname . ' ' . $applicant->mname,
-                'email' => $applicant->email,
-                'phone_number' => $applicant->phone_number,
-                'sched_name' => $applicant->sched_name,
-                'date' => $applicant->date,
-                'regards' => 'Cavite State University-Main Campus',
-            ];
+        if (count($applicants) < 1) {
+            $this->flash('No pending schdules.', 'danger');
+            return redirect()->back();
+        } elseif (count($applicants) > 0) {
+            foreach ($applicants as $applicant) {
+                $data = [
+                    'ctrl_num' => $applicant->id,
+                    'name' => $applicant->lname . ', ' . $applicant->fname . ' ' . $applicant->mname,
+                    'email' => $applicant->email,
+                    'phone_number' => $applicant->phone_number,
+                    'sched_name' => $applicant->sched_name,
+                    'date' => $applicant->date,
+                    'regards' => 'Cavite State University-Main Campus',
+                ];
 
-            Mail::to($applicant->email)->send(new ScheduleMail($data));
-        }
-        
+                Mail::to($applicant->email)->send(new ScheduleMail($data));
+            }
+
             $this->flash('Schedule sent!', 'success');
 
             return redirect()->back();
-
-        // $sms_message = 'This is Cavite State University. You are ' . $request['status'] . ' to enroll to ' . $request['course'] . ' program in Cavite State University-Main Campus.';
-
-        // $phone = $request['phone_number'];
-        // $email = $request['email'];
-
-        // if ($request['status'] == 'qualified') {
-
-        // SMS
-        // $basic  = new Basic("68ad8f1a", "4PMcuDQ5mVe0STkl");
-        // $client = new Client($basic);
-
-        // $response = $client->sms()->send(
-        //     new SMS($phone, 'Cavite State University', $sms_message)
-        // );
-
-        // $message = $response->current();
-
-        // if ($message->getStatus() == 0) {
-        //     $this->flash('Result was sent!', 'success');
-        // } else {
-
-        //     $this->flash('Result was not sent!', 'danger');
-        // }
-
-        // EMAIL
-        //     Mail::to($email)->send(new ScheduleMail($data));
-
-        //     $this->flash('Result was sent!', 'success');
-
-        //     return redirect()->back();
-        // } else {
-        //     return redirect(route('admin.results.index'));
-        // }
+        }
     }
 }
