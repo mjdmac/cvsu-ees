@@ -107,9 +107,11 @@ Route::prefix('applicant')
 
             // Exam
             Route::resource('exams', ApplicantExamController::class);
+            Route::post('test',[ApplicantExamController::class, 'postExam'])->name('post.test');
 
             // Result
             Route::resource('results', ApplicantResultController::class);
+            
         });
     });
 

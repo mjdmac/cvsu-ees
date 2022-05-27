@@ -139,4 +139,22 @@ class ApplicantExamController extends Controller
     {
         //
     }
+
+    public function postExam(Request $request)
+    {
+        $examId = $request['examId'];
+        $questionId = $request['questionId'];
+        $answerId = $request['answerId'];
+
+        $authApplicant = auth()->user()->id;
+        $applicant = Applicant::where('user_id', $authApplicant)->first();
+        Answer::updateOrCreate(
+            [
+                'applicant_id' => $applicant->id,
+                'exam_id' => $examId,
+                'question_id' => $questionId
+            ],
+            ['answer_id' => $answerId]
+        );
+    }
 }

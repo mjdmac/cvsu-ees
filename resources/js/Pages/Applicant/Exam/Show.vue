@@ -59,7 +59,7 @@
                 <div>
                   <div class="flex flex-wrap">
                     <!-- Question card -->
-                    <div class="px-8">
+                    <div class="w-full px-8 bg-gray-50 rounded shadow-md">
                       <span
                         v-for="(question, id) in questions"
                         :key="id"
@@ -78,25 +78,27 @@
                             solo
                             readonly
                             rounded
+                            class="w-full p-4 shadow overflow-hidden border-b border-gray-500 rounded-lg m-2 md:m-2 lg:m-4"
                           >
                             <template v-s lot:prepend-inner>
-                              <v-radio-group
+                              <jet-input
+                                type=""
                                 v-model="applicantResponses[id]"
                                 class="w-full p-4 shadow overflow-hidden border-b border-gray-500 rounded-lg m-2 md:m-2 lg:m-4"
                               >
                                 <div class="text-lg">
                                   <div class="px-4 py-4">
-                                    <v-radio
+                                    <jet-input
                                       type="radio"
                                       :value="
                                         choice.is_correct == true ? true : choice.option
                                       "
                                       name="id"
                                       @click="choices(question.id, choice.id)"
-                                    ></v-radio>
+                                    ></jet-input>
                                   </div>
                                 </div>
-                              </v-radio-group>
+                              </jet-input>
                             </template>
                           </jet-input>
                         </span>
@@ -106,6 +108,49 @@
                   </div>
                 </div>
               </div>
+            </div>
+
+            <div class="mb-16 px-6" v-if="questionIndex != questions.length">
+              <button
+                v-if="questionIndex > 0"
+                text
+                color="secondary"
+                class="ml-2 float-left inline-flex px-4 py-2 bg-emerald-200 hover:bg-emerald-300 text-emerald-800 rounded-md"
+                @click="prev"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-5 w-5 mr-2"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm.707-10.293a1 1 0 00-1.414-1.414l-3 3a1 1 0 000 1.414l3 3a1 1 0 001.414-1.414L9.414 11H13a1 1 0 100-2H9.414l1.293-1.293z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+                Previous
+              </button>
+              <button
+                text
+                color="primary"
+                class="ml-2 white--text float-right inline-flex px-4 py-2 bg-emerald-200 hover:bg-emerald-300 text-emerald-800 rounded-md"
+                @click="postApplicantAnswers"
+              >
+                Next<svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-5 w-5 ml-2"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 1.414L10.586 9H7a1 1 0 100 2h3.586l-1.293 1.293a1 1 0 101.414 1.414l3-3a1 1 0 000-1.414z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              </button>
             </div>
             <!-- Table div -->
           </div>
@@ -118,15 +163,38 @@
             </div>
             <div class="relative md:pt-6 pb-6 pt-12">
               <div class="mx-auto w-full">
-                <div class="px-4">
-                  Question/s attempted: {{ questionIndex }}/{{ questions.length }}
+                <div class="px-8">
+                  <div>
+                    <span class="w-full">
+                      Question/s attempted: {{ questionIndex }}/{{ questions.length }}
+                    </span>
+                  </div>
+                  <div class="py-4">
+                    <span
+                      v-for="(question, id) in questions"
+                      :key="id"
+                      class="px-1 inline-flex flex-wrap"
+                    >
+                      <button
+                        @click="goto(id)"
+                        class="text-md mb-8 p-4 bg-gray-100 rounded shadow-sm"
+                        :class="
+                          id === questionIndex
+                            ? 'text-white hover:text-gray-200 bg-gray-500 hover:bg-gray-400'
+                            : 'text-gray-700 hover:text-gray-500'
+                        "
+                      >
+                        {{ id + 1 }}
+                      </button>
+                    </span>
+                  </div>
 
-                  <div class="mb-16 px-6" v-if="questionIndex != questions.length">
+                  <div class="relative px-6" v-if="questionIndex != questions.length">
                     <button
                       v-if="questionIndex > 0"
                       text
                       color="secondary"
-                      class="ml-2 float-left inline-flex"
+                      class="float-left inline-flex"
                       @click="prev"
                     >
                       <svg
@@ -146,11 +214,10 @@
                     <button
                       text
                       color="primary"
-                      class="ml-2 white--text float-right inline-flex"
+                      class="white--text float-right inline-flex"
                       @click="postApplicantAnswers"
                     >
-                      Next
-                      <svg
+                      Next<svg
                         xmlns="http://www.w3.org/2000/svg"
                         class="h-5 w-5 ml-2"
                         viewBox="0 0 20 20"
@@ -182,6 +249,7 @@ import moment from "moment";
 import { Link } from "@inertiajs/inertia-vue3";
 import JetPagination from "@/Components/Pagination";
 import JetInput from "@/Jetstream/Input";
+import route from "../../../../../vendor/tightenco/ziggy/src/js";
 
 export default {
   components: {
@@ -231,12 +299,18 @@ export default {
     prev() {
       this.questionIndex--;
     },
+
     choices(question, answer) {
       (this.currentAnswer = answer), (this.currentQuestion = question);
     },
+
+    goto(question) {
+      this.questionIndex = question;
+    },
+
     postApplicantAnswers() {
       this.questionIndex++;
-      axios.post("/quiz/test", {
+      axios.post("/applicant/test", {
         answerId: this.currentAnswer,
         questionId: this.currentQuestion,
         examId: this.exam.id,
