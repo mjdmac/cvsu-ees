@@ -87,7 +87,7 @@ class ApplicantExamController extends Controller
         $exam_id = $exam->id;
 
         $exam = Exam::find($exam_id);
-        $questions = Question::with('choices')->where('exam_id', $exam_id)->get();
+        $questions = Question::with('choices')->where('exam_id', $exam_id)->inRandomOrder()->get();
         $duration = Exam::where('id', $exam_id)->value('duration');
 
         $examHasTaken = Answer::where(['applicant_id' => $applicant_id, 'exam_id' => $exam_id])->get();

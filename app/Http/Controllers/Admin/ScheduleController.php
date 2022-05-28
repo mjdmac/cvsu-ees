@@ -38,7 +38,7 @@ class ScheduleController extends Controller
             'field' => ['in:sched_code,date,ctrl_num,status'],
         ]);
 
-        $sched =  Schedule::where('status', 'pending')->get();
+        $sched =  Schedule::latest()->get();
 
         $arr = [];
 
@@ -202,7 +202,6 @@ class ScheduleController extends Controller
             ->where('schedules.status', '=', 'pending')
             ->get();
 
-        // dd($applicants);
 
         if (count($applicants) < 1) {
             $this->flash('No pending schdules.', 'danger');
@@ -219,6 +218,8 @@ class ScheduleController extends Controller
                     'regards' => 'Cavite State University-Main Campus',
                 ];
 
+
+                // dd($applicant->email);
                 Mail::to($applicant->email)->send(new ScheduleMail($data));
             }
 
