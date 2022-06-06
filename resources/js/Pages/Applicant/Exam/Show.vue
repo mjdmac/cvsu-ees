@@ -306,6 +306,11 @@ export default {
 
     goto(question) {
       this.questionIndex = question;
+      axios.post("/applicant/test", {
+        answerId: this.currentAnswer,
+        questionId: this.currentQuestion,
+        examId: this.exam.id,
+      });
     },
 
     postApplicantAnswers() {

@@ -148,7 +148,7 @@ class ApplicantExamController extends Controller
 
         $authApplicant = auth()->user()->id;
         $applicant = Applicant::where('user_id', $authApplicant)->first();
-        Answer::updateOrCreate(
+        return $applicantAQ = Answer::updateOrCreate(
             [
                 'applicant_id' => $applicant->id,
                 'exam_id' => $examId,

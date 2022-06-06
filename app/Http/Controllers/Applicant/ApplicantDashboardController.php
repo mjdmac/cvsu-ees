@@ -24,7 +24,6 @@ class ApplicantDashboardController extends Controller
     {
         $authApplicant = auth()->user()->id;
         $applicant = Applicant::where('user_id', $authApplicant)->first();
-
         $schedule = Schedule::where('applicant_id', $applicant->id)->first();
 
         $sched_date = date('F j, Y', strtotime($schedule->date));
@@ -32,6 +31,7 @@ class ApplicantDashboardController extends Controller
 
 
         return Inertia::render('Applicant/Dashboard/Index', [
+            'schedule' => $schedule,
             'date' => $sched_date,
             'time' => $sched_time,
         ]);

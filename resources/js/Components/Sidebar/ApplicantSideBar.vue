@@ -30,7 +30,7 @@
 
       <!-- Brand -->
       <jet-nav-link
-        class="md:block text-left md:pb-2 text-blueGray-600 mr-0 inline-block whitespace-nowrap text-sm uppercase font-bold p-4 px-0"
+        class="md:block text-left md:pb-2 text-gray-600 mr-0 inline-block whitespace-nowrap text-sm uppercase font-bold p-4 px-0"
         to="/"
       >
         <span>Cavite State University</span>
@@ -99,7 +99,7 @@
       >
         <!-- Collapse header -->
         <div
-          class="md:min-w-full md:hidden block pb-4 mb-4 border-b border-solid border-blueGray-200"
+          class="md:min-w-full md:hidden block pb-4 mb-4 border-b border-solid border-gray-200"
         >
           <div class="flex flex-wrap">
             <div class="w-6/12">
@@ -224,7 +224,7 @@
               :class="
                 route().current('applicant.dashboard.index')
                   ? 'text-emerald-500 hover:text-emerald-600'
-                  : 'text-blueGray-700 hover:text-blueGray-500'
+                  : 'text-gray-700 hover:text-gray-500'
               "
             >
               <i>
@@ -251,7 +251,7 @@
         <hr class="my-3 md:min-w-full" />
         <!-- Heading -->
         <h6
-          class="md:min-w-full text-blueGray-500 text-xs uppercase font-bold block pt-1 pb-2 no-underline"
+          class="md:min-w-full text-gray-500 text-xs uppercase font-bold block pt-1 pb-2 no-underline"
         >
           Examinations
         </h6>
@@ -265,7 +265,7 @@
               :class="
                 route().current('applicant.exams.index')
                   ? 'text-emerald-500 hover:text-emerald-600'
-                  : 'text-blueGray-700 hover:text-blueGray-500'
+                  : 'text-gray-700 hover:text-gray-500'
               "
             >
               <svg

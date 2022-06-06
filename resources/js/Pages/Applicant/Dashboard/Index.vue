@@ -35,11 +35,30 @@
                               Exam Schedule
                             </h5>
                             <div class="py-2">
-                              <span class="font-semibold text-xl text-blue-900 block">
+                              <span
+                                class="font-semibold text-xl text-blue-900 block"
+                                :class="
+                                  schedule.status === 'ended'
+                                    ? 'text-blue-900'
+                                    : 'text-red-900'
+                                "
+                              >
                                 {{ date }}
                               </span>
                               <span class="font-semibold text-xl text-blue-900 block">
                                 {{ time }}
+                              </span>
+                              <span
+                                v-show="schedule.status == 'active'"
+                                class="font-semibold text-xl text-emerald-700 block uppercase"
+                              >
+                                {{ schedule.status }}
+                              </span>
+                              <span
+                                v-show="schedule.status == 'ended'"
+                                class="font-semibold text-xl text-red-900 block uppercase"
+                              >
+                                {{ schedule.status }}
                               </span>
                             </div>
                           </div>
@@ -206,6 +225,7 @@ export default {
   },
 
   props: {
+    schedule: Object,
     date: Object,
     time: Object,
   },
