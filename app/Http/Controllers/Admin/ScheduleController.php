@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
+use Carbon\Carbon;
 
 class ScheduleController extends Controller
 {
@@ -96,6 +97,8 @@ class ScheduleController extends Controller
      */
     public function store(Request $request)
     {
+        $date_now = Carbon::now('Asia/Hong_Kong')->format('Y-m-d');
+        $date = date('Y-m-d', strtotime($request['date']));
 
         $val = Validator::make($request->all(), [
             'sched_name' => ['required'],
@@ -112,7 +115,7 @@ class ScheduleController extends Controller
         $sched_code = IdGenerator::generate(['table' => 'schedules', 'field' => 'sched_code', 'length' => 8, 'prefix' => 'SCH-', 'reset_on_prefix_change' => true]);
 
         $arr = [];
-        for ($x = $request->start_ctrl_num; $x <= $request->end_ctrl_num; $x++) {
+        for ($x = substr($request->start_ctrl_num, 4); $x <= substr($request->end_ctrl_num, 4); $x++) {
 
             if (!in_array($x, $arr)) {
                 array_push($arr, $x);
@@ -122,7 +125,8 @@ class ScheduleController extends Controller
                 'sched_code' => $sched_code,
                 'sched_name' => $request['sched_name'],
                 'applicant_id' => $x,
-                'date' => date('Y-m-d H:i:s', strtotime($request['date'])),
+                'status' => $date == $date_now ? 'active' : 'pending',
+                'date' => date('Y-m-d', strtotime($request['date'])),
             ]);
         }
 
@@ -170,7 +174,41 @@ class ScheduleController extends Controller
      */
     public function update(Request $request, Schedule $schedule)
     {
-        //
+
+        $date_now = Carbon::now('Asia/Hong_Kong')->format('Y-m-d');
+
+        $date = date('Y-m-d H:i:s', strtotime($request->date));
+
+        $val = Validator::make($request->all(), [
+            'sched_name' => ['required'],
+            'applicant_id' => ['required'],
+            'date' => ['required', 'date'],
+        ]);
+
+        if ($val->fails()) {
+            $this->flash($val->errors()->first(), 'danger');
+            return back();
+        }
+
+        $schedule->update([
+            'sched_name' => $request->sched_name,
+            'applicant_id' => $request->applicant_id,
+            'date' => $date,
+        ]);
+
+
+       if($date == $date_now){
+            $schedule->update(['status' => 'active']);
+       }else if($date > $date_now){
+            $schedule->update(['status' => 'pending']);
+       }else if($date < $date_now){
+            $schedule->update(['status' => 'ended']);
+       }
+
+
+        $this->flash('Course updated successfully.', 'success');
+
+        return redirect()->back();
     }
 
     /**
@@ -179,9 +217,15 @@ class ScheduleController extends Controller
      * @param  \App\Models\Schedule  $schedule
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Schedule $schedule)
+    public function destroy($id)
     {
-        //
+        $d = Schedule::find($id);
+        // $d->colleges()->detach();
+        $d->delete();
+
+        $this->flash('Schedule removed.', 'success');
+
+        return redirect()->back();
     }
 
 

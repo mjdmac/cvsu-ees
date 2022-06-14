@@ -472,7 +472,7 @@
       </div>
 
       <!-- Control Number Range -->
-      <div class="mb-4">
+      <div class="mb-4" v-if="!editMode">
         <jet-label for="range" value="Control Number Range" />
         <div class="w-full inline-flex">
           <Multiselect
@@ -487,6 +487,21 @@
           <span class="mx-2">to</span>
           <Multiselect
             v-model="form.end_ctrl_num"
+            valueProp="id"
+            :searchable="true"
+            label="id"
+            :options="applicants"
+            :close-on-select="false"
+            id="range"
+          />
+        </div>
+      </div>
+
+      <div class="mb-4" v-if="editMode">
+        <jet-label for="range" value="Control Number" />
+        <div class="w-full inline-flex">
+          <Multiselect
+            v-model="form.applicant_id"
             valueProp="id"
             :searchable="true"
             label="id"
@@ -603,6 +618,7 @@ export default {
       },
 
       form: this.$inertia.form({
+        applicant_id: "",
         sched_name: "",
         start_ctrl_num: "",
         end_ctrl_num: "",
@@ -664,6 +680,20 @@ export default {
       this.$inertia.visit("/admin/schedules/" + schedule.id, {
         method: "put",
         data: schedule,
+      });
+    },
+
+     // Delete function
+    deleteRow: function (id) {
+      this.$inertia.visit("/admin/schedules/" + id, {
+        method: "delete",
+        preserveScroll: true,
+        onBefore: () => {
+          this.disabledClick(true);
+        },
+        onSuccess: () => {
+          this.disabledClick(false);
+        },
       });
     },
 
