@@ -41,15 +41,18 @@ class ScheduleEnded extends Command
     {
         $date_now = Carbon::today()->format('Y-m-d');
 
-        $schedule = Schedule::where('date', $date_now)->get();
+        Schedule::where('date', '<', $date_now)
+                ->update(['status' => 'ended']);
 
-        foreach ($schedule as $s) {
-            if ($s->date == $date_now && $s->status == 'active') {
-                $s->update([
-                    'status' => 'ended',
-                ]);
-            }
-        }
+        // $schedule = Schedule::where('date', $date_now)->get();
+
+        // foreach ($schedule as $s) {
+        //     if ($s->date == $date_now && $s->status == 'active') {
+        //         $s->update([
+        //             'status' => 'ended',
+        //         ]);
+        //     }
+        // }
 
         $this->info('Schedule status changed.');
     }

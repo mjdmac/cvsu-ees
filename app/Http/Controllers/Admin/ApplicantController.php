@@ -190,7 +190,7 @@ class ApplicantController extends Controller
     public function destroy($id)
     {
         $d = Applicant::find($id);
-        $d->colleges()->detach();
+        // $d->colleges()->detach();
         $d->delete();
 
         $this->flash('Applicant removed.', 'success');
@@ -223,7 +223,7 @@ class ApplicantController extends Controller
         $date = Carbon::now()->format('d-m-Y');
         $data = Applicant::orderBy('lname', 'asc')->get();
         $ddate = Carbon::now()->format('d/m/Y');
-        
+
         $pdf = PDF::loadView('pdf.applicants', [
             'data' => $data,
             'ddate' => $ddate,

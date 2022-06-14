@@ -39,20 +39,24 @@ class ScheduleActive extends Command
      */
     public function handle()
     {
+        \Log::info("Checking schedules..");
+
         $date_now = Carbon::now('Asia/Hong_Kong')->format('Y-m-d');
 
-        $schedule = Schedule::where('date', $date_now)->get();
+        Schedule::where([['date',  $date_now], ['status', 'pending']])
+                            ->update(['status' => 'active']);
 
         // dd($schedule);
 
-        foreach ($schedule as $s) {
-            if ($s->date == $date_now && $s->status == 'pending') {
-                $s->update([
-                    'status' => 'active',
-                ]);
-            }
-        }
 
-        $this->info('Schedule status changed.');
+        // foreach ($schedule as $s) {
+        //     if ($s->date == $date_now && $s->status == 'pending') {
+        //         $s->update([
+        //             'status' => 'active',
+        //         ]);
+        //     }
+        // }
+
+        $this->info('Schedule status successfully changed.');
     }
 }
