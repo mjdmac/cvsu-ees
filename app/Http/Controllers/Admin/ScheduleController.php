@@ -206,7 +206,7 @@ class ScheduleController extends Controller
        }
 
 
-        $this->flash('Course updated successfully.', 'success');
+        $this->flash('Schedule updated successfully.', 'success');
 
         return redirect()->back();
     }

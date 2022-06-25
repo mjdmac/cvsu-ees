@@ -10,14 +10,11 @@
               <div class="flex">
                 <!-- Navigation Links -->
                 <div class="sm:items-center sm:-my-px sm:flex">
-                  <Link
-                    :href="'/'"
-                    class="inline-flex align-middle mr-2"
-                  >
+                  <Link :href="'/'" class="inline-flex align-middle mr-2">
                     <div class="flex items-center">
                       <div class="flex-shrink-0 h-10 w-10">
                         <img
-                          src="https://upload.wikimedia.org/wikipedia/en/8/80/Cavite_State_University.png"
+                          src="https://en.wikipedia.org/wiki/Cavite_State_University#/media/File:Cavite_State_University_(CvSU).png"
                           class="w-10"
                           alt="CvSU Logo"
                           title="CvSU"

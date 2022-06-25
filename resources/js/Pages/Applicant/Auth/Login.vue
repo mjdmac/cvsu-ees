@@ -54,6 +54,15 @@
           Log in
         </JetButton>
       </div>
+
+      <div class="flex items-center justify-center mt-4">
+        <Link
+          :href="route('login')"
+          class="underline text-md text-gray-500 hover:text-gray-700"
+        >
+          Personnel/Admin Login
+        </Link>
+      </div>
     </form>
   </JetAuthenticationCard>
 </template>

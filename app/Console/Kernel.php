@@ -24,10 +24,10 @@ class Kernel extends ConsoleKernel
         // $schedule->command('quote:daily');
 
         $schedule->command('schedule:active')
-            ->everyMinute();
+            ->everyTenMinutes();
 
         $schedule->command('schedule:ended')
-            ->everyMinute();
+            ->everyTenMinutes();
     }
 
     /**
