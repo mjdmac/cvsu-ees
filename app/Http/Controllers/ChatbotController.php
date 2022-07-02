@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Traits\Banner;
+use App\Imports\ChatbotsImport;
 use App\Models\Chatbot;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
 use Illuminate\Support\Str;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ChatbotController extends Controller
 {
@@ -110,5 +112,12 @@ class ChatbotController extends Controller
         $this->flash('Question removed.', 'success');
 
         return redirect()->route('admin.chatbot.index');
+    }
+
+    public function import() 
+    {
+        Excel::import(new ChatbotsImport,request()->file('file'));
+             
+        return back();
     }
 }

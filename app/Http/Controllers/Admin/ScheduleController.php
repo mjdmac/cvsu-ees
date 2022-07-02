@@ -55,9 +55,12 @@ class ScheduleController extends Controller
             ->latest()
             ->get();
 
+            
+        $exam_names = Exam::latest()->get();
+
         $perpage = $request->input('perpage') ?: 25;
 
-        $data = Schedule::query();
+        $data = Schedule::with('exams');
 
         if (request('search')) {
             $data
@@ -76,6 +79,7 @@ class ScheduleController extends Controller
             'schedules' => $data->paginate($perpage)->withQueryString(),
             'applicants' => $applicants,
             'filters' => request()->all(['search', 'field', 'direction', 'perpage']),
+            'exam_names' => $exam_names,
         ]);
     }
 
@@ -101,6 +105,7 @@ class ScheduleController extends Controller
         $date = date('Y-m-d', strtotime($request['date']));
 
         $val = Validator::make($request->all(), [
+            'exams' => ['required'],
             'sched_name' => ['required'],
             'start_ctrl_num' => ['required'],
             'end_ctrl_num' => ['required'],
@@ -121,7 +126,7 @@ class ScheduleController extends Controller
                 array_push($arr, $x);
             }
 
-            Schedule::create([
+            $sched = Schedule::create([
                 'sched_code' => $sched_code,
                 'sched_name' => $request['sched_name'],
                 'applicant_id' => $x,
@@ -130,13 +135,21 @@ class ScheduleController extends Controller
             ]);
         }
 
+        $exids = [];
+        foreach ($request['exams'] as $ex) {
+            array_push($exids, $ex['id']);
+        }
+
+        // dd($excodes);
+        $sched->exams()->sync($exids);
+
         // EMAIL
-        $data = [
-            'name' => $request['name'],
-            'status' => $request['status'],
-            'course' => $request['course'],
-            'regards' => 'Cavite State University-Main Campus',
-        ];
+        // $data = [
+        //     'name' => $request['name'],
+        //     'status' => $request['status'],
+        //     'course' => $request['course'],
+        //     'regards' => 'Cavite State University-Main Campus',
+        // ];
 
         $this->flash('Schedule created!', 'success');
 
@@ -196,7 +209,6 @@ class ScheduleController extends Controller
             'date' => $date,
         ]);
 
-
        if($date == $date_now){
             $schedule->update(['status' => 'active']);
        }else if($date > $date_now){
@@ -205,6 +217,12 @@ class ScheduleController extends Controller
             $schedule->update(['status' => 'ended']);
        }
 
+       
+       $exids = [];
+       foreach ($request['exams'] as $ex) {
+           array_push($exids, $ex['id']);
+       }
+       $schedule->exams()->sync($exids);
 
         $this->flash('Schedule updated successfully.', 'success');
 
@@ -221,6 +239,7 @@ class ScheduleController extends Controller
     {
         $d = Schedule::find($id);
         // $d->colleges()->detach();
+        $d->exams()->detach();
         $d->delete();
 
         $this->flash('Schedule removed.', 'success');
