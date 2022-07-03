@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Applicant;
+use Faker\Factory;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -17,24 +19,9 @@ class ApplicantSeeder extends Seeder
      */
     public function run()
     {
-        $applicant_id = IdGenerator::generate(['table' => 'applicants', 'length' => 10, 'prefix' => date('ym'), 'reset_on_prefix_change' => true]);
+        // factory(Applicant::class, 10)->create();
 
-        DB::table('users')->insert([
-            [
-            'name' =>  'Tristan Sangangbayan',
-            'email' => 'sangangbayant@gmail.com',
-            'phone' => '639072203266',
-            'role' => 'applicant',
-            'password' => bcrypt('changetorandomstring')
-            ],
-            [
-            'name' =>  'Dan Lloyd Rosarda',
-            'email' => 'danlloyd.rosarda@cvsu.edu.ph',
-            'phone' => '639761830787',
-            'role' => 'applicant',
-            'password' => bcrypt('changetorandomstring')
-            ],
-        ]);
+        // $applicant_id = IdGenerator::generate(['table' => 'applicants', 'length' => 10, 'prefix' => date('ym'), 'reset_on_prefix_change' => true]);
 
         DB::table('applicants')->insert([
             [

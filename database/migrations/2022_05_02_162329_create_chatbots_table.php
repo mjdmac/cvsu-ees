@@ -16,8 +16,8 @@ class CreateChatbotsTable extends Migration
         Schema::create('chatbots', function (Blueprint $table) {
             $table->id();
             $table->string('category')->default('Other');
-            $table->string('question');
-            $table->string('answer')->nullable();
+            $table->longText('question');
+            $table->longText('answer')->nullable();
             $table->timestamps();
         });
     }

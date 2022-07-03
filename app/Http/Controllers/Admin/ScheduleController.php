@@ -281,8 +281,6 @@ class ScheduleController extends Controller
                     'regards' => 'Cavite State University-Main Campus',
                 ];
 
-
-                // dd($applicant->email);
                 Mail::to($applicant->email)->send(new ScheduleMail($data));
             }
 
