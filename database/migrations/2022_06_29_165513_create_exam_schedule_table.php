@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateChatbotsTable extends Migration
+class CreateExamScheduleTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateChatbotsTable extends Migration
      */
     public function up()
     {
-        Schema::create('chatbots', function (Blueprint $table) {
+        Schema::create('exam_schedule', function (Blueprint $table) {
             $table->id();
-            $table->string('category')->default('Other');
-            $table->longText('question');
-            $table->longText('answer')->nullable();
+            $table->bigInteger('exam_id');
+            $table->string('sched_code');
             $table->timestamps();
         });
     }
@@ -29,6 +28,6 @@ class CreateChatbotsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('chatbots');
+        Schema::dropIfExists('exam_schedule');
     }
 }

@@ -163,7 +163,10 @@
                   <tbody class="bg-white divide-y divide-gray-200">
                     <tr v-if="!courses.data.length">
                       <td class="p-4 text-center text-sm text-gray-800" colspan="7">
-                        No data
+                        <!-- NO data -->
+                        <span class="text-red-500 uppercase text-xl">No exam found!</span>
+                        <NoData />
+                        <!-- NO data -->
                       </td>
                     </tr>
                     <tr v-for="course in courses.data" :key="course.id">
@@ -351,6 +354,7 @@ import DialogModal from "@/Jetstream/DialogModal";
 import JetPagination from "@/Components/Pagination";
 import { Link } from "@inertiajs/inertia-vue3";
 import shared from "@/Scripts/shared";
+import NoData from "@/Components/Fillers/NoData.vue";
 
 export default {
   components: {
@@ -366,6 +370,7 @@ export default {
     JetActionMessage,
     DialogModal,
     Link,
+    NoData,
   },
 
   props: {

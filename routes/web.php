@@ -84,6 +84,7 @@ Route::prefix('admin')
 
         // Chatbot routes
         Route::resource('chatbot', ChatbotController::class);
+        Route::post('chatbot-import', [ChatbotController::class, 'import'])->name('chatbot.import');
     });
 
 Route::prefix('applicant')

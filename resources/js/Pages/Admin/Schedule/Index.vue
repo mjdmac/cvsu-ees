@@ -306,6 +306,15 @@
                         scope="col"
                         class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                       >
+                        <span class="inline-flex">
+                          <div>Exams</div>
+                        </span>
+                      </th>
+
+                      <th
+                        scope="col"
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      >
                         <span class="cursor-pointer inline-flex" @click="sort('status')">
                           <div>
                             <svg
@@ -372,6 +381,15 @@
                       </td>
                       <td class="px-6 py-4 whitespace-nowrap">
                         {{ schedule.applicant_id }}
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <span v-for="exam in schedule.exams" v-bind:key="exam.id">
+                          {{
+                            schedule.exams.length >= 2
+                              ? exam.subject + ", "
+                              : exam.subject
+                          }}
+                        </span>
                       </td>
                       <td class="px-6 py-4 whitespace-nowrap">
                         <span
@@ -469,6 +487,25 @@
           v-model="form.sched_name"
           @keyup.enter="save(form)"
         />
+      </div>
+
+      <!-- Exams -->
+      <div class="mb-4">
+        <jet-label for="exams" value="Exams" />
+        <div>
+          <Multiselect
+            v-model="form.exams"
+            mode="tags"
+            placeholder="Select exams"
+            object="true"
+            valueProp="id"
+            :searchable="true"
+            label="subject"
+            :options="exam_names"
+            @keyup.enter="save(form)"
+            :close-on-select="false"
+          />
+        </div>
       </div>
 
       <!-- Control Number Range -->
@@ -604,6 +641,7 @@ export default {
     schedules: Object,
     applicants: Object,
     filters: Object,
+    exam_names: Array,
   },
 
   extends: shared,
@@ -618,6 +656,7 @@ export default {
       },
 
       form: this.$inertia.form({
+        exams: [],
         applicant_id: "",
         sched_name: "",
         start_ctrl_num: "",
@@ -683,7 +722,7 @@ export default {
       });
     },
 
-     // Delete function
+    // Delete function
     deleteRow: function (id) {
       this.$inertia.visit("/admin/schedules/" + id, {
         method: "delete",

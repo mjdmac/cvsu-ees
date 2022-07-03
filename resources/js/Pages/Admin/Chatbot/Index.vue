@@ -8,6 +8,54 @@
             <span>Chatbot Questions</span>
           </h2>
         </div>
+
+        <!-- Page Buttons -->
+        <div align="right">
+          <!-- Line buttons and show dropdown -->
+          <div class="block" align="right">
+            <jet-dropdown>
+              <template #trigger>
+                <span class="inline-flex rounded-md">
+                  <button
+                    type="button"
+                    class="inline-flex items-center px-4 py-2 mr-2 bg-gray-800 hover:bg-gray-600 text-gray-100 text-sm font-medium rounded-md"
+                  >
+                    <span>Data Management</span>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="ml-2 -mr-0.5 h-4 w-4"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"
+                      />
+                    </svg>
+                  </button>
+                </span>
+              </template>
+              <template #content>
+                <!-- Data management buttons -->
+                <div class="px-2 py-2">
+                  <div class="py-1">
+                    <jet-button
+                      @click="importModal(true)"
+                      class="inline-flex items-center px-4 py-2 mr-2 bg-blue-200 hover:bg-blue-300 text-blue-800 text-sm font-medium rounded-md"
+                    >
+                      Import from file
+                    </jet-button>
+                  </div>
+                </div>
+              </template>
+            </jet-dropdown>
+          </div>
+          <!-- Hide in line buttons and show dropdown -->
+        </div>
+        <!-- End Page Buttons -->
         <!-- Header -->
       </div>
     </template>
@@ -284,6 +332,30 @@
       </jet-button>
     </template>
   </dialog-modal>
+
+  <!-- Import modal -->
+  <dialog-modal :show="importOpen" @close="importModal(false)">
+    <template #title>
+      <span> Import Data </span>
+    </template>
+
+    <template #content>
+      <div class="mb-4">
+        <jet-input
+          type="file"
+          class="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 my-2"
+          v-model="importForm.data_file"
+        >
+        </jet-input>
+      </div>
+    </template>
+
+    <template #footer>
+      <jet-secondary-button @click="importModal(false)"> Cancel </jet-secondary-button>
+
+      <jet-button class="ml-2" @click="importData(importForm)"> Import </jet-button>
+    </template>
+  </dialog-modal>
 </template>
 
 <script>
@@ -303,6 +375,7 @@ import DialogModal from "@/Jetstream/DialogModal";
 import JetPagination from "@/Components/Pagination";
 import { Link } from "@inertiajs/inertia-vue3";
 import shared from "@/Scripts/shared";
+import NoData from "@/Components/Fillers/NoData.vue";
 
 export default {
   components: {
@@ -318,6 +391,7 @@ export default {
     JetActionMessage,
     DialogModal,
     Link,
+    NoData,
   },
 
   props: {
@@ -341,6 +415,11 @@ export default {
         answer: "",
       }),
 
+      importForm: this.$inertia.form({
+        data_file: null,
+      }),
+
+      importOpen: false,
       isOpen: false,
       disabled: null,
       editMode: false,
@@ -366,6 +445,17 @@ export default {
       return this.isOpen;
     },
 
+    // Import function
+    importModal: function (status) {
+      if (status == true) {
+        this.importOpen = true;
+      } else if (status == false) {
+        this.importOpen = false;
+      }
+
+      return this.importOpen;
+    },
+
     // Save function
     save: function (form) {
       this.$inertia.visit("/admin/chatbot", {
@@ -380,6 +470,20 @@ export default {
       });
     },
 
+    // Import data function
+
+    importData: function (importForm) {
+      this.$inertia.post(
+        this.route("admin.chatbot.import", this.importForm),
+        this.importForm,
+        {}
+      );
+
+      this.$inertia.visit(route("admin.send.notif"), {
+        method: "get",
+        data: result,
+      });
+    },
     // Edit mode function
     edit: function (concern, status) {
       this.form = Object.assign({}, concern);
