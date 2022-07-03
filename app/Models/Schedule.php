@@ -23,9 +23,9 @@ class Schedule extends Model
         'can',
     ];
 
-    public function exams()
+    public function activeExams()
     {
-        return $this->belongsToMany(Exam::class,'exam_schedules');
+        return $this->belongsToMany(Exam::class,'exam_schedules')->where('status', 'active');
         // return $this->hasMany(Exam::class, 'exam_id', 'id');
     }
 

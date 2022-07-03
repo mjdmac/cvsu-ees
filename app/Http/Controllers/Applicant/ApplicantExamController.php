@@ -38,7 +38,7 @@ class ApplicantExamController extends Controller
         //     $questions = null;
         // }
 
-        $applicant_exams = auth()->user()->applicantAccount->schedule->exams;
+        $applicant_exams = auth()->user()->applicantAccount->schedule->activeExams;
 
         return Inertia::render('Applicant/Exam/Index', [
             'exams' => $applicant_exams
