@@ -97,8 +97,8 @@ class ScheduleController extends Controller
      */
     public function store(Request $request)
     {
-        $date_now = Carbon::now('Asia/Hong_Kong')->format('Y-m-d');
-        $date = date('Y-m-d', strtotime($request['date']));
+        $date_now = Carbon::now('Asia/Singapore')->format('Y-m-d H:i:s A');
+        $date = date('Y-m-d h:i:s', strtotime($request['date']));
 
         $val = Validator::make($request->all(), [
             'sched_name' => ['required'],
@@ -114,19 +114,22 @@ class ScheduleController extends Controller
 
         $sched_code = IdGenerator::generate(['table' => 'schedules', 'field' => 'sched_code', 'length' => 8, 'prefix' => 'SCH-', 'reset_on_prefix_change' => true]);
 
+        $start = substr($request->start_ctrl_num, 4);
+        $end = substr($request->end_ctrl_num, 4);
         $arr = [];
-        for ($x = substr($request->start_ctrl_num, 4); $x <= substr($request->end_ctrl_num, 4); $x++) {
+        for ($x = $start; $x <= strval($end); $x++) {
 
-            if (!in_array($x, $arr)) {
-                array_push($arr, $x);
+           if (!in_array($x, $arr)) {
+                $n = str_pad($x, 6, "0", STR_PAD_LEFT);
+                array_push($arr, date('ym').$n);
             }
 
             Schedule::create([
                 'sched_code' => $sched_code,
                 'sched_name' => $request['sched_name'],
-                'applicant_id' => $x,
-                'status' => $date == $date_now ? 'active' : 'pending',
-                'date' => date('Y-m-d', strtotime($request['date'])),
+                'applicant_id' => date('ym').$n,
+                'status' => $date <= $date_now ? 'active' : 'pending',
+                'date' => date('Y-m-d h:i:s a', strtotime($request['date'])),
             ]);
         }
 
